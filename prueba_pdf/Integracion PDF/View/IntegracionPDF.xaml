@@ -1,0 +1,40 @@
+﻿<Window x:Class="IntegracionPDF.Integracion_PDF.View.IntegracionPdf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:IntegracionPDF.Integracion_PDF.ViewModel"
+
+        mc:Ignorable="d"
+        Title="IntegracionPDF" Height="0" Width="0">
+    <Grid>
+        <tb:TaskbarIcon
+            x:Name="NotifyIcon"
+            IconSource="/Integracion PDF/Icons/ofimarket.ico"
+            ToolTipText="Integración de Ordenes de Compra PDF">
+            <tb:TaskbarIcon.DataContext>
+                <viewModel:NotifyIconViewModel/>
+            </tb:TaskbarIcon.DataContext>
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Mostrar Log" Command="{Binding ShowLogCommand}" />
+                    <MenuItem Header="Integrar Ordenes de Compras" Command="{Binding IntegrarOrdenesCommand}" />
+                    <MenuItem Header="Carpetas">
+                        <MenuItem Header="Carpeta PDF Ordenes a Procesar" Command="{Binding ShowOrdenesAProcesarCommand}"/>
+                        <MenuItem Header="Carpeta PDF Ordenes Procesadas" Command="{Binding ShowOrdenesProcesadasCommand}"/>
+                    </MenuItem>
+                    <!--MenuItem Header="Update Telemarketing" Command="{Binding UpdateTelemarketingCommand}"/-->
+                    <MenuItem Header="Configuración" Command="{Binding ShowConfigurationCommand}"/>
+                    <Separator />
+                    <MenuItem Name="miDebug" Header="Debug" Command="{Binding DebugCommand}" />
+                    <MenuItem Header="About" Command="{Binding AboutCommand}"/>
+                    <MenuItem Header="Salir" Command="{Binding ExitApplicationCommand}" />
+                </ContextMenu>
+                
+            </tb:TaskbarIcon.ContextMenu>
+            
+        </tb:TaskbarIcon>
+
+    </Grid>
+</Window>

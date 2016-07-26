@@ -1,0 +1,27 @@
+﻿<Window x:Class="IntegracionPDF.Integracion_PDF.View.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Icon="../Icons/ofimarket.ico"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Closed="About_OnClosed"
+        Title="About" Height="380" Width="350">
+    <Grid>
+        <Button x:Name="button" Content="Aceptar" HorizontalAlignment="Left" Margin="257,319,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="304" Margin="10,10,0,0" VerticalAlignment="Top" Width="322">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID"
+				    DisplayMemberBinding="{Binding ID}"
+				    Width="30"/>
+                    <GridViewColumn Header="Empresa Integrada"
+				    DisplayMemberBinding="{Binding Empresa}"
+				    Width="270"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>
