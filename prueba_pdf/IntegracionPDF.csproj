@@ -141,6 +141,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegraMedica.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegramedicaAtencionAmbulatoria.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IsapreConsalud\IsapreConsalud.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\KaeferBuildtek\KaeferBuildtek.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\Komatsu.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuCummins.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuCumminsArrienda.cs" />
@@ -273,7 +274,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Integracion PDF\Utils\Integracion\PDF\Ariztia\" />
     <Folder Include="Integracion PDF\Utils\Integracion\PDF\UVM\" />
     <Folder Include="Integracion PDF\Utils\Integracion\XLSX\MayoristaFama\" />
   </ItemGroup>

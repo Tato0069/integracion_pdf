@@ -45,7 +45,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             Email.Email.SendEmailFromProcesosXmlDimerc(
                 InternalVariables.GetMainEmailDebug(),
                 null,
-                "Fallo Conxión a Base de Datos",
+                "Fallo Conexión a Base de Datos",
                 "No es posible Conectarse a la Base de Datos, Análisis Cancelado");
             return false;
         }

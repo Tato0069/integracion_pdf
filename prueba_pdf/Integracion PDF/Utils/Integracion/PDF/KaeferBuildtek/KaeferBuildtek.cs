@@ -1,27 +1,26 @@
-﻿using System;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompaniaSeguridad
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek
 {
-    public class ConsorcioCompaniaSeguridad
+    public class KaeferBuildtek
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s"},
-            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
-            //1- 1 S200124 
+            {0,@"\d{1,}\s[a-zA-Z]?\d{7}[a-zA-Z]?\s" },
         };
-        private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "Pedido Proveedor";
+        private const string RutPattern = "RUT";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
-            "Lín-Env Art/Descripción Cantidad";
+            "Item Código Descripción Cantidad";
 
-        private const string CentroCostoPattern = "Centro de Costo";
-        private const string ObservacionesPattern = "Nota Interna:";
+        private const string CentroCostoPattern = "de entrega:";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -34,7 +33,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public ConsorcioCompaniaSeguridad(PDFReader pdfReader)
+        public KaeferBuildtek(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
@@ -80,23 +79,25 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
                     }
                 }
 
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        Console.WriteLine($"CENTRO COSTO: {_pdfLines[i]}");
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        _readCentroCosto = true;
-                    }
-                }
-                if (!_readObs)
-                {
-                    if (IsObservacionPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.Observaciones += $"{_pdfLines[i].Split(':')[1].DeleteContoniousWhiteSpace()}";
-                        _readObs = true;
-                    }
-                }
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -127,12 +128,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
                 {
                     case 0:
                         var test0 = aux.Split(' ');
-                        var test01 = pdfLines[++i].Trim().DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[2],
-                            Cantidad = test01[test01.Length - 5].Replace(",", ""),
-                            Precio = test01[test01.Length - 3].Replace(",","")
+                            Sku = test0[1],
+                            Cantidad = test0[test0.Length-6].Split(',')[0],
+                            Precio = test0[test0.Length - 3].Split(',')[0].Replace(".","")
                         };
                         items.Add(item0);
                         break;
@@ -189,8 +189,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length - 3];
+            return str;
         }
 
         /// <summary>
@@ -201,14 +200,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            return str.Split(' ')[1].Trim();
+            //Obras de Ingeniería, RUT : 76.105.206-3
+            var split = str.Split(':');
+            return split[split.Length - 1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
             str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
+            foreach (var it in _itemsPatterns
+                .Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
@@ -240,8 +242,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
 
         private bool IsCentroCostoPattern(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(CentroCostoPattern)
-                || str.Trim().DeleteContoniousWhiteSpace().Contains("Centro Costo");
+            return str.Trim().DeleteContoniousWhiteSpace().Contains(CentroCostoPattern);
         }
 
         #endregion

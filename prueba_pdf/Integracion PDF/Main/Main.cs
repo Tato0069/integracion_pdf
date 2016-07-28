@@ -51,6 +51,7 @@ using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion;
 using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter;
 using IntegracionPDF.Integracion_PDF.View;
 using IntegracionPDF.Integracion_PDF.ViewModel;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -446,6 +447,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var arauco = new Arauco(pdfReader);
                     ordenCompra = arauco.GetOrdenCompra();
                     ocAdapter = ordenCompra.ParearSoloSKU();
+                    break;
+                case 51:
+                    var kaeferBuildtek = new KaeferBuildtek(pdfReader);
+                    ordenCompra = kaeferBuildtek.GetOrdenCompra();
+
                     break;
 
             }

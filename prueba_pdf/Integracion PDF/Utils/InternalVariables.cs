@@ -14,11 +14,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
         public static readonly Dictionary<int, string> PdfFormats = new Dictionary<int, string>
         {
-            // : DELIMITADOR PARA 'AND' LÓGICO (&&)
-            // ; DELIMITADOR PARA 'OR' LÓGICO (||)
+            
+            // : DELIMITADOR PARA 'OR' LÓGICO (||)
+            // ; DELIMITADOR PARA 'AND' LÓGICO (&&)
             //   SOLO PUEDE HABER UNO POR TOKEN
 
-            {0, "EASY RETAIL S.A."},
+            {0, "EASY RETAIL S.A.:17990424"},
             {1, "Cencosud Retail S.A."},
             {2, "Cencosud S.A"},
             {-1, "CeCo SAP FICO"},
@@ -75,7 +76,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {47, "76.016.649:76016649" },
             {48, "CIA DE SEG. DE VIDA CONSORCIO NAC. DE SEG. S.A.:CN LIFE" },
             {49, "MEGASALUD S.A." },
-            { 50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."}
+            {50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."},
+            {51,"KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" }
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

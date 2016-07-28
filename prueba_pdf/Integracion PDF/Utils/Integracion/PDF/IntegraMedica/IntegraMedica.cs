@@ -166,7 +166,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                 {
                     if (IsObservacionPattern(_pdfLines[i]))
                     {
-                        i+=3;
+                        if (_pdfLines[i + 1].Contains("Santiago"))
+                        {
+                            i += 1;
+                        }
+                        else i += 3;
                         //for (; !_pdfLines[i].Contains("Sunúmerodeproveedorennuestraempresaes"); i++)
                         //{
                         //    firstCentroCosto += _pdfLines[i]
@@ -177,19 +181,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                         //        .Replace("6808080 ", "")+", ";
                         //}
 
-                        for (; !_pdfLines[i].Contains("los días LUNES,"); i++)
+                        for (var x = i; !_pdfLines[x].Contains("los días LUNES,"); x++)
                         {
-                            firstCentroCosto += _pdfLines[i]
+                            //Console.WriteLine($"AUX_CC:{_pdfLines[x]}");
+                            firstCentroCosto += _pdfLines[x]
                                 .Replace("RM - Santiago ", "")
                                 .Replace("RM- Santiago ", "")
                                 .Replace("RM-Santiago ", "")
                                 .Replace("Teléfono ", "")
                                 .Replace("6808080 ", "")
                                 .Replace("Sunúmerodeproveedorennuestraempresaes: ","")
-                                .Replace("301315 Moneda: CLP","")
-                                .Replace("Observaciones: Toma Muestra: ","")
+                                .Replace("301315", "")
+                                .Replace("Moneda: CLP", "")
+                                .Replace("Observaciones:", "")
+                                .Replace("Toma Muestra: ", "")
                                 .Replace("-Facturar RUT indicado Cabecera Documento","")
                                 .Replace("-Facturas Sólo se recibirán en Av. Lib Bernardo O'Higgins 654 ,Piso 2, Santiago", "")
+                                .Replace("-Facturas Sólo se recibirán en dirección de entrega","")
                                 + ", ";
                         }
                         //OrdenCompra.Observaciones += firstCentroCosto;
@@ -197,7 +205,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                         _readObs = true;
                     }
                 }
-                if (_readObs && !_readDespacho && OrdenCompra.Rut.Equals("96845430"))
+                if (!_readDespacho && OrdenCompra.Rut.Equals("96845430"))
                 {
                     if (_pdfLines[i].Contains("Observaciones:"))
                     {
@@ -233,6 +241,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
             OrdenCompra.CentroCosto = secondCentroCosto.Equals("")
                 ? firstCentroCosto
                 : secondCentroCosto;
+
+            //Console.WriteLine($"Frist: {firstCentroCosto}, Second: {secondCentroCosto}");
             OrdenCompra.CentroCosto = OrdenCompra.CentroCosto.ToUpper()
                 .Replace(",", "")
                 .Replace("´", "")

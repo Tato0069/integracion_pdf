@@ -32,6 +32,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Securitas
                 //Es una linea de Items
                 if (Regex.Match(pdfLines[firstIndex], @"^\w{1}\d{6}\s|^\w{2}\d{5}\s").Success)
                 {
+                    Console.WriteLine("=================11=====================");
                     //es una linea que contiene items
                     var test = pdfLines[firstIndex].Split(' ');
                     //Console.WriteLine(@"MATCH: \w{1}\d{6}\s \n" + pdfLines[firstIndex]);
@@ -46,11 +47,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Securitas
                 }
                 else if (Regex.Match(pdfLines[firstIndex], @"\s\w{1}\d{6}\s\d{4,}\s\d{6,}\s|\s\w{2}\d{4}\s\d{4,}\s\d{6,}\s").Success)
                 {
+                    Console.WriteLine("=================22=====================");
                     var test = pdfLines[firstIndex].Split(' ');
                     //Console.WriteLine(@"MATCH: \s\w{1}\d{6}\s\d{4,}\s\d{6,}\s \n" + pdfLines[firstIndex]);
                     var item = new ItemSecuritas
                     {
-                        Sku = test[test.Length - 6].ToUpper(),
+                        Sku = GetSku(test),
                         Cantidad = test[test.Length - 3],
                         Precio = test[test.Length - 2],
                         CodigoProyectoSecuritas = test[test.Length - 5]
@@ -65,6 +67,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Securitas
                 //        .Success)
                 else if (Regex.Match(pdfLines[firstIndex].Replace(".", ""), @"\s\d{4,}\s\d{6,}\s\d{1,}\s\d{1,}\s\d{1,}").Success)
                 {
+                    Console.WriteLine("=================33=====================");
                     var test = pdfLines[firstIndex].Split(' ');
                     var item = new ItemSecuritas
                     {
@@ -84,6 +87,31 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Securitas
                 }
             items = new List<ItemSecuritas>(items.OrderBy(it => it.CodigoProyectoSecuritas));
             return items;
+        }
+
+        private string GetSku(string[] test1)
+        {
+            var ret = "W102030";
+            var skuDefaultPosition = test1[test1.Length - 6].Replace("#", "");
+            if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
+                ret = skuDefaultPosition;
+            else
+            {
+                var str = test1.ArrayToString(0, test1.Length);
+                if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}|\s[a-zA-Z]{1}\s\d{6}").Success)
+                {
+                    var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}|\s[a-zA-Z]{1}\s\d{6}").Index;
+                    var length = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}|\s[a-zA-Z]{1}\s\d{6}").Length;
+                    ret = str.Substring(index, length).DeleteContoniousWhiteSpace();
+                }
+                else if (Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}|\s[a-zA-Z]{2}\s\d{5}").Success)
+                {
+                    var index = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}|\s[a-zA-Z]{2}\s\d{5}").Index;
+                    var length = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}|\s[a-zA-Z]{2}\s\d{5}").Length;
+                    ret = str.Substring(index, length).DeleteContoniousWhiteSpace();
+                }
+            }
+            return ret.Replace(" ","");
         }
 
 
