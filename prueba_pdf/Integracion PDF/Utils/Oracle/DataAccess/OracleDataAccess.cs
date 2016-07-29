@@ -1520,6 +1520,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
          public static bool InsertOrdenCompraIntegración(OrdenCompraIntegracion oc)
         {
             oc.Observaciones = $"OC Cliente: {oc.OcCliente}, {oc.Observaciones}";
+            oc.Observaciones = oc.Observaciones.Length >= 200 ? oc.Observaciones.Substring(0, 199) : oc.Observaciones;
             using (var command = new OracleCommand())
             {
                 var sql = "INSERT INTO TF_COMPRA_INTEG_PDF" +

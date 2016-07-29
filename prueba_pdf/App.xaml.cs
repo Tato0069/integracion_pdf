@@ -42,6 +42,7 @@ namespace IntegracionPDF
             //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("PAPEL HIG JUMBO 2HJS EXTRA BLANCA (6XBOLSA)");
             //var precio = OracleDataAccess.GetPrecioConvenio("96579280", "0", sku, "0");
             //Console.Write($"SKU: {sku}, PRECIO: {precio}");
+            
             var en = Encrypt.EncryptKey("17990424");
             Console.WriteLine($"RUT: 17990424, CL_{en}, {en.Length}");
             InternalVariables.InitializeVariables();

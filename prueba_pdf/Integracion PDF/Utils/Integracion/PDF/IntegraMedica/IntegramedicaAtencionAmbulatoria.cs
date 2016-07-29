@@ -265,6 +265,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                     break;
             }
 
+            Console.WriteLine($"CC_LAST: {OrdenCompra.CentroCosto}");
+
             return OrdenCompra;
         }
 
