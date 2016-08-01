@@ -19,66 +19,67 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             // ; DELIMITADOR PARA 'AND' LÓGICO (&&)
             //   SOLO PUEDE HABER UNO POR TOKEN
 
-            {0, "EASY RETAIL S.A.:17990424"},
-            {1, "Cencosud Retail S.A."},
-            {2, "Cencosud S.A"},
-            {-1, "CeCo SAP FICO"},
-            {3, "INDRA SISTEMAS CHILE S.A."},
-            {4, "SECURITAS S.A."}, //SECURITAS S.A.
+            {0, "EASY RETAIL S.A.:17990424"},//MZAPATA
+            {1, "Cencosud Retail S.A."},//MZAPATA
+            {2, "Cencosud S.A"},//MZAPATA
+            {-1, "CeCo SAP FICO"},//MZAPATA
+            {3, "INDRA SISTEMAS CHILE S.A."},//MZAPATA
+            {4, "SECURITAS S.A."}, //MZAPATA
             {
                 5, "Universidad Nacional Andrés Bello:Laureate Chile II SpA:Inmobiliaria Educ SPA (IESA):" +
                    "Servicios Profesionales Andrés Bello SPA"
-            },
-            {-5, "Corp Universidad Andres Bello"},
-            {6, "Empresa Servic.Externos ACHS Transp.S.A."},
-            {7, "BHP Billiton Ltd"},
-            {8, "CLINICA DAVILA Y SERVICIOS MEDICOS S.A."},
-            {-8, "ANEXO PARA ENTREGAS DIFERIDAS DE OC"},
-            {9, "EMPRESAS CAROZZI S.A."},
-            {10, "Securitas Austral Ltda."},
-            {11, "DOLE CHILE S.A."},
-            {12, "Capacitaciones Securicap S.A"},
-            {13, "Universidad de las Americas"},
-            {14, "Instituto Profesional AIEP SPA"},
-            {15, "Clínica Alemana de Santiago S.A."},
-            {-15, " Clínica Alemana "},
-            {16, "Univ. de Viña del Mar,Chile Op"},
-            {17, "DELLANATURA S.A"},
-            {18, "COMERCIAL TOC´S LIMITADA"},
-            {19, "Komatsu Chile S.A."},
-            {20, "Komatsu Cummins Chile LTDA"},
-            {21, "INVERSIONES ALSACIA S.A.;99577400"},
-            {22, "EXPRESS DE SANTIAGO UNO S.A.;99577390"},
-            {23, "ISAPRE CONSALUD S.A."},
-            {24, "IANSAGRO S.A.:EMPRESAS IANSA S.A."},
-            {25, "TNT EXPRESS CHILE LTDA:TNT Exp WW (Chile) Carga"},
-            {26, "Servicios Comerciales S.A."},
-            {27, "Constructora Ingevec S.A."},
-            {28, "VITAMINA WORK LIFE S.A."},
-            {29, "MATERIALES Y SOLUCIONES S.A."},
-            {30, "Clariant (Chile) Ltda.:ARCHROMA CHILE LTDA.:Clariant Plastics & Coatings (Chile) Ltda"},
-            {31, "CAMDEN SERVICIOS SPA"},
-            {32, "Servicios Andinos SpA"},
-            {33, "GESTION DE PERSONAS Y SERVICIOS LIMITADA"},
-            {34, "HORMIGONES TRANSEX LTDA."},
-            {35, "OFFICE STORE SpA "},
-            {36, "CLINICA LAS LILAS S.A."},
-            {37, "Abengoa Chile"},
-            {38, "Clínica de la Universidad de los Andes"},
-            {39, "Food and Fantasy"},
-            {40, "Bupa Chile Servicios Corporativos Spa:Exámenes de Laboratorio S.A.:Integramedica S.A"},
-            {41, "ECORILES S.A."},
-            {42, "Komatsu Cummins Chile Arrienda S.A"},
-            {43, "Integramedica Establ. medicos Atencion Ambulatoria:Sonorad I S.A."},
-            {44, "Komatsu Reman Center Chile S.A:76.492.400"},
-            {45, "Distribuidora Cummins Chile"},
-            {46, "GEPYS EST LIMITADA"},
-            {47, "76.016.649:76016649" },
-            {48, "CIA DE SEG. DE VIDA CONSORCIO NAC. DE SEG. S.A.:CN LIFE" },
-            {49, "MEGASALUD S.A." },
-            {50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."},
-            {51, "KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" },
-            {52, "Razón Social ASESORIAS Y SERVICIOS DE CAPACITACION ICYDE LTDA." }
+            },//MZAPATA
+            {-5, "Corp Universidad Andres Bello"},//MZAPATA
+            {6, "Empresa Servic.Externos ACHS Transp.S.A."},//MZAPATA
+            {7, "BHP Billiton Ltd"},//MZAPATA
+            {8, "CLINICA DAVILA Y SERVICIOS MEDICOS S.A."},//MZAPATA
+            {-8, "ANEXO PARA ENTREGAS DIFERIDAS DE OC"},//MZAPATA
+            {9, "EMPRESAS CAROZZI S.A."},//MZAPATA
+            {10, "Securitas Austral Ltda."},//MZAPATA
+            {11, "DOLE CHILE S.A."},//MZAPATA
+            {12, "Capacitaciones Securicap S.A"},//MZAPATA
+            {13, "Universidad de las Americas"},//MZAPATA
+            {14, "Instituto Profesional AIEP SPA"},//MZAPATA
+            {15, "Clínica Alemana de Santiago S.A."},//MZAPATA
+            {-15, " Clínica Alemana "},//MZAPATA
+            {16, "Univ. de Viña del Mar,Chile Op"},//MZAPATA
+            {17, "DELLANATURA S.A"},//MZAPATA
+            {18, "COMERCIAL TOC´S LIMITADA"},//MZAPATA
+            {19, "Komatsu Chile S.A."},//MZAPATA
+            {20, "Komatsu Cummins Chile LTDA"},//MZAPATA
+            {21, "INVERSIONES ALSACIA S.A.;99577400"},//MZAPATA
+            {22, "EXPRESS DE SANTIAGO UNO S.A.;99577390"},//MZAPATA
+            {23, "ISAPRE CONSALUD S.A."},//MZAPATA
+            {24, "IANSAGRO S.A.:EMPRESAS IANSA S.A."},//MZAPATA
+            {25, "TNT EXPRESS CHILE LTDA:TNT Exp WW (Chile) Carga"},//MZAPATA
+            {26, "Servicios Comerciales S.A."},//MZAPATA
+            {27, "Constructora Ingevec S.A."},//MZAPATA
+            {28, "VITAMINA WORK LIFE S.A."},//MZAPATA
+            {29, "MATERIALES Y SOLUCIONES S.A."},//MZAPATA
+            {30, "Clariant (Chile) Ltda.:ARCHROMA CHILE LTDA.:Clariant Plastics & Coatings (Chile) Ltda"},//MZAPATA
+            {31, "CAMDEN SERVICIOS SPA"},//MZAPATA
+            {32, "Servicios Andinos SpA"},//MZAPATA
+            {33, "GESTION DE PERSONAS Y SERVICIOS LIMITADA"},//MZAPATA
+            {34, "HORMIGONES TRANSEX LTDA."},//MZAPATA
+            {35, "OFFICE STORE SpA "},//MZAPATA
+            {36, "CLINICA LAS LILAS S.A."},//MZAPATA
+            {37, "Abengoa Chile"},//MZAPATA
+            {38, "Clínica de la Universidad de los Andes"},//MZAPATA
+            {39, "Food and Fantasy"},//MZAPATA
+            {40, "Bupa Chile Servicios Corporativos Spa:Exámenes de Laboratorio S.A.:Integramedica S.A"},//MZAPATA
+            {41, "ECORILES S.A."},//MZAPATA
+            {42, "Komatsu Cummins Chile Arrienda S.A"},//MZAPATA
+            {43, "Integramedica Establ. medicos Atencion Ambulatoria:Sonorad I S.A."},//MZAPATA
+            {44, "Komatsu Reman Center Chile S.A:76.492.400"},//MZAPATA
+            {45, "Distribuidora Cummins Chile"},//MZAPATA
+            {46, "GEPYS EST LIMITADA"},//MZAPATA
+            {47, "76.016.649:76016649" },//MZAPATA
+            {48, "CIA DE SEG. DE VIDA CONSORCIO NAC. DE SEG. S.A.:CN LIFE" },//MZAPATA
+            {49, "MEGASALUD S.A." },//MZAPATA
+            {50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."},//MZAPATA
+            {51, "KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" },//MZAPATA
+            {52, "Razón Social ASESORIAS Y SERVICIOS DE CAPACITACION ICYDE LTDA." },//MZAPATA
+            {53, "Intertek Caleb Brett Chile S.A." }//APARDO
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
@@ -86,9 +87,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             // ; DELIMITADOR PARA 'AND' LÓGICO (&&)
             // * DELIMITADOR PARA 'OR' LÓGICO (||)
             //   SOLO PUEDE HABER UNO POR TOKEN
-            {0, "Tienda : Flores*Tienda : Tienda Flores"},
-            {2, "76008982*76021762*77335750*76.008.982-6*77.457.040-3"},
-            {1, "PLANILLA_ESTANDAR" }
+            {0, "Tienda : Flores*Tienda : Tienda Flores"},//MZAPATA
+            {2, "76008982*76021762*77335750*76.008.982-6*77.457.040-3"},//MZAPATA
+            {1, "PLANILLA_ESTANDAR" }//MZAPATA
             //76021762-K
         };
 

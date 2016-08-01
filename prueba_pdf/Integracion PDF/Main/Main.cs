@@ -53,6 +53,7 @@ using IntegracionPDF.Integracion_PDF.View;
 using IntegracionPDF.Integracion_PDF.ViewModel;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AsesoriasServiciosCapacitacionIcyde;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -454,12 +455,17 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
                     
                     break;
-
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
                     ordenCompra = asesoriasIcyde.GetOrdenCompra();
                     ocAdapter = ordenCompra.AdapterGenericFormatDescripcionitemToCompraIntegracion();
                     break;
+
+                case 53:
+                    var intertek = new Intertek(pdfReader);
+                    ordenCompra = intertek.GetOrdenCompra();
+                    break;
+
 
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
