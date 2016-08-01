@@ -1451,6 +1451,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         {
 
             var ret1 = GetCenCosFromRutClienteAndDescCencos(rutCli, ccosto, false);
+            Console.WriteLine($"ret1: {ret1}");
             if (!ret1.Equals("0")) return ret1;
             var split = ccosto.Split(' ');
             var descContainsRow = new List<string>();
@@ -1468,8 +1469,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 {
                     ret = GetCenCosFromRutClienteAndDescCencos(rutCli,
                         descContainsRow.ToArray().ArrayToString(0, descContainsRow.Count), true);
+
+                    Console.WriteLine($"ret2: {ret}");
                 }
             }
+            Console.WriteLine($"ret3: {ret}");
             return ret;
         }
 

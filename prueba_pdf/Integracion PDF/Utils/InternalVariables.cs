@@ -77,7 +77,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {48, "CIA DE SEG. DE VIDA CONSORCIO NAC. DE SEG. S.A.:CN LIFE" },
             {49, "MEGASALUD S.A." },
             {50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."},
-            {51,"KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" }
+            {51, "KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" },
+            {52, "Razón Social ASESORIAS Y SERVICIOS DE CAPACITACION ICYDE LTDA." }
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

@@ -52,6 +52,7 @@ using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenCompraDa
 using IntegracionPDF.Integracion_PDF.View;
 using IntegracionPDF.Integracion_PDF.ViewModel;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AsesoriasServiciosCapacitacionIcyde;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -171,8 +172,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     else
                     {
                         var ordenCompraD = clinicaDavila.GetOrdenCompraProcesada();
-                        ordenCompraD.CentroCosto = "0";
-                        ocAdapter = ordenCompraD.AdapterClinicaDavilaFormatToCompraIntegracion();
+                        //ordenCompraD.CentroCosto = "0";
+                        ocAdapter = ordenCompraD.AdapterClinicaDavilaFormatToCompraIntegracionWithMatchCencos();
                     }
                     break;
                 case 9:
@@ -451,7 +452,13 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
+                    
+                    break;
 
+                case 52:
+                    var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
+                    ordenCompra = asesoriasIcyde.GetOrdenCompra();
+                    ocAdapter = ordenCompra.AdapterGenericFormatDescripcionitemToCompraIntegracion();
                     break;
 
             }

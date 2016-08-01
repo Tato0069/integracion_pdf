@@ -39,10 +39,13 @@ namespace IntegracionPDF
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
             //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("PAPEL HIG JUMBO 2HJS EXTRA BLANCA (6XBOLSA)");
-            //var precio = OracleDataAccess.GetPrecioConvenio("96579280", "0", sku, "0");
-            //Console.Write($"SKU: {sku}, PRECIO: {precio}");
-            
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("TE ROYAL CEYLAN CAJA 100 UN LIPTON");
+            var precio = OracleDataAccess.GetPrecioConvenio("76522179", "0", sku, "0");
+            Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
+            //var sku2 = "R284220";
+            //var precio2 = OracleDataAccess.GetPrecioConvenio("76522179", "0", sku2, "0");
+            //Console.WriteLine($"SKU: {sku2}, PRECIO: {precio2}");
+
             var en = Encrypt.EncryptKey("17990424");
             Console.WriteLine($"RUT: 17990424, CL_{en}, {en.Length}");
             InternalVariables.InitializeVariables();

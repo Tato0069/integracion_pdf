@@ -111,6 +111,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AIEP\Aiep.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Alsacia\Alsacia.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Arauco\Arauco.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Candem\Candem.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Carozzi\Carozzi.cs" />

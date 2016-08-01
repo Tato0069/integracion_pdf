@@ -136,6 +136,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
             OrdenCompra = new OrdenCompra.OrdenCompra();
             var firstCentroCosto = "";
             var secondCentroCosto = "";
+            var direccion = "";
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -182,10 +183,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                         //        .Replace("Teléfono ", "")
                         //        .Replace("6808080 ", "")+", ";
                         //}
-
                         for (; !_pdfLines[i].Contains("los días LUNES,"); i++)
                         {
-                            Console.WriteLine($"CC: {_pdfLines[i]}");
+                            //Console.WriteLine($"CC: {_pdfLines[i]}");
+                            if (_pdfLines[i].Contains("6808080"))
+                            {
+                                direccion = _pdfLines[i].Replace("6808080", "").DeleteContoniousWhiteSpace().ToUpper();
+                            }
                             firstCentroCosto +=  _pdfLines[i]
                                 .Replace(" I "," ")
                                 .Replace("RM - Santiago ", "")//RM- Santiago
@@ -240,7 +244,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
 
             }
             //Console.WriteLine($"F: {firstCentroCosto}, S: {secondCentroCosto}");
-            OrdenCompra.CentroCosto = secondCentroCosto.Equals("")
+
+            OrdenCompra.CentroCosto = !direccion.Equals("") ? direccion : secondCentroCosto.Equals("")
                 ? firstCentroCosto
                 : secondCentroCosto;
             OrdenCompra.CentroCosto = OrdenCompra.CentroCosto.ToUpper()
@@ -265,7 +270,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                     break;
             }
 
-            Console.WriteLine($"CC_LAST: {OrdenCompra.CentroCosto}");
+            Console.WriteLine($"CC_LAST: {OrdenCompra.CentroCosto}\nDirección: {direccion}");
 
             return OrdenCompra;
         }
