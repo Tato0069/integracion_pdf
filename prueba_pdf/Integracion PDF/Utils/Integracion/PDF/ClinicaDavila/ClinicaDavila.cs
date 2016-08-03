@@ -97,8 +97,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                 var aux = rawLin.Split(' ');
                 var cant = aux[aux.Length - 1];
                 var rawLine = aux.ArrayToString(0, aux.Length - 2);
-                Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
-                Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
+                //Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
+                //Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
                 if (rawLine.Equals("?")) continue;
                 if (aux[aux.Length - 2].Contains("UNI"))
                     rawLine += " UNI";

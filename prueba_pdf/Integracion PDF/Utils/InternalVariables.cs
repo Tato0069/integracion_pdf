@@ -21,7 +21,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
             {0, "EASY RETAIL S.A.:17990424"},//MZAPATA
             {1, "Cencosud Retail S.A."},//MZAPATA
-            {2, "Cencosud S.A"},//MZAPATA
+            {2, "Cencosud S.A:Cencosud Shopping"},//MZAPATA
             {-1, "CeCo SAP FICO"},//MZAPATA
             {3, "INDRA SISTEMAS CHILE S.A."},//MZAPATA
             {4, "SECURITAS S.A."}, //MZAPATA
@@ -79,7 +79,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."},//MZAPATA
             {51, "KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" },//MZAPATA
             {52, "Razón Social ASESORIAS Y SERVICIOS DE CAPACITACION ICYDE LTDA." },//MZAPATA
-            {53, "Intertek Caleb Brett Chile S.A." }//APARDO
+            {53, "Intertek Caleb Brett Chile S.A." },//APARDO
+            {54, "ANÁLISIS AMBIENTALES S.A." }, //MZAPATA
+            {55, "AFP Habitat S.A." },//MZAPATA
+            {56,"Corporación de Desarrollo Tecnológico" }, //MZAPATA
+            {57, "AGUAS ANDINAS S.A." }, //MZAPATA
+            {58, "INGENPROJECT LTDA." }, //MZAPATA
+            {59, "Sociedad Educacional La Araucana S.A." }, //MZAPATA
+
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

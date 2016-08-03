@@ -23,7 +23,6 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraIngevec;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Dellanatura;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Dole;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecogestion;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ExpressSantiago;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.FoodFantasy;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.GestionPersonasServiciosLtda;
@@ -54,6 +53,10 @@ using IntegracionPDF.Integracion_PDF.ViewModel;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AsesoriasServiciosCapacitacionIcyde;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AFPHabitat;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarrolloTecnologico;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -166,8 +169,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var clinicaDavila = new ClinicaDavila(pdfReader);
                     if (clinicaDavila.HaveAnexo())
                     {
-                       var ordenes = clinicaDavila.GetOrderFromAnexo();
-                        ocAdapterList = ordenes.Select(or => or.AdapterClinicaDavilaFormatToCompraIntegracion()).ToList();
+                        var ordenes = clinicaDavila.GetOrderFromAnexo();
+                        ocAdapterList = ordenes.Select(or => or.AdapterClinicaDavilaFormatToCompraIntegracionWithMatchCencos()).ToList();
                         option = -8;
                     }
                     else
@@ -374,8 +377,9 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     }
                     break;
                 case 41:
-                    var ecorile = new Ecoriles(pdfReader);
-                    ordenCompra = ecorile.GetOrdenCompra();
+                    var ecoriles = new Ecoriles(pdfReader);
+                    ordenCompra = ecoriles.GetOrdenCompra();
+                    ocAdapter = ordenCompra.ParearSoloSKU();
                     break;
                 case 42:
                     var komatsuCumminsArrienda = new KomatsuCumminsArrienda(pdfReader);
@@ -453,7 +457,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-                    
+
                     break;
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
@@ -464,6 +468,34 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 53:
                     var intertek = new Intertek(pdfReader);
                     ordenCompra = intertek.GetOrdenCompra();
+                    break;
+
+                case 54:
+                    var analisisAmbientales = new Ecoriles(pdfReader);
+                    ordenCompra = analisisAmbientales.GetOrdenCompra();
+                    ordenCompra.CentroCosto = "1";
+                    ocAdapter = ordenCompra.ParearSoloSKU();
+                    break;
+                case 55:
+                    var afpHabitat = new AFPHabitat(pdfReader);
+                    ordenCompra = afpHabitat.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoSinPareo();
+                    break;
+                case 56:
+                    var corporacionDesarrolloTecnologico = new CorporacionDesarrolloTecnologico(pdfReader);
+                    ordenCompra = corporacionDesarrolloTecnologico.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoSinPareo();
+                    break;
+                case 57:
+                    var aguasAndinas = new Ecoriles(pdfReader);
+                    ordenCompra = aguasAndinas.GetOrdenCompra();
+                    ordenCompra.CentroCosto = "97";
+                    ocAdapter = ordenCompra.ParearSoloSKU();
+                    break;
+                case 58:
+                    var ingeProject = new Ingeproject(pdfReader);
+                    ordenCompra = ingeProject.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoSinPareo();
                     break;
 
 

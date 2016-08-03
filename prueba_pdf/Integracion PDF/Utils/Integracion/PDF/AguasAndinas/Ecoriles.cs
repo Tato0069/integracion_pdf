@@ -1,26 +1,26 @@
-﻿using System;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
 {
-    public class Ecoriles
+    class Ecoriles
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{6}\s\w{1,}\s"},
-            //408847 2 KG AZUCAR 1KG BOLSA 651 1.302 11/07/16
+            {0, @"^\d{6}\s\d{1,}\s"},
         };
         private const string RutPattern = "RUT :";
         private const string OrdenCompraPattern = "N° DE ORDEN DE ENTREGA :";
         private const string ItemsHeaderPattern =
-            "MATERIAL CANTIDAD UM DESCRIPCION PRECIO";
+            "MATERIAL CANTIDAD UM DESCRIPCION PRECIO UNIT.";
 
-        private const string CentroCostoPattern = "GRUPO DE COMPRAS :";
-        private const string ObservacionesPattern = "PERSONA DE CONTACTO";
+        private const string CentroCostoPattern = "de entrega:";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -59,7 +59,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompra.OrdenCompra();
+            OrdenCompra = new OrdenCompra.OrdenCompra
+            {
+                CentroCosto = "2"
+            };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -79,23 +82,25 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
                     }
                 }
 
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        _readCentroCosto = true;
-                    }
-                }
-                if (!_readObs)
-                {
-                    if (IsObservacionPattern(_pdfLines[i]))
-                    {
-                        var split = _pdfLines[i].Split(':');
-                        OrdenCompra.Observaciones += split[1].Trim();
-                        _readObs = true;
-                    }
-                }
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -129,8 +134,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
                         var item0 = new Item
                         {
                             Sku = test0[0],
-                            Cantidad = test0[1].Split(',')[0],
-                            Precio = test0[test0.Length - 3].Split(',')[0]
+                            Cantidad = test0[1],
+                            Precio = test0[test0.Length - 3].Replace(".", "")
                         };
                         items.Add(item0);
                         break;

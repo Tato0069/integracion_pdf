@@ -159,6 +159,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 .Replace("~", "").Replace("{", "");
         }
 
+        public static string ReplaceSymbolWhiteSpace(this string str)
+        {
+            return str.Replace("+", " ").Replace("*", " ").Replace("¨", " ")
+                .Replace("´", " ").Replace("{", " ").Replace("}", "")
+                .Replace("[", " ").Replace("]", " ").Replace("^", " ")
+                .Replace("`", " ").Replace("-", " ").Replace("_", " ")
+                .Replace(":", " ").Replace(".", " ").Replace(",", " ")
+                .Replace(";", " ").Replace("(", " ").Replace(")", " ")
+                .Replace("=", " ").Replace("?", " ").Replace("\\", " ")
+                .Replace("¿", " ").Replace("¡", " ").Replace("'", " ")
+                .Replace("/", " ").Replace("&", " ").Replace("%", " ")
+                .Replace("$", " ").Replace("#", " ").Replace("\"", " ")
+                .Replace("!", " ").Replace("°", " ").Replace("|", " ")
+                .Replace("¬", " ").Replace("<", " ").Replace(">", " ")
+                .Replace("~", " ").Replace("{", " ").DeleteContoniousWhiteSpace();
+        }
+
         public static string DeleteNumber(this string str)
         {
             return str.Replace("0", "").Replace("1", "").Replace("2", "")

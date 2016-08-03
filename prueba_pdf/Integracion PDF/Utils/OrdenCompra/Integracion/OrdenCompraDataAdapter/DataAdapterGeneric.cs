@@ -93,6 +93,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
         /// <returns></returns>
         public static OrdenCompraIntegracion AdapterGenericFormatWithSkuToCompraIntegracion(this OrdenCompra oc)
         {
+            Console.WriteLine($"CC: {oc.CentroCosto}");
             var auxint = 0;
             var ret = new OrdenCompraIntegracion
             {
@@ -107,8 +108,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, it.Sku, it.Precio);
-                var precio = int.Parse(pConv);
+                var existSku = OracleDataAccess.ExistProduct(it.Sku);
+                var precio = int.Parse(it.Precio);
+                if (existSku)
+                {
+                    var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, it.Sku, it.Precio);
+                    precio = int.Parse(pConv);
+                }else
+                {
+                    it.Sku = "W102030";
+                }              
                 var dt = new DetalleOrdenCompraIntegracion
                 {
                     NumPed = ret.NumPed,
@@ -290,6 +299,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             return ret;
         }
 
+
         /// <summary>
         /// Deja Centro de Costo como viene en PDF
         /// Hace Pareo de SKU
@@ -334,6 +344,50 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             }
             return ret;
         }
+
+        /// <summary>
+        /// No realiza pareo de Codigos ni de Centro de Costo, 
+        /// sólo calcula precio del Cliente
+        /// </summary>
+        /// <param name="oc">Orden de Compra de PDF</param>
+        /// <returns>Orden de Compra de Integración</returns>
+        public static OrdenCompraIntegracion TraspasoSinPareo(this OrdenCompra oc)
+        {
+            var ret = new OrdenCompraIntegracion
+            {
+                NumPed = OracleDataAccess.GetNumPed(),
+                RutCli = int.Parse(oc.Rut),
+                OcCliente = oc.NumeroCompra,
+                Observaciones = oc.Observaciones,
+                CenCos = oc.CentroCosto,
+                Direccion = oc.Direccion
+            };
+
+            foreach (var it in oc.Items)
+            {
+                var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, it.Sku, it.Precio);
+                var precio = int.Parse(pConv);
+                var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, it.Sku);
+                var dt = new DetalleOrdenCompraIntegracion
+                {
+                    NumPed = ret.NumPed,
+                    Cantidad = int.Parse(it.Cantidad) / multiplo,
+                    Precio = it.Sku.Equals("W102030")
+                        ? int.Parse(it.Precio)
+                        : precio, //int.Parse(it.Precio),
+                    SubTotal = it.Sku.Equals("W102030")
+                        ? (int.Parse(it.Precio) * int.Parse(it.Cantidad)) / multiplo
+                        : (int.Parse(it.Cantidad) * precio) / multiplo,
+
+                    //Precio = precio, //int.Parse(it.Precio),
+                    //SubTotal = (int.Parse(it.Cantidad) * precio)/multiplo,
+                    SkuDimerc = it.Sku
+                };
+                ret.AddDetalleCompra(dt);
+            }
+            return ret;
+        }
+
 
 
         //ParearSoloCentroDeCostoConDescripcion

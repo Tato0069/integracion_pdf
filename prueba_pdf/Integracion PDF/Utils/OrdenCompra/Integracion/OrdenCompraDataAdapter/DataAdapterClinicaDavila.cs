@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess;
+﻿using IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess;
+using System;
 
 namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter
 {
@@ -14,7 +13,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.CentroCosto,
-                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, oc.CentroCosto, true),
+                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, oc.CentroCosto.DeleteAcent().Trim(), true),
                 Direccion = oc.Direccion
             };
 
@@ -38,13 +37,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
         public static OrdenCompraIntegracion AdapterClinicaDavilaFormatToCompraIntegracionWithMatchCencos(this OrdenCompraClinicaDavila oc)
         {
+            //Console.WriteLine($"CC: {oc.CentroCosto}, ocHX: {oc.CentroCosto.ConvertStringToHex()}\n");
+            //oc.CentroCosto = oc.CentroCosto.ConvertStringToHex().Replace("c2", "").ConvertHexToString();
+            if(oc.CentroCosto.Contains("RECUPERACION")
+                && oc.CentroCosto.Contains("SECUNDARIA")
+                && oc.CentroCosto.Contains("4")
+                && oc.CentroCosto.Contains("PISO")
+                && oc.CentroCosto.Contains("EDIF"))
+            {
+                oc.CentroCosto = "RECUPERACION SECUNDARIA 4 PISO EDIF G";
+            }
             var ret = new OrdenCompraIntegracion
             {
                 NumPed = OracleDataAccess.GetNumPed(),
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.CentroCosto,
-                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, oc.CentroCosto.DeleteAcent().Trim(),true),
                 Direccion = oc.Direccion
             };
 

@@ -75,7 +75,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Candem
                         var test1 = aux.Split(' ');
                         var item1 = new Item
                         {
-                            Sku = GetSku(test1),
+                            Sku = GetSku(test1).ToUpper(),
                             Cantidad = test1[3].Split(',')[0],
                             Precio = test1[test1.Length - 2].Split(',')[0]
                         };
@@ -231,7 +231,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Candem
                             {
                                 Rut = rut,
                                 NumeroCompra = ordenC,
-                                CentroCosto = cc.Contains("ALSACIA")?"2":cc.Contains("EXPRESS")?"1":"0",
+                                CentroCosto = cc.Contains("ALSACIA")?"2"
+                                :cc.Contains("EXPRESS")?"1"
+                                : cc.Contains("RECTIC") ? "4":"0",
                                 Observaciones = obs,
                                 Items = items
                             });
