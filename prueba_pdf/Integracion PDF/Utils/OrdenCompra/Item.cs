@@ -33,7 +33,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
              
         public override string ToString()
         {
-            return $"Sku: {Sku}, Cantidad: {Cantidad}, Precio: {Precio}";
+            return $"Sku: {Sku}, Cantidad: {Cantidad}, Precio: {Precio}, Descripción: {Descripcion}";
         }
     }
 

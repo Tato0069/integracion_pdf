@@ -57,6 +57,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AFPHabitat;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarrolloTecnologico;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacionalAraucana;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -496,6 +497,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var ingeProject = new Ingeproject(pdfReader);
                     ordenCompra = ingeProject.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoSinPareo();
+                    break;
+                case 59:
+                    var sociedadAraucana = new SociedadEducacionalAraucana(pdfReader);
+                    ordenCompra = sociedadAraucana.GetOrdenCompra();
+                    //PAREAR DESCRIPCION CON CLIENTE - NUEVA FUNCION
                     break;
 
 
