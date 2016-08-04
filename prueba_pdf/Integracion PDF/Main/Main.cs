@@ -63,6 +63,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Teveuk;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColegioCoya;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstruccion;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.UnitedNations;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -531,6 +532,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 64:
                     var shawAlmexChile = new ShawAlmexChile(pdfReader);
                     ordenCompra = shawAlmexChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 65:
+                    var unitedNations = new UnitedNations(pdfReader);
+                    ordenCompra = unitedNations.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
