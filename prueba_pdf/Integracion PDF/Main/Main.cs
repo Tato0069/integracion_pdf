@@ -67,6 +67,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.UnitedNations;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializadoraRiego;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainSalas;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -478,6 +479,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 53:
                     var intertek = new Intertek(pdfReader);
                     ordenCompra = intertek.GetOrdenCompra();
+                    //FALTA IDENTIFICAR CENTROS DE COSTO
                     break;
 
                 case 54:
@@ -556,6 +558,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 68:
                     var larrainSalas = new LarrainSalas(pdfReader);
                     ordenCompra = larrainSalas.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 69:
+                    var laboratorioLBC = new LaboratorioLBC(pdfReader);
+                    ordenCompra = laboratorioLBC.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 

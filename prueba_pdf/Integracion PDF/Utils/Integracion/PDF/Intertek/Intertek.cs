@@ -137,7 +137,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                         {
                             Sku = test0[test0.Length - 3],
                             Cantidad = test0[0],
-                            Precio = test0[test0.Length - 2]
+                            Precio = test0[test0.Length - 2],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
                         break;

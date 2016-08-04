@@ -12,8 +12,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"\s\d{1,}\s\d{1,}\s\d{1,}$"},
         };
         private const string RutPattern = "RUT:";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA N";
@@ -71,7 +70,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -135,10 +134,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Sku = "W102030",
+                            Cantidad = test0[test0.Length - 3].Split('.')[0],
+                            Descripcion = test0.ArrayToString(1, test0.Length - 3),
+                            Precio = test0[test0.Length - 2].Split('.')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
                         break;
@@ -215,7 +215,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
         {
             var ret = -1;
             str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(".","").Replace(",",""), it.Value).Success))
             {
                 ret = it.Key;
             }
