@@ -12,7 +12,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
             {0, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s" },
-            {1, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{1,3}\d{4,6}\s" }
+            {1, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{3}\d{4,6}\s" }
         };
         private const string RutPattern = "RUT:";
         private const string OrdenCompraPattern = "Pedido Proveedor";
@@ -135,7 +135,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
                             Sku = test0[2],
                             Cantidad = test01[test01.Length - 5].Replace(",", ""),
                             Precio = test01[test01.Length - 3].Replace(",",""),
-                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
                         break;
@@ -190,8 +190,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            var split = str.Split(' ');
+            return split[split.Length -1 ].Trim().Replace(".","");
         }
 
 
@@ -255,7 +255,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         private bool IsCentroCostoPattern(string str)
         {
             return str.Trim().DeleteContoniousWhiteSpace().Contains(CentroCostoPattern)
-                || str.Trim().DeleteContoniousWhiteSpace().Contains("Centro Costo");
+                || str.Trim().DeleteContoniousWhiteSpace().Contains("Centro Costo")
+                || (str.Trim().ToUpper().DeleteContoniousWhiteSpace().Contains("CENTRO")
+                && str.Trim().ToUpper().DeleteContoniousWhiteSpace().Contains("COSTO"));
         }
 
         #endregion
