@@ -16,7 +16,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacion
         private const string RutPattern = "Fecha Orden:";
         private const string OrdenCompraPattern = "Nro:";
         private const string ItemsHeaderPattern =
-            "Pos. Cód.SAP Solicitante Descripción";
+            "SAP Solicitante Descripción Fe";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -60,7 +60,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacion
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "0"
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -124,6 +125,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacion
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
+                //Console.WriteLine($"AUX: {aux}");
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
@@ -132,10 +134,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacion
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[2],
-                            Descripcion = test0.ArrayToString(4,test0.Length - 6),
+                            Sku = test0[1],
+                            Descripcion = test0.ArrayToString(3,test0.Length - 5),
                             Cantidad = test0[test0.Length - 4].Replace(".", ""),
-                            Precio = test0[test0.Length - 2].Replace(".","")
+                            Precio = test0[test0.Length - 2].Replace(".",""),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionCliente
                         };
                         if (!pdfLines[i + 1].Contains("CentrodeCostos:"))
                             item0.Descripcion += $" {pdfLines[i + 1]}";

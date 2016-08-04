@@ -39,7 +39,13 @@ namespace IntegracionPDF
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
             //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
-            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("CORRECTOR LIQUIDO LAPIZ BLANCO PAPER MATE");
+            //BANDERITA POST IT INDIVIDUAL AMARILLA
+            //BANDERITA POST IT INDIVIDUAL AZUL
+            //BANDERITA POST IT INDIVIDUAL ROSADO
+            //BANDERITA POST IT INDIVIDUAL VERDE
+            //BANDERITA POST-IT SET 4 COLORES
+
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("PAÑO COCINA ESPONJA SPONGI 3UN VIRUTEX");
             var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
             Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";

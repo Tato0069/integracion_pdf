@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstruccion
 {
-    class Ingeproject
+    class SociedadInstruccion
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s"},
+            {0, @"^[a-zA-Z]{1,2}\d{5,6}\s[a-zA-Z]{1,}\s"},
+            {1, @"^[a-zA-Z]{1,2}\d{5,6}[a-zA-Z]{1,}\s" },
+            {2, @"\d{1,}\s\d{1,}\s\d{1,}$" }
         };
-        private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "Orden de Compra";
+        private const string RutPattern = "Rut:";
+        private const string OrdenCompraPattern = "NRO:";
         private const string ItemsHeaderPattern =
-            "Codigo Cant. U. Med. Descripción";
+            "Item Especificacion Cantidad Unidad Precio Total";
 
-        private const string CentroCostoPattern = "C.C:";
+        private const string CentroCostoPattern = "Nota:";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -33,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public Ingeproject(PDFReader pdfReader)
+        public SociedadInstruccion(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
@@ -62,7 +64,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
                 CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -70,7 +72,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -83,14 +85,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
+                if (!_readCentroCosto)
+                {
+                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i+3]);
+                        _readCentroCosto = true;
+                    }
+                }
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -134,12 +136,40 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[0],
-                            Cantidad = test0[1],
-                            Precio = test0[test0.Length - 2].Replace(",", ""),
+                            Sku = test0[0].ToUpper(),
+                            Cantidad = test0[test0.Length - 3].Equals("Unidad")
+                            ? test0[test0.Length - 4].Split(',')[0]
+                            : test0[test0.Length - 3].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = test1[0].Substring(0, 7).ToUpper(),
+                            Cantidad = test1[test1.Length - 3].Equals("Unidad")
+                            ? test1[test1.Length - 4].Split(',')[0]
+                            : test1[test1.Length - 3].Split(',')[0],
+                            Precio = test1[test1.Length - 2].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                        };
+                        items.Add(item1);
+                        break;
+                    case 2:
+                        var test2 = aux.Split(' ');
+                        var item2 = new Item
+                        {
+                            Sku = "W102030",
+                            Cantidad = test2[test2.Length - 3].Equals("Unidad")
+                            ? test2[test2.Length - 4].Split(',')[0]
+                            : test2[test2.Length - 3].Split(',')[0],
+                            Precio = test2[test2.Length - 2].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                        };
+                        items.Add(item2);
                         break;
                 }
             }
@@ -181,8 +211,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            var split = str.Split(' ');
+            var ret = split[split.Length - 3].Contains(".")
+                            || split[split.Length - 3].Contains("-")
+                            || split[split.Length - 3].Contains(":")
+                ? split.ArrayToString(split.Length - 2, split.Length) :
+                split.ArrayToString(split.Length - 3, split.Length);
+            return ret.Trim().ToUpper();
         }
 
 
@@ -206,15 +241,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(' ');
-            return split[1];
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
             str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(",","").Replace(".",""), it.Value).Success))
             {
                 ret = it.Key;
             }

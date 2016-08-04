@@ -1,20 +1,25 @@
-﻿using System;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColegioCoya
 {
-    public class PizzaHut
+    class ColegioCoya
     {
         #region Variables
-        private const string ItemPattern = @"^\d{10}\s\d{1,}\s";
+        private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
+        {
+            {0, @"^\d{1,}\s[a-zA-Z]{2}\s\d{1,}$"},
+            {1, @"^\d{1,}\s[a-zA-Z]{2}\s\d{1,}\s\d{1,}$" }
+        };
         private const string RutPattern = "R.U.T.";
-        private const string OrdenCompraPattern = "ORDEN DE COMPRA Nº";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA N";
         private const string ItemsHeaderPattern =
-            "Producto Cantidad Descripción Precio Unitario Total";
+            "V.UNITARIO";
 
-        private const string CentroCostoPattern = "Solicitado por :";
+        private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -28,10 +33,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public PizzaHut(PDFReader pdfReader)
+        public ColegioCoya(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -56,19 +61,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "0"
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
-                
-                if (!_readRut)
-                {
-                    if (IsRutPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
-                        _readRut = true;
-                    }
-                }
                 if (!_readOrdenCompra)
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
@@ -77,15 +74,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
                         _readOrdenCompra = true;
                     }
                 }
-                if (!_readCentroCosto)
+                if (!_readRut)
                 {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        Console.WriteLine($"CC: {OrdenCompra.CentroCosto}");
-                        _readCentroCosto = true;
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                        _readRut = true;
                     }
                 }
+
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -114,37 +119,73 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         }
 
 
-        private static List<Item> GetItems(string[] pdfLines, int i)
+        private List<Item> GetItems(string[] pdfLines, int i)
         {
             var items = new List<Item>();
-            var c = 1;
             for (; i < pdfLines.Length; i++)
             //foreach(var str in pdfLines)
             {
-                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
+                var aux = pdfLines[i].Replace(",","").Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                if (IsItem(aux))
+                var optItem = GetFormatItemsPattern(aux);
+
+                //Console.WriteLine($"AUX: {aux}, OP: {optItem}");
+                switch (optItem)
                 {
-                    var test = aux.Split(' ');
-                    var item = new Item
-                    {
-                        Sku = test[0],
-                        Cantidad = test[1],
-                        Precio = test[test.Length - 2]
-                            .Substring(0
-                                , test[test.Length - 2]
-                                    .LastIndexOf("."
-                                        , StringComparison.Ordinal))
-                            .Replace(",", "")
-                    };
-                    Console.WriteLine(c+++".- ITEM====>"+item);
-                    items.Add(item);
+                    case 0:
+                        var test0 = aux.Split(' ');
+                        var item0 = new Item
+                        {
+                            Sku = "W102030",
+                            Cantidad = test0[0],//.Split('.')[0],
+                            Descripcion = pdfLines[i - 1].Replace("-",""),//test0.ArrayToString(1, test0.Length - 2),
+                            Precio = pdfLines[i + 1].Replace("$", ""),//test0[test0.Length - 2].Replace(",", ""),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                        };
+                        items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = "W102030",
+                            Cantidad = test1[0],//.Split('.')[0],
+                            Descripcion = pdfLines[i - 1].Replace("-",""),//test0.ArrayToString(1, test1.Length - 2),
+                            Precio = test1[test1.Length - 2].Replace("$", ""),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                        };
+                        items.Add(item1);
+                        break;
                 }
             }
             //SumarIguales(items);
             return items;
         }
 
+        private string GetSku(string[] test1)
+        {
+            var ret = "W102030";
+            var skuDefaultPosition = test1[5].Replace("#", "");
+            if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
+                ret = skuDefaultPosition;
+            else
+            {
+                var str = test1.ArrayToString(0, test1.Length);
+                if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
+                {
+                    var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
+                    var length = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Length;
+                    ret = str.Substring(index, length).Trim();
+                }
+                else if (Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Success)
+                {
+                    var index = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Index;
+                    var length = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Length;
+                    ret = str.Substring(index, length).Trim();
+                }
+            }
+            return ret;
+        }
 
 
         /// <summary>
@@ -155,42 +196,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':')[1].Trim();
-            Console.WriteLine("===>"+aux);
-            var lastIndexOf = aux.LastIndexOf("Total", StringComparison.Ordinal);
-            Console.WriteLine(lastIndexOf);
-            var ret = lastIndexOf == -1 ?
-                aux 
-                : aux.Substring(0, aux.LastIndexOf("Total", StringComparison.Ordinal));
-            if (!ret.Contains("LOCAL") 
-                && !ret.Contains("STOCK CAP") 
-                && !ret.Contains("-")
-                && !ret.Contains("DEPARTAMENTO")
-                && !ret.Contains("DPTO")
-                && !ret.Contains("DEPTO"))
-                return "0";
-            ret = ret.Replace("LOCAL ", "")
-                .Replace("LOCALPHD ","PHD ")
-                .Replace("IRARRAZAVAL", "IRARRAZABAL")
-                .Replace("CUIDAD", "CIUDAD")
-                .Replace("HUERFANOS", "HUERFANO")
-                .Replace(@"///", "")
-                .Replace("SOLICITADO POR","")
-                .Replace("AV.OSSA", "AV. OSSA")
-                .Replace("DPTO CALL CENTER", "CALL CENTER")
-                .Replace("DPTO GERENCIA Y RECEPCION", "GERENCIA Y RECEPCION")
-                .Replace("DPTO SELECCION", "SELECCION")
-                .Trim();
-            if (ret.Equals("OSSA")) ret = "AV. OSSA";
-            else if (ret.Contains("DEPARTAMENTO DE MANTENCION Y DE ")) ret = "DEPARTAMENTO DE MANTENCION Y DESARROLLO";
-            else if (ret.Contains("TICKET RESTAURA")) ret = "TICKET RESTAURANT";
-            else if (ret.Contains("CONTABILIDA")) ret = "CONTABILIDAD";
-            else if (ret.Contains("ADMINISTRACION ")) ret = "ADMINISTRACION Y DESARROLLO";
-            else if (ret.Contains("MARKETING")) ret = "MARKETING";
-            if (ret.Contains("-"))
-                ret = ret.Split('-')[1].Trim();
-            if (ret.Equals("CAP")) ret = "STOCK CAP";
-            return ret;
+            var aux = str.Split(':');
+            return aux[1].Trim();
         }
 
 
@@ -202,8 +209,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var aux = str.Trim().Split(' ');
-            return aux[aux.Length - 1].Trim();
+            var split = str.Split(' ');
+            return split[split.Length - 1].Trim();
         }
 
         /// <summary>
@@ -214,19 +221,25 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var aux = str.Split(' ')[1];
-            return aux;
+            var split = str.Split(' ');
+            return split[1].Trim();
+        }
+
+        private int GetFormatItemsPattern(string str)
+        {
+            var ret = -1;
+            str = str.DeleteDotComa();
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace("$",""), it.Value).Success))
+            {
+                ret = it.Key;
+            }
+            return ret;
         }
 
         #endregion
 
 
         #region Funciones Is
-        private static bool IsItem(string str)
-        {
-            return Regex.Match(str, ItemPattern).Success;
-        }
-
         private bool IsHeaderItemPatterns(string str)
         {
             return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern);

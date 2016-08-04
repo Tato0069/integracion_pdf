@@ -144,7 +144,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
         public static string DeleteSymbol(this string str)
         {
-            return str.Replace("+", "").Replace("*", "").Replace("¨", "")
+            return str == null? null: str.Replace("+", "").Replace("*", "").Replace("¨", "")
                 .Replace("´", "").Replace("{", "").Replace("}", "")
                 .Replace("[", "").Replace("]", "").Replace("^", "")
                 .Replace("`", "").Replace("-", "").Replace("_", "")

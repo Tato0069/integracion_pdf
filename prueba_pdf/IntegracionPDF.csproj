@@ -128,10 +128,12 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaDavila\ClinicaDavila.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaLilas\ClinicaLilas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaUniversidadAndes\ClinicaUniversidadAndes.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CorporacionDesarrolloTecnologico\CorporacionDesarrolloTecnologico.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dole\Dole.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ExpressSantiago\ExpressSantiago.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\FoodFantasy\FoodFantasy.cs" />
@@ -160,7 +162,10 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Securitas\SecuritasAustral.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dellanatura\Dellanatura.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ServiciosAndinos\ServicioAndinos.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ShawAlmexChile\ShawAlmexChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadEducacionalAraucana\SociedadEducacionalAraucana.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadInstruccion\SociedadInstruccion.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Teveuk\Teveuk.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\TNT\TNT.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Toc\Toc.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UDLA\Udla.cs" />
@@ -280,6 +285,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Integracion PDF\Utils\Integracion\PDF\UnitedNations\" />
     <Folder Include="Integracion PDF\Utils\Integracion\PDF\UVM\" />
     <Folder Include="Integracion PDF\Utils\Integracion\XLSX\MayoristaFama\" />
   </ItemGroup>

@@ -19,7 +19,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.ItemsClinicaDavila)
             {
-                var sku = OracleDataAccess.GetSkuDimercFromCencosud(oc.NumeroCompra, oc.Rut, it.Sku);
+                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var dt = new DetalleOrdenCompraIntegracion
@@ -59,7 +59,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.ItemsClinicaDavila)
             {
-                var sku = OracleDataAccess.GetSkuDimercFromCencosud(oc.NumeroCompra, oc.Rut, it.Sku);
+                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var dt = new DetalleOrdenCompraIntegracion

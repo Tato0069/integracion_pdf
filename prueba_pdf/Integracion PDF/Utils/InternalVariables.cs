@@ -85,8 +85,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {56,"Corporación de Desarrollo Tecnológico" }, //MZAPATA
             {57, "AGUAS ANDINAS S.A." }, //MZAPATA
             {58, "INGENPROJECT LTDA." }, //MZAPATA
-            {59, "Sociedad Educacional La Araucana S.A." }, //MZAPATA
-
+            {59, "Sociedad Educacional La Araucana S.A."}, //MZAPATA
+            {60, "FAGASE S.A. - DUNKIN' DONUTS" }, //MZAPATA
+            {61, "Teveuk Ltda." }, //MZAPATA
+            {62, "76.858.590-3:76858590-3:76.858.590" }, //MZAPATA - Colegio Coya
+            {63, "82.648.400-4:82648400-4:8264840"}, //MZAPATA - Sociedad de Instrucción
+            {64, "Shaw Almex Chile S.A." }, //MZAPATA
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

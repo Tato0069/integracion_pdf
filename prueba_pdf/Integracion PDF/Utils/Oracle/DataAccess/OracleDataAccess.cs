@@ -1234,7 +1234,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             var likes = "";
             foreach (var str in desc.Where(str => str.Length > _tamanioMinimoPalabras))
             {
-                likes += $"and codcli LIKE '%{str}%'";
+                likes += $"and descripcion LIKE '%{str}%'";
             }
             var ret = "";
             try
@@ -1364,7 +1364,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             var likes = "";
             foreach (var str in desc.Where(str => str.Length > _tamanioMinimoPalabras))
             {
-                likes += $" AND codcli LIKE '%{str}%'";
+                likes += $" AND descripcion LIKE '%{str}%'";
             }
             var ret = 0;
             try
@@ -1373,7 +1373,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 var sql = $"SELECT CODPRO FROM re_codcli WHERE rutcli = {rutCliente} {likes}";
                 var command = new OracleCommand(sql, InstanceDmVentas);
                 var data = command.ExecuteReader();
-                Console.WriteLine(sql);
+                //Console.WriteLine(sql);
                 while (data.Read())
                     ret++;
                 data.Close();
@@ -1426,7 +1426,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         /// <param name="rutCli">Rut del Cliente</param>
         /// <param name="codCli">Codigo interno de producto del Cliente</param>
         /// <returns></returns>
-        public static string GetSkuDimercFromCencosud(string ocNumber, string rutCli, string codCli)
+        public static string GetSkuDimercFromCodCliente(string ocNumber, string rutCli, string codCli)
         {
             var ret = "";
             try
@@ -1512,7 +1512,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return ret;
         }
 
-
+        /// <summary>
+        /// Busca Centro de Costo con Descripción Exacta
+        /// </summary>
+        /// <param name="rutCli"></param>
+        /// <param name="ccosto"></param>
+        /// <returns></returns>
         public static string GetCenCosFromRutCliente(string rutCli, string ccosto)
         {
             var ret = "";
@@ -1606,6 +1611,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return ret;
         }
 
+        /// <summary>
+        /// Busca Centro de Costo con Simples Coincidencias utilizando toda la Descripcion del 
+        /// </summary>
+        /// <param name="rutCli">Rut Cliente</param>
+        /// <param name="ccosto">Descripción Centro Costo</param>
+        /// <param name="sendEmail">Enviar Mail?</param>
+        /// <returns></returns>
         public static string GetCenCosFromRutClienteAndDescCencos(string rutCli, string ccosto, bool sendEmail)
         {
             var num = 0;

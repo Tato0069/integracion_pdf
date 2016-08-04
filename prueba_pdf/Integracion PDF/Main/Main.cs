@@ -58,6 +58,11 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AFPHabitat;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarrolloTecnologico;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacionalAraucana;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Teveuk;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColegioCoya;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstruccion;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -458,7 +463,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-
+                    //falta cc y sku
                     break;
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
@@ -490,18 +495,43 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 57:
                     var aguasAndinas = new Ecoriles(pdfReader);
                     ordenCompra = aguasAndinas.GetOrdenCompra();
-                    ordenCompra.CentroCosto = "97";
+                    ordenCompra.CentroCosto = "152";
                     ocAdapter = ordenCompra.ParearSoloSKU();
                     break;
                 case 58:
                     var ingeProject = new Ingeproject(pdfReader);
                     ordenCompra = ingeProject.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoSinPareo();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                 case 59:
                     var sociedadAraucana = new SociedadEducacionalAraucana(pdfReader);
                     ordenCompra = sociedadAraucana.GetOrdenCompra();
-                    //PAREAR DESCRIPCION CON CLIENTE - NUEVA FUNCION
+                    ocAdapter = ordenCompra.ParearSoloDescripcionCliente();
+                    break;
+                case 60:
+                    var dunkinDonuts = new DunkinDonuts(pdfReader);
+                    ordenCompra = dunkinDonuts.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 61:
+                    var teveuk = new Teveuk(pdfReader);
+                    ordenCompra = teveuk.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 62:
+                    var colegioCoya = new ColegioCoya(pdfReader);
+                    ordenCompra = colegioCoya.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 63:
+                    var sociedadInstruccion = new SociedadInstruccion(pdfReader);
+                    ordenCompra = sociedadInstruccion.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 64:
+                    var shawAlmexChile = new ShawAlmexChile(pdfReader);
+                    ordenCompra = shawAlmexChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
 

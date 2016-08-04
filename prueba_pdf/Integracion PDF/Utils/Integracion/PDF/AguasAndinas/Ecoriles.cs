@@ -13,6 +13,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
             {0, @"^\d{6}\s\d{1,}\s"},
+            {1,@"^[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s" }
         };
         private const string RutPattern = "RUT :";
         private const string OrdenCompraPattern = "N° DE ORDEN DE ENTREGA :";
@@ -138,6 +139,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
                             Precio = test0[test0.Length - 3].Replace(".", "")
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = test1[0],
+                            Cantidad = test1[1],
+                            Precio = test1[test1.Length - 3].Replace(".", "")
+                        };
+                        items.Add(item1);
                         break;
                 }
             }
