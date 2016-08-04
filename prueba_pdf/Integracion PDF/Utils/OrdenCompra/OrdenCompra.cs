@@ -41,7 +41,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
         }
 
         private string _rut;
-        public string NumeroCompra { get; set; }
+        public string NumeroCompra { get
+            {
+                return NumeroCompra.Equals("")? "No es posible Reconocer OC de Pedido":NumeroCompra;
+            } set
+            {
+                NumeroCompra = value;
+            }}
         public string CentroCosto { get; set; }
         public string Observaciones { get; set; }
         public List<Item> Items { get; set; }
