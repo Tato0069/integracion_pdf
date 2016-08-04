@@ -23,7 +23,6 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraIngevec;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Dellanatura;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Dole;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecogestion;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ExpressSantiago;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.FoodFantasy;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.GestionPersonasServiciosLtda;
@@ -52,6 +51,23 @@ using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenCompraDa
 using IntegracionPDF.Integracion_PDF.View;
 using IntegracionPDF.Integracion_PDF.ViewModel;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AsesoriasServiciosCapacitacionIcyde;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AFPHabitat;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarrolloTecnologico;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ingeproject;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadEducacionalAraucana;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Teveuk;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColegioCoya;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstruccion;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.UnitedNations;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializadoraRiego;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainSalas;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -164,15 +180,15 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var clinicaDavila = new ClinicaDavila(pdfReader);
                     if (clinicaDavila.HaveAnexo())
                     {
-                       var ordenes = clinicaDavila.GetOrderFromAnexo();
-                        ocAdapterList = ordenes.Select(or => or.AdapterClinicaDavilaFormatToCompraIntegracion()).ToList();
+                        var ordenes = clinicaDavila.GetOrderFromAnexo();
+                        ocAdapterList = ordenes.Select(or => or.AdapterClinicaDavilaFormatToCompraIntegracionWithMatchCencos()).ToList();
                         option = -8;
                     }
                     else
                     {
                         var ordenCompraD = clinicaDavila.GetOrdenCompraProcesada();
-                        ordenCompraD.CentroCosto = "0";
-                        ocAdapter = ordenCompraD.AdapterClinicaDavilaFormatToCompraIntegracion();
+                        //ordenCompraD.CentroCosto = "0";
+                        ocAdapter = ordenCompraD.AdapterClinicaDavilaFormatToCompraIntegracionWithMatchCencos();
                     }
                     break;
                 case 9:
@@ -372,8 +388,9 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     }
                     break;
                 case 41:
-                    var ecorile = new Ecoriles(pdfReader);
-                    ordenCompra = ecorile.GetOrdenCompra();
+                    var ecoriles = new Ecoriles(pdfReader);
+                    ordenCompra = ecoriles.GetOrdenCompra();
+                    ocAdapter = ordenCompra.ParearSoloSKU();
                     break;
                 case 42:
                     var komatsuCumminsArrienda = new KomatsuCumminsArrienda(pdfReader);
@@ -436,7 +453,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 48:
                     var consorcioSeguridad = new ConsorcioCompaniaSeguridad(pdfReader);
                     ordenCompra = consorcioSeguridad.GetOrdenCompra();
-                    ocAdapter = ordenCompra.ParearCentroCostoSinSku();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                 case 49:
                     var megaSalud = new Megasalud(pdfReader);
@@ -451,8 +468,104 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-
+                    //falta cc y sku
                     break;
+                case 52:
+                    var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
+                    ordenCompra = asesoriasIcyde.GetOrdenCompra();
+                    ocAdapter = ordenCompra.AdapterGenericFormatDescripcionitemToCompraIntegracion();
+                    break;
+
+                case 53:
+                    var intertek = new Intertek(pdfReader);
+                    ordenCompra = intertek.GetOrdenCompra();
+                    //FALTA IDENTIFICAR CENTROS DE COSTO
+                    break;
+
+                case 54:
+                    var analisisAmbientales = new Ecoriles(pdfReader);
+                    ordenCompra = analisisAmbientales.GetOrdenCompra();
+                    ordenCompra.CentroCosto = "1";
+                    ocAdapter = ordenCompra.ParearSoloSKU();
+                    break;
+                case 55:
+                    var afpHabitat = new AFPHabitat(pdfReader);
+                    ordenCompra = afpHabitat.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoSinPareo();
+                    break;
+                case 56:
+                    var corporacionDesarrolloTecnologico = new CorporacionDesarrolloTecnologico(pdfReader);
+                    ordenCompra = corporacionDesarrolloTecnologico.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 57:
+                    var aguasAndinas = new Ecoriles(pdfReader);
+                    ordenCompra = aguasAndinas.GetOrdenCompra();
+                    ordenCompra.CentroCosto = "161";
+                    ocAdapter = ordenCompra.ParearSoloSKU();
+                    break;
+                case 58:
+                    var ingeProject = new Ingeproject(pdfReader);
+                    ordenCompra = ingeProject.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 59:
+                    var sociedadAraucana = new SociedadEducacionalAraucana(pdfReader);
+                    ordenCompra = sociedadAraucana.GetOrdenCompra();
+                    ocAdapter = ordenCompra.ParearSoloDescripcionCliente();
+                    break;
+                case 60:
+                    var dunkinDonuts = new DunkinDonuts(pdfReader);
+                    ordenCompra = dunkinDonuts.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 61:
+                    var teveuk = new Teveuk(pdfReader);
+                    ordenCompra = teveuk.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 62:
+                    var colegioCoya = new ColegioCoya(pdfReader);
+                    ordenCompra = colegioCoya.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 63:
+                    var sociedadInstruccion = new SociedadInstruccion(pdfReader);
+                    ordenCompra = sociedadInstruccion.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 64:
+                    var shawAlmexChile = new ShawAlmexChile(pdfReader);
+                    ordenCompra = shawAlmexChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 65:
+                    var unitedNations = new UnitedNations(pdfReader);
+                    ordenCompra = unitedNations.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 66:
+                    var ingeniericaComercializadoraRiego = new IngenieriaComercializadoraRiego(pdfReader);
+                    ordenCompra = ingeniericaComercializadoraRiego.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
+                case 67:
+                    var envasadosMovipackChile = new EnvasadosMovipackChile(pdfReader);
+                    ordenCompra = envasadosMovipackChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 68:
+                    var larrainSalas = new LarrainSalas(pdfReader);
+                    ordenCompra = larrainSalas.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 69:
+                    var laboratorioLBC = new LaboratorioLBC(pdfReader);
+                    ordenCompra = laboratorioLBC.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
 
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);

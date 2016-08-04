@@ -17,7 +17,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Cencosud
         public Easy(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }

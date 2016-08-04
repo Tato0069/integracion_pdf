@@ -10,8 +10,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
             Descripcion = "";
             Cantidad = "";
             Precio = "";
+            TipoPareoProducto = TipoPareoProducto.SinPareo;
         }
-        
+
+        public TipoPareoProducto TipoPareoProducto { get; set; }
+
         public string Sku { get; set; }
 
         public string Descripcion { get; set; }
@@ -33,8 +36,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
              
         public override string ToString()
         {
-            return $"Sku: {Sku}, Cantidad: {Cantidad}, Precio: {Precio}";
+            return $"Sku: {Sku}, Cantidad: {Cantidad}, Precio: {Precio}, Descripción: {Descripcion}";
         }
+    }
+
+    /// <summary>
+    /// Tipo de Pareo de Producto
+    /// </summary>
+    public enum TipoPareoProducto
+    {
+        SinPareo = 0,
+        PareoCodigoCliente = 1,
+        PareoDescripcionTelemarketing = 2,
+        PareoDescripcionCliente = 3        
     }
 
     public class ItemCarozzi : Item

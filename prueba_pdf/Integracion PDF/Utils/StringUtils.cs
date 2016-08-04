@@ -144,7 +144,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
         public static string DeleteSymbol(this string str)
         {
-            return str.Replace("+", "").Replace("*", "").Replace("¨", "")
+            return str == null? null: str.Replace("+", "").Replace("*", "").Replace("¨", "")
                 .Replace("´", "").Replace("{", "").Replace("}", "")
                 .Replace("[", "").Replace("]", "").Replace("^", "")
                 .Replace("`", "").Replace("-", "").Replace("_", "")
@@ -157,6 +157,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 .Replace("!", "").Replace("°", "").Replace("|", "")
                 .Replace("¬", "").Replace("<", "").Replace(">", "")
                 .Replace("~", "").Replace("{", "");
+        }
+
+        public static string ReplaceSymbolWhiteSpace(this string str)
+        {
+            return str.Replace("+", " ").Replace("*", " ").Replace("¨", " ")
+                .Replace("´", " ").Replace("{", " ").Replace("}", "")
+                .Replace("[", " ").Replace("]", " ").Replace("^", " ")
+                .Replace("`", " ").Replace("-", " ").Replace("_", " ")
+                .Replace(":", " ").Replace(".", " ").Replace(",", " ")
+                .Replace(";", " ").Replace("(", " ").Replace(")", " ")
+                .Replace("=", " ").Replace("?", " ").Replace("\\", " ")
+                .Replace("¿", " ").Replace("¡", " ").Replace("'", " ")
+                .Replace("/", " ").Replace("&", " ").Replace("%", " ")
+                .Replace("$", " ").Replace("#", " ").Replace("\"", " ")
+                .Replace("!", " ").Replace("°", " ").Replace("|", " ")
+                .Replace("¬", " ").Replace("<", " ").Replace(">", " ")
+                .Replace("~", " ").Replace("{", " ").DeleteContoniousWhiteSpace();
         }
 
         public static string DeleteNumber(this string str)

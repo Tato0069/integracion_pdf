@@ -64,7 +64,8 @@ namespace IntegracionPDF.Integracion_PDF.View
                 if (pdfPath.ShowDialog() != true) return;
                 foreach (var pdfP in pdfPath.FileNames)
                 {
-                    MainConverter.ExtractText(pdfP);
+                    MainConverter.ExtractTextDefaultMode(pdfP);
+                    MainConverter.ExtractTextSimpleStrategy(pdfP);
                 }
             }
             catch (Exception e)

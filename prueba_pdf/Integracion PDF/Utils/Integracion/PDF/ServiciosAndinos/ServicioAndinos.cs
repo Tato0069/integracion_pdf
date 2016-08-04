@@ -20,7 +20,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ServiciosAndinos
         public ServicioAndinos(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
 

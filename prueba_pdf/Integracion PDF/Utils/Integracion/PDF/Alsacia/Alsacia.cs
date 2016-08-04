@@ -33,7 +33,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Alsacia
         public Alsacia(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
         public Alsacia(string[] pdfReader)
         {

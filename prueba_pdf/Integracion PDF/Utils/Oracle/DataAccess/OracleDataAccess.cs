@@ -100,6 +100,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
+
         private static string GetNumCotFromNumRelacion(string rutCli)
         {
             var ret = "";
@@ -157,8 +158,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
-
-
 
         /// <summary>
         /// Retorna el mail del Vendedor de un Cliente
@@ -346,409 +345,409 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return ret;
         }
 
-#region UPDATE TELEMARKETING
-        public static bool TraspasoTelemarketingPdf()
-        {
-            try
-            {
-                var rsCabecera = InternalVariables.IsDebug() ? GetRsCabeceraTest() : GetRsCabecera();
-                if (rsCabecera == null)
+        #region UPDATE TELEMARKETING
+                public static bool TraspasoTelemarketingPdf()
                 {
-                    return true;
-                }
-                for(var i = 0; i < rsCabecera.Count ; i++)
-                {
-                    var rsCab = rsCabecera[i];
-                    var finalPedido = 0;
-                    var numPed = rsCab[0].ToString();
-                    var rutCli = rsCab[1].ToString();
-                    var cencos = rsCab[2].ToString();
-                    var ocCliente = rsCab[5].ToString();
-                    var obs = rsCab[6].ToString();
-                    var skuDimerc = rsCab[10].ToString();
-                    var cantidad = rsCab[11].ToString();
-                    var precio = rsCab[12].ToString();
-                    var tipoProd = rsCab[16].ToString();
-                    var relacionado = DBNull.Value.Equals(rsCab[17]) ? null : rsCab[17].ToString();
-                    var serie = GetNumSerie();
-                    var empresa = GetEmpresa(rutCli);
-                    var codBod = 66;//GetBodega(rutCli, empresa, cencos, skuDimerc);
-                    var claVta = codBod == 1 ? 30 : 41;
-                    InsertCabeceraTelemarketing(serie, ocCliente,
-                        rutCli, cencos, numPed, obs, codBod.ToString(), empresa, claVta.ToString());
-                    //InsertRelacionCentroCosto(rutCli, cencos);
-                    Console.WriteLine($"COUNT: {rsCabecera.Count}");
-
-                    while (finalPedido == 0)
+                    try
                     {
-                        InsertDetalleTelemarketing(serie, skuDimerc, cantidad,
-                            precio, empresa, relacionado);
-                        if (i + 1 < rsCabecera.Count)
+                        var rsCabecera = InternalVariables.IsDebug() ? GetRsCabeceraTest() : GetRsCabecera();
+                        if (rsCabecera == null)
                         {
-                            rsCab = rsCabecera[++i];
-                            Console.WriteLine($"{i}-{rsCabecera.Count}");
-                            var numPedAux = rsCab[0].ToString();
-                            rutCli = rsCab[1].ToString();
-                            skuDimerc = rsCab[10].ToString();
-                            cantidad = rsCab[11].ToString();
-                            precio = rsCab[12].ToString();
-                            var tipoProdAux = rsCab[16].ToString();
-                            relacionado = rsCab[17].ToString();
-                            empresa = GetEmpresa(rutCli);
-                            if (!(numPedAux.Equals(numPed) &&
-                                tipoProdAux.Equals(tipoProd)))
+                            return true;
+                        }
+                        for(var i = 0; i < rsCabecera.Count ; i++)
+                        {
+                            var rsCab = rsCabecera[i];
+                            var finalPedido = 0;
+                            var numPed = rsCab[0].ToString();
+                            var rutCli = rsCab[1].ToString();
+                            var cencos = rsCab[2].ToString();
+                            var ocCliente = rsCab[5].ToString();
+                            var obs = rsCab[6].ToString();
+                            var skuDimerc = rsCab[10].ToString();
+                            var cantidad = rsCab[11].ToString();
+                            var precio = rsCab[12].ToString();
+                            var tipoProd = rsCab[16].ToString();
+                            var relacionado = DBNull.Value.Equals(rsCab[17]) ? null : rsCab[17].ToString();
+                            var serie = GetNumSerie();
+                            var empresa = GetEmpresa(rutCli);
+                            var codBod = 66;//GetBodega(rutCli, empresa, cencos, skuDimerc);
+                            var claVta = codBod == 1 ? 30 : 41;
+                            InsertCabeceraTelemarketing(serie, ocCliente,
+                                rutCli, cencos, numPed, obs, codBod.ToString(), empresa, claVta.ToString());
+                            //InsertRelacionCentroCosto(rutCli, cencos);
+                            Console.WriteLine($"COUNT: {rsCabecera.Count}");
+
+                            while (finalPedido == 0)
                             {
-                                finalPedido = 1;
-                                //numPed = numPedAux;
-                                //tipoProd = tipoProdAux;
+                                InsertDetalleTelemarketing(serie, skuDimerc, cantidad,
+                                    precio, empresa, relacionado);
+                                if (i + 1 < rsCabecera.Count)
+                                {
+                                    rsCab = rsCabecera[++i];
+                                    Console.WriteLine($"{i}-{rsCabecera.Count}");
+                                    var numPedAux = rsCab[0].ToString();
+                                    rutCli = rsCab[1].ToString();
+                                    skuDimerc = rsCab[10].ToString();
+                                    cantidad = rsCab[11].ToString();
+                                    precio = rsCab[12].ToString();
+                                    var tipoProdAux = rsCab[16].ToString();
+                                    relacionado = rsCab[17].ToString();
+                                    empresa = GetEmpresa(rutCli);
+                                    if (!(numPedAux.Equals(numPed) &&
+                                        tipoProdAux.Equals(tipoProd)))
+                                    {
+                                        finalPedido = 1;
+                                        //numPed = numPedAux;
+                                        //tipoProd = tipoProdAux;
+                                    }
+                                    //else finalPedido = 1;
+                                }else finalPedido = 1;
                             }
-                            //else finalPedido = 1;
-                        }else finalPedido = 1;
+                            UpdateEstadoCompraIntegracion(numPed);
+                        }
                     }
-                    UpdateEstadoCompraIntegracion(numPed);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            finally
-            {
-                //Instance?.Close();
-            }
-            return true;
-        }
-
-        private static void UpdateEstadoCompraIntegracion(object numPed)
-        {
-            if (InternalVariables.IsDebug()) return;
-            using (var command = new OracleCommand())
-            {
-                var sql = $"Update TF_COMPRA_INTEG_PDF set Estado = 1 Where NumPed = {numPed}";
-
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                try
-                {
-                    InstanceTransferWeb.Open();
-                    trans = InstanceTransferWeb.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
-                    trans.Commit();
-                }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                }
-            }
-        }
-
-        private static bool InsertDetalleTelemarketing(string serie, string skuDimerc, string cantidad
-            , string precio, int empresa, string relacionado)
-        {
-            using (var command = new OracleCommand())
-            {
-                var sql = "Insert Into Wd_notavta (numord, codpro, canpro, prelis, codemp) VALUES " +
-                          $"({serie}, '{skuDimerc}', {cantidad}, {precio}, {empresa})";
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
-                {
-
-                    //if (!InternalVariables.IsDebug())
-                    //{
-                        InstanceTransferWeb.Open();
-                        trans = InstanceTransferWeb.BeginTransaction();
-                        command.Transaction = trans;
-                        command.ExecuteNonQuery();
-                        trans.Commit();
-                    //}
-                }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                    return false;
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                    if (skuDimerc.Equals("W421291"))
+                    catch (Exception e)
                     {
-                        UpdateNotaVta(serie);
+                        Console.WriteLine(e.ToString());
                     }
-                    if (!relacionado.Equals("Null"))
+                    finally
                     {
-                        InsertDetalleTelemarketing1(serie, cantidad, relacionado);
-                        InsertDetalleTelemarketing2(serie, cantidad);
+                        //Instance?.Close();
+                    }
+                    return true;
+                }
+
+                private static void UpdateEstadoCompraIntegracion(object numPed)
+                {
+                    if (InternalVariables.IsDebug()) return;
+                    using (var command = new OracleCommand())
+                    {
+                        var sql = $"Update TF_COMPRA_INTEG_PDF set Estado = 1 Where NumPed = {numPed}";
+
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        try
+                        {
+                            InstanceTransferWeb.Open();
+                            trans = InstanceTransferWeb.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            trans.Commit();
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                        }
                     }
                 }
-            }
-            return true;
-        }
 
-        private static bool InsertDetalleTelemarketing1(string serie, string cantidad
-            , string relacionado)
-        {
-            using (var command = new OracleCommand())
-            {
-                var sql = $"Insert Into Wd_notavta (numord, codpro, canpro, prelis, CodEmp) VALUES ({serie}, " +
-                               $"'{relacionado.ToUpper()}', {cantidad}, 1, 3)";
+                private static bool InsertDetalleTelemarketing(string serie, string skuDimerc, string cantidad
+                    , string precio, int empresa, string relacionado)
+                {
+                    using (var command = new OracleCommand())
+                    {
+                        var sql = "Insert Into Wd_notavta (numord, codpro, canpro, prelis, codemp) VALUES " +
+                                  $"({serie}, '{skuDimerc}', {cantidad}, {precio}, {empresa})";
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
 
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
-                {
-                    InstanceTransferWeb.Open();
-                    trans = InstanceTransferWeb.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
-                    trans.Commit();
+                            //if (!InternalVariables.IsDebug())
+                            //{
+                                InstanceTransferWeb.Open();
+                                trans = InstanceTransferWeb.BeginTransaction();
+                                command.Transaction = trans;
+                                command.ExecuteNonQuery();
+                                trans.Commit();
+                            //}
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                            if (skuDimerc.Equals("W421291"))
+                            {
+                                UpdateNotaVta(serie);
+                            }
+                            if (!relacionado.Equals("Null"))
+                            {
+                                InsertDetalleTelemarketing1(serie, cantidad, relacionado);
+                                InsertDetalleTelemarketing2(serie, cantidad);
+                            }
+                        }
+                    }
+                    return true;
                 }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                    return false;
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                }
-            }
-            return true;
-        }
 
-        private static bool InsertDetalleTelemarketing2(string serie, string cantidad)
-        {
+                private static bool InsertDetalleTelemarketing1(string serie, string cantidad
+                    , string relacionado)
+                {
+                    using (var command = new OracleCommand())
+                    {
+                        var sql = $"Insert Into Wd_notavta (numord, codpro, canpro, prelis, CodEmp) VALUES ({serie}, " +
+                                       $"'{relacionado.ToUpper()}', {cantidad}, 1, 3)";
+
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
+                            InstanceTransferWeb.Open();
+                            trans = InstanceTransferWeb.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            trans.Commit();
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                        }
+                    }
+                    return true;
+                }
+
+                private static bool InsertDetalleTelemarketing2(string serie, string cantidad)
+                {
             
-            using (var command = new OracleCommand())
-            {
-                var sql = $"Insert Into Wd_notavta(numord, codpro, canpro, prelis, CodEmp) VALUES({serie}, " +
-                               $"'PK10000', 1, {int.Parse(cantidad) * -1}, 3)";
+                    using (var command = new OracleCommand())
+                    {
+                        var sql = $"Insert Into Wd_notavta(numord, codpro, canpro, prelis, CodEmp) VALUES({serie}, " +
+                                       $"'PK10000', 1, {int.Parse(cantidad) * -1}, 3)";
 
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
-                {
-                    InstanceTransferWeb.Open();
-                    trans = InstanceTransferWeb.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
-                    trans.Commit();
-                }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                    return false;
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                }
-            }
-            return true;
-        }
-
-        private static bool UpdateNotaVta(string serie)
-        {
-            using (var command = new OracleCommand())
-            {
-                var sql = $"Update We_NotaVta set ClaVta = 43 where NumOrd = {serie}";
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
-                {
-                    InstanceTransferWeb.Open();
-                    trans = InstanceTransferWeb.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
+                            InstanceTransferWeb.Open();
+                            trans = InstanceTransferWeb.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            trans.Commit();
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                        }
+                    }
                     return true;
                 }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                    return false;
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                }
-            }
-        }
-        private static bool InsertCabeceraTelemarketing(string serie,string ocCliente,
-            string rutCli, string cencos, string numPed, string obs, string codBod,
-            int empresa, string claVta)
-        {
-            using (var command = new OracleCommand())
-            {
-                var sql =
-                    "Insert Into We_notavta (numord, fecord, facnom, rutcli, cencos, facdir, " +
-                    "ordweb, tipweb, observ, descli, codbod, codemp, clavta) VALUES " +
-                    $"({serie}, trunc(sysdate), '{ocCliente}', {rutCli}, {cencos}, '0', " +
-                    $"{numPed}, '7', '{obs}', 0, {codBod}, {empresa}, {claVta})";
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
-                {
-                    InstanceTransferWeb.Open();
-                    trans = InstanceTransferWeb.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
-                    trans.Commit();
-                }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                    return false;
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                }
-            }
-            return true;
-        }
 
-        public static bool InsertPopupTelemarketing(Popup.Popup pop)
-        {
-            using (var command = new OracleCommand())
-            {
-                var sql = $"INSERT INTO TM_USERMSG(RUTUSU, SNDMSG,CENCOS,TIPMSG,FECHA_CREAC,COLOR) VALUES ({pop.RutUsuario},'{pop.DetalleToString}',NULL,3,SYSDATE,null)";
-                OracleTransaction trans = null;
-                command.Connection = InstanceDmVentas;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
+                private static bool UpdateNotaVta(string serie)
                 {
-                    InstanceDmVentas.Open();
-                    trans = InstanceDmVentas.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
-                    trans.Commit();
+                    using (var command = new OracleCommand())
+                    {
+                        var sql = $"Update We_NotaVta set ClaVta = 43 where NumOrd = {serie}";
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
+                            InstanceTransferWeb.Open();
+                            trans = InstanceTransferWeb.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            return true;
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                        }
+                    }
+                }
+                private static bool InsertCabeceraTelemarketing(string serie,string ocCliente,
+                    string rutCli, string cencos, string numPed, string obs, string codBod,
+                    int empresa, string claVta)
+                {
+                    using (var command = new OracleCommand())
+                    {
+                        var sql =
+                            "Insert Into We_notavta (numord, fecord, facnom, rutcli, cencos, facdir, " +
+                            "ordweb, tipweb, observ, descli, codbod, codemp, clavta) VALUES " +
+                            $"({serie}, trunc(sysdate), '{ocCliente}', {rutCli}, {cencos}, '0', " +
+                            $"{numPed}, '7', '{obs}', 0, {codBod}, {empresa}, {claVta})";
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
+                            InstanceTransferWeb.Open();
+                            trans = InstanceTransferWeb.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            trans.Commit();
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                        }
+                    }
                     return true;
                 }
-                catch (SqlException)
+
+                public static bool InsertPopupTelemarketing(Popup.Popup pop)
                 {
-                    trans?.Rollback();
-                    return false;
+                    using (var command = new OracleCommand())
+                    {
+                        var sql = $"INSERT INTO TM_USERMSG(RUTUSU, SNDMSG,CENCOS,TIPMSG,FECHA_CREAC,COLOR) VALUES ({pop.RutUsuario},'{pop.DetalleToString}',NULL,3,SYSDATE,null)";
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceDmVentas;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
+                            InstanceDmVentas.Open();
+                            trans = InstanceDmVentas.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            trans.Commit();
+                            return true;
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceDmVentas?.Close();
+                        }
+                    }
                 }
-                finally
-                {
-                    InstanceDmVentas?.Close();
-                }
-            }
-        }
 
 
-        private static bool InsertRelacionCentroCosto(string rutCli, string cencos)
-        {
-            using (var command = new OracleCommand())
-            {
-                var existCencos = ExistCenCosFromRutCliente(rutCli, cencos);
-                if (existCencos) return false;
-                var sql = $"Insert Into Re_cctocli (Rutcli, cencos, ccosto) VALUES ({rutCli}, {cencos}, '{cencos}')";
-                OracleTransaction trans = null;
-                command.Connection = InstanceTransferWeb;
-                command.CommandType = CommandType.Text;
-                command.CommandText = sql;
-                Console.WriteLine(sql);
-                if (InternalVariables.IsDebug()) return true;
-                try
+                private static bool InsertRelacionCentroCosto(string rutCli, string cencos)
                 {
-                    InstanceTransferWeb.Open();
-                    trans = InstanceTransferWeb.BeginTransaction();
-                    command.Transaction = trans;
-                    command.ExecuteNonQuery();
-                    return true;
+                    using (var command = new OracleCommand())
+                    {
+                        var existCencos = ExistCenCosFromRutCliente(rutCli, cencos);
+                        if (existCencos) return false;
+                        var sql = $"Insert Into Re_cctocli (Rutcli, cencos, ccosto) VALUES ({rutCli}, {cencos}, '{cencos}')";
+                        OracleTransaction trans = null;
+                        command.Connection = InstanceTransferWeb;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = sql;
+                        Console.WriteLine(sql);
+                        if (InternalVariables.IsDebug()) return true;
+                        try
+                        {
+                            InstanceTransferWeb.Open();
+                            trans = InstanceTransferWeb.BeginTransaction();
+                            command.Transaction = trans;
+                            command.ExecuteNonQuery();
+                            return true;
+                        }
+                        catch (SqlException)
+                        {
+                            trans?.Rollback();
+                            return false;
+                        }
+                        finally
+                        {
+                            InstanceTransferWeb?.Close();
+                        }
+                    }
                 }
-                catch (SqlException)
-                {
-                    trans?.Rollback();
-                    return false;
-                }
-                finally
-                {
-                    InstanceTransferWeb?.Close();
-                }
-            }
-        }
 
-        private static int GetEmpresa(string rut)
-        {
-            var ret = 0;
-            try
-            {
-                InstanceTransferWeb.Open();
-                var sql = $"Select nvl(codemp, 3) Empresa from tf_cliente_empresa where rutcli = {rut}";
-                var command = new OracleCommand(sql, InstanceTransferWeb);
-                var data = command.ExecuteReader();
-                ret = !data.Read() ? 3 : int.Parse(data["Empresa"].ToString());
-                data.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                ret = 3;
-            }
-            finally
-            {
-                InstanceTransferWeb?.Close();
-            }
-            return ret;
-        }
-        private static int GetEjecutivo(int empresa,string rutCli, string cencos)
-        {
-            var ret = 0;
-            try
-            {
-                InstanceTransferWeb.Open();
-                var sql = $"Select GETVENDEDORCLIENTE({empresa},{rutCli}, {cencos}) vendedor from dual";
-                var command = new OracleCommand(sql, InstanceTransferWeb);
-                var data = command.ExecuteReader();
-                ret = !data.Read() ? 0 : int.Parse(data["Vendedor"].ToString());
-                data.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                ret = 0;
-            }
-            finally
-            {
-                InstanceTransferWeb?.Close();
-            }
-            return ret;
-        }
+                private static int GetEmpresa(string rut)
+                {
+                    var ret = 0;
+                    try
+                    {
+                        InstanceTransferWeb.Open();
+                        var sql = $"Select nvl(codemp, 3) Empresa from tf_cliente_empresa where rutcli = {rut}";
+                        var command = new OracleCommand(sql, InstanceTransferWeb);
+                        var data = command.ExecuteReader();
+                        ret = !data.Read() ? 3 : int.Parse(data["Empresa"].ToString());
+                        data.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        ret = 3;
+                    }
+                    finally
+                    {
+                        InstanceTransferWeb?.Close();
+                    }
+                    return ret;
+                }
+                private static int GetEjecutivo(int empresa,string rutCli, string cencos)
+                {
+                    var ret = 0;
+                    try
+                    {
+                        InstanceTransferWeb.Open();
+                        var sql = $"Select GETVENDEDORCLIENTE({empresa},{rutCli}, {cencos}) vendedor from dual";
+                        var command = new OracleCommand(sql, InstanceTransferWeb);
+                        var data = command.ExecuteReader();
+                        ret = !data.Read() ? 0 : int.Parse(data["Vendedor"].ToString());
+                        data.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        ret = 0;
+                    }
+                    finally
+                    {
+                        InstanceTransferWeb?.Close();
+                    }
+                    return ret;
+                }
 
-        #endregion
+                #endregion
 
 
         private static string GetNumRelacion(string rutCli)
@@ -857,8 +856,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
-
-
+        
         public static string GetPrecioProducto(string rutCli, string cencos, string codpro, string codemp)
         {
             var ret = "0";
@@ -886,6 +884,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
+
         public static string GetPrecioProductoTest(string rutCli, string cencos, string codpro, string codemp)
         {
             var ret = "0";
@@ -913,8 +912,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
-
-
+        
         public static string GetPrecioConvenio(string rutCli, string cencos, string codPro, string precio)
         {
             var ret =  GetPrecioProductoTest(rutCli, cencos, codPro, "3");
@@ -1103,12 +1101,77 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return ret;
         }
 
+
+        #region Match Product
         private static int _tamanioMinimoPalabras;
         private const int TamanioMaximoPalabras = 3;
         private static bool ReplaceSymbol;
         private static bool ReplaceNumber;
         private static bool ReplaceSymbolNumber;
         public static string DescPro;
+
+        /// <summary>
+        /// Obtiene Producto haciendo Match desde Descripcion Relacionada al Cliente
+        /// </summary>
+        /// <param name="rutcli">Cliente</param>
+        /// <param name="descPro"></param>
+        /// <returns></returns>
+        public static string GetSkuWithMatchClientProductDescription(string rutcli, string descPro)
+        {
+            descPro = descPro.ToUpper().DeleteAcent().DeleteContoniousWhiteSpace();
+            var split = descPro.Split(' ');
+            var descContainsRow = new List<string>();
+            var index = 0;
+            var CodProd = "W102030";
+            if (_tamanioMinimoPalabras > TamanioMaximoPalabras)
+            {
+                if (!ReplaceSymbol)
+                {
+                    _tamanioMinimoPalabras = 0;
+                    ReplaceSymbol = true;
+                    return GetSkuWithMatchClientProductDescription(rutcli,DescPro.DeleteSymbol());
+                }
+                if (!ReplaceNumber)
+                {
+                    _tamanioMinimoPalabras = 0;
+                    ReplaceNumber = true;
+                    return GetSkuWithMatchClientProductDescription(rutcli, DescPro.DeleteNumber());
+                }
+                if (!ReplaceSymbolNumber)
+                {
+                    _tamanioMinimoPalabras = 0;
+                    ReplaceSymbolNumber = true;
+                    return GetSkuWithMatchClientProductDescription(rutcli, DescPro.DeleteSymbol().DeleteNumber());
+                }
+
+                return CodProd;
+            }
+            foreach (var t in split.Where(t => t.Length > _tamanioMinimoPalabras))
+            {
+                descContainsRow.Add(t);
+                var rows = GetCountProductDescriptionMatchFromClient(rutcli, descContainsRow);
+                if (rows == 0)
+                {
+                    descContainsRow.RemoveAt(index);
+                }
+                else// if (rows == 1)
+                {
+                    index++;
+                }
+                if (rows >= 1)
+                {
+                    CodProd = MatchProductDescriptionCliente(rutcli, descContainsRow);
+                }
+            }
+            if (CodProd.Equals("W102030"))
+            {
+                _tamanioMinimoPalabras++;
+                return GetSkuWithMatchClientProductDescription(rutcli, descPro);
+            }
+            Console.WriteLine($"Product Match: {CodProd}");
+            return CodProd;
+        }
+
 
 
         public static string GetSkuWithMatcthDimercProductDescription(string descPro)
@@ -1154,7 +1217,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 }
                 if (rows >= 1)
                 {
-                    CodProd = GetDescProdMatch(descContainsRow);
+                    CodProd = MatchProductDescriptionMaestra(descContainsRow);
                 }
             }
             if (CodProd.Equals("W102030"))
@@ -1165,7 +1228,38 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             Console.WriteLine($"Product Match: {CodProd}");
             return CodProd;
         }
-        public static string GetDescProdMatch(IEnumerable<string> desc)
+
+        public static string MatchProductDescriptionCliente(string rutCliente, IEnumerable<string> desc)
+        {
+            var likes = "";
+            foreach (var str in desc.Where(str => str.Length > _tamanioMinimoPalabras))
+            {
+                likes += $"and descripcion LIKE '%{str}%'";
+            }
+            var ret = "";
+            try
+            {
+                InstanceDmVentas.Open();
+                var sql = $"SELECT CODPRO FROM re_codcli WHERE rutcli = {rutCliente} {likes}";
+                var command = new OracleCommand(sql, InstanceDmVentas);
+                var data = command.ExecuteReader();
+                //Console.WriteLine(sql);
+                ret = data.Read() ? data["CODPRO"].ToString() : "";
+                data.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                InstanceDmVentas?.Close();
+            }
+            return ret;
+        }
+
+
+        public static string MatchProductDescriptionMaestra(IEnumerable<string> desc)
         {
             var likes = "";
             foreach (var str in desc.Where(str => str.Length > _tamanioMinimoPalabras))
@@ -1196,6 +1290,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
+
         public static int GetCountDescCencosMatch(string rutCli, IEnumerable<string> desc)
         {
             var likes = "";
@@ -1264,6 +1359,39 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         }
 
 
+        private static int GetCountProductDescriptionMatchFromClient(string rutCliente,IEnumerable<string> desc)
+        {
+            var likes = "";
+            foreach (var str in desc.Where(str => str.Length > _tamanioMinimoPalabras))
+            {
+                likes += $" AND descripcion LIKE '%{str}%'";
+            }
+            var ret = 0;
+            try
+            {
+                InstanceDmVentas.Open();
+                var sql = $"SELECT CODPRO FROM re_codcli WHERE rutcli = {rutCliente} {likes}";
+                var command = new OracleCommand(sql, InstanceDmVentas);
+                var data = command.ExecuteReader();
+                //Console.WriteLine(sql);
+                while (data.Read())
+                    ret++;
+                data.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                InstanceDmVentas?.Close();
+            }
+            return ret;
+        }
+
+        #endregion
+
+
         private static string GetNumSerie()
         {
             var ret = "";
@@ -1298,7 +1426,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         /// <param name="rutCli">Rut del Cliente</param>
         /// <param name="codCli">Codigo interno de producto del Cliente</param>
         /// <returns></returns>
-        public static string GetSkuDimercFromCencosud(string ocNumber, string rutCli, string codCli)
+        public static string GetSkuDimercFromCodCliente(string ocNumber, string rutCli, string codCli)
         {
             var ret = "";
             try
@@ -1384,7 +1512,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return ret;
         }
 
-
+        /// <summary>
+        /// Busca Centro de Costo con Descripción Exacta
+        /// </summary>
+        /// <param name="rutCli"></param>
+        /// <param name="ccosto"></param>
+        /// <returns></returns>
         public static string GetCenCosFromRutCliente(string rutCli, string ccosto)
         {
             var ret = "";
@@ -1418,7 +1551,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 {
                     Log.SaveCentroCostoFaltantes(rutCli, ccosto);
                     //throw new Exception($"No existe CenCos para el CCOSTO:\n {ccosto}, del cliente {rutCli}");
-                    Console.WriteLine($"No existe CenCos para el CCOSTO:\n {ccosto}, del cliente {rutCli}");
+                    Console.WriteLine($"No existe CenCos para el CCOSTO:\n{ccosto}, del cliente {rutCli}");
                 }
             }
             return ret;
@@ -1447,10 +1580,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
+
         public static string GetCenCosFromRutClienteAndDescCencosWithMatch(string rutCli, string ccosto)
         {
 
             var ret1 = GetCenCosFromRutClienteAndDescCencos(rutCli, ccosto, false);
+            Console.WriteLine($"ret1: {ret1}");
             if (!ret1.Equals("0")) return ret1;
             var split = ccosto.Split(' ');
             var descContainsRow = new List<string>();
@@ -1468,11 +1603,21 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 {
                     ret = GetCenCosFromRutClienteAndDescCencos(rutCli,
                         descContainsRow.ToArray().ArrayToString(0, descContainsRow.Count), true);
+
+                    Console.WriteLine($"ret2: {ret}");
                 }
             }
+            Console.WriteLine($"ret3: {ret}");
             return ret;
         }
 
+        /// <summary>
+        /// Busca Centro de Costo con Simples Coincidencias utilizando toda la Descripcion del 
+        /// </summary>
+        /// <param name="rutCli">Rut Cliente</param>
+        /// <param name="ccosto">Descripción Centro Costo</param>
+        /// <param name="sendEmail">Enviar Mail?</param>
+        /// <returns></returns>
         public static string GetCenCosFromRutClienteAndDescCencos(string rutCli, string ccosto, bool sendEmail)
         {
             var num = 0;
@@ -1511,15 +1656,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 if (!existCencos && sendEmail)
                 {
                     Log.SaveCentroCostoFaltantes(rutCli, ccosto);
-                    Console.WriteLine($"No existe CenCos para el CCOSTO:\n {ccosto}," +
+                    Console.WriteLine($"No existe CenCos para el CCOSTO:\n{ccosto}," +
                                       $" del cliente {rutCli}");
                 }
             }
             return ret;
         }
-         public static bool InsertOrdenCompraIntegración(OrdenCompraIntegracion oc)
+
+        public static bool InsertOrdenCompraIntegración(OrdenCompraIntegracion oc)
         {
             oc.Observaciones = $"OC Cliente: {oc.OcCliente}, {oc.Observaciones}";
+            oc.Observaciones = oc.Observaciones.Length >= 200 ? oc.Observaciones.Substring(0, 199) : oc.Observaciones;
             using (var command = new OracleCommand())
             {
                 var sql = "INSERT INTO TF_COMPRA_INTEG_PDF" +

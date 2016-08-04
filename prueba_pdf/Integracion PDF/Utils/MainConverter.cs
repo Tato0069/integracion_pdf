@@ -14,14 +14,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         }
 
 
-        public static void ExtractText(string path)
+        public static void ExtractTextDefaultMode(string path)
         {
             var pdfReader = new PDFReader(path);
-            foreach (var line in pdfReader.ExtractTextFromPdfToArray())
+            foreach (var line in pdfReader.ExtractTextFromPdfToArrayDefaultMode())
             {
                 SavePdfToTxt(
                     path.
-                    Substring(0, path.LastIndexOf(".", StringComparison.Ordinal)) + ".txt", line);
+                    Substring(0, path.LastIndexOf(".", StringComparison.Ordinal)) + "_default_mode.txt", line);
             }
         }
 
@@ -41,5 +41,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             }
         }
 
+        internal static void ExtractTextSimpleStrategy(string pdfP)
+        {
+            var pdfReader = new PDFReader(pdfP);
+            foreach (var line in pdfReader.ExtractTextFromPdfToArraySimpleStrategy())
+            {
+                SavePdfToTxt(
+                    pdfP.
+                    Substring(0, pdfP.LastIndexOf(".", StringComparison.Ordinal)) + "_simple_strategy.txt", line);
+            }
+        }
     }
 }

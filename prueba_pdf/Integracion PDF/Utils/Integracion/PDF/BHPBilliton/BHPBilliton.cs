@@ -16,7 +16,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.BHPBilliton
         public BhpBilliton(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private List<Item> GetItems(string[] pdfLines, int firstIndex)

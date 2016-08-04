@@ -40,7 +40,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         public Arauco(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)

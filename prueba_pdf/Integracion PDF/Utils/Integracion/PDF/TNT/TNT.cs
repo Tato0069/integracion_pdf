@@ -39,7 +39,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
         public TNT(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private int GetFormatItemsPattern(string str)

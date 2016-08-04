@@ -36,7 +36,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
         public GenericClass(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -59,7 +59,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompra.OrdenCompra();
+            OrdenCompra = new OrdenCompra.OrdenCompra
+            {
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
+            };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -132,19 +136,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
                         {
                             Sku = test0[6],
                             Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0]
+                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
-                        break;
-                    case 1:
-                        var test1 = aux.Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = test1[4],
-                            Cantidad = test1[2].Split(',')[0],
-                            Precio = test1[test1.Length - 2].Split(',')[0]
-                        };
-                        items.Add(item1);
                         break;
                 }
             }
@@ -199,7 +194,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            return str;
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         /// <summary>
@@ -210,8 +206,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var aux = str.Split(':')[1].Substring(0, 13);
-            return aux;
+            var split = str.Split(':');
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)

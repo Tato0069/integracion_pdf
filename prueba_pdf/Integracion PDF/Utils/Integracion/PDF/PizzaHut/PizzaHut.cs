@@ -31,7 +31,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
         public PizzaHut(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -166,7 +166,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
                 && !ret.Contains("STOCK CAP") 
                 && !ret.Contains("-")
                 && !ret.Contains("DEPARTAMENTO")
-                && !ret.Contains("DPTO"))
+                && !ret.Contains("DPTO")
+                && !ret.Contains("DEPTO"))
                 return "0";
             ret = ret.Replace("LOCAL ", "")
                 .Replace("LOCALPHD ","PHD ")
@@ -183,6 +184,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.PizzaHut
             if (ret.Equals("OSSA")) ret = "AV. OSSA";
             else if (ret.Contains("DEPARTAMENTO DE MANTENCION Y DE ")) ret = "DEPARTAMENTO DE MANTENCION Y DESARROLLO";
             else if (ret.Contains("TICKET RESTAURA")) ret = "TICKET RESTAURANT";
+            else if (ret.Contains("CONTABILIDA")) ret = "CONTABILIDAD";
+            else if (ret.Contains("ADMINISTRACION ")) ret = "ADMINISTRACION Y DESARROLLO";
+            else if (ret.Contains("MARKETING")) ret = "MARKETING";
             if (ret.Contains("-"))
                 ret = ret.Split('-')[1].Trim();
             if (ret.Equals("CAP")) ret = "STOCK CAP";

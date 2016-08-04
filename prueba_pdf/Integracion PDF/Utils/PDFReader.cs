@@ -2,6 +2,7 @@
 using System.Text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using System.Collections.Generic;
 
 namespace IntegracionPDF.Integracion_PDF.Utils
 {
@@ -57,7 +58,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         /// Extrae Texto de PDF y retorna un Arreglo con dicho texto.
         /// </summary>
         /// <returns>Arreglo con Texto del PDF</returns>
-        public string[] ExtractTextFromPdfToArray()
+        public string[] ExtractTextFromPdfToArrayDefaultMode()
         {
             using (var reader = new PdfReader(_pdfPath))
             {
@@ -67,9 +68,67 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 {
                     text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i).DeleteContoniousWhiteSpace());
                 }
-                return text.ToString().Split('\n');
+                var ret = text.ToString().Split('\n');
+                for (var i = 0; i < text.Length; i++)
+                {
+                    for (var j = i + 1; j < ret.Length - 1; j++)
+                    {
+                        if (ret[i].Equals(ret[j]))
+                        {
+                            ret[j] = "-1*";
+                        }
+                    }
+                }
+                var ret2 = new List<string>();
+                foreach (var x in ret)
+                {
+                    if (!x.Equals("-1*"))
+                    {
+                        ret2.Add(x);
+                    }
+                }
+                return ret2.ToArray();
+            }
+
+        }
+
+        public string[] ExtractTextFromPdfToArraySimpleStrategy()
+        {
+            Console.WriteLine("SimpleTextExtractionStrategy");
+            using (var reader = new PdfReader(_pdfPath))
+            {
+                NumerOfPages = reader.NumberOfPages;
+                var text = new StringBuilder();
+                ITextExtractionStrategy its = new SimpleTextExtractionStrategy();
+                for (var i = 1; i <= reader.NumberOfPages; i++)
+                {
+                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i, its).DeleteContoniousWhiteSpace());
+
+                }
+                var ret = text.ToString().Split('\n');
+                for (var i = 0;i < text.Length; i++)
+                {
+                    for(var j = i+1; j < ret.Length-1; j++)
+                    {
+                        if (ret[i].Equals(ret[j]))
+                        {
+                            ret[j] = "-1*";
+                        }
+                    }
+                }
+                var ret2 = new List<string>();
+                foreach(var x in ret)
+                {
+                    if (!x.Equals("-1*"))
+                    {
+                        ret2.Add(x); 
+                    }
+                }
+                return ret2.ToArray();
             }
         }
+
+
 
         /// <summary>
         /// Extrae Texto de PDF sólo de la Página "i"

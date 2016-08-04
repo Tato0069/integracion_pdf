@@ -12,6 +12,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
         private bool _readOrdenCompra;
         private bool _readRut;
         private bool _readDir;
+        private bool _readUnidadSolicitante;
         private readonly PDFReader _pdfReader;
         private readonly string[] _pdfLines;
         public string AnexoPath;
@@ -21,7 +22,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
         public ClinicaDavila(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         public OrdenCompraClinicaDavila GetOrdenCompraProcesada()
@@ -58,7 +59,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
             var item = false;
             var list = new List<string>();
             var pdfReader = new PDFReader(pdf);
-            var pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            var pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
             foreach (var rawLin in pdfLines)
             {
                 if (!item)
@@ -96,8 +97,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                 var aux = rawLin.Split(' ');
                 var cant = aux[aux.Length - 1];
                 var rawLine = aux.ArrayToString(0, aux.Length - 2);
-                Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
-                Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
+                //Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
+                //Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
                 if (rawLine.Equals("?")) continue;
                 if (aux[aux.Length - 2].Contains("UNI"))
                     rawLine += " UNI";
@@ -249,7 +250,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
 
         public OrdenCompraClinicaDavila GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompraClinicaDavila();
+            OrdenCompra = new OrdenCompraClinicaDavila
+            {
+                CentroCosto = "0"
+            };
             var itemForPage = 0;
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -261,6 +265,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                         _readRut = true;
                     }
                     
+                }
+                if (!_readUnidadSolicitante)
+                {
+                    if (_pdfLines[i].Contains("Solicitante"))
+                    {
+                        OrdenCompra.CentroCosto = GetSolicitante(_pdfLines[i]);
+                    }
                 }
                 if (!_readOrdenCompra)
                 {
@@ -295,6 +306,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                 }
             }
             return OrdenCompra;
+        }
+
+        private string GetSolicitante(string str)
+        {
+            var ret = "0";
+            var split = str.Split(':');
+            ret = split[1].Replace("Fax","").DeleteContoniousWhiteSpace();
+            return ret;
         }
 
         private string GetDir(string str)

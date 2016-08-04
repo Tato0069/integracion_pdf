@@ -1,26 +1,27 @@
-﻿using System;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile
 {
-    public class Ecoriles
+    class EnvasadosMovipackChile
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{6}\s\w{1,}\s"},
-            //408847 2 KG AZUCAR 1KG BOLSA 651 1.302 11/07/16
+            {0, @"^[a-zA-Z]{1,2}\d{5,6}$"}, //SKU, Siguiente linea Precios y Cantidad
+            {1, @"^[a-zA-Z]{1,2}\d{5,6}\s[a-zA-Z]{1,}\s" } // Una sola linea todo el contenido
         };
-        private const string RutPattern = "RUT :";
-        private const string OrdenCompraPattern = "N° DE ORDEN DE ENTREGA :";
+        private const string RutPattern = "Rut :";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA NRO";
         private const string ItemsHeaderPattern =
-            "MATERIAL CANTIDAD UM DESCRIPCION PRECIO";
+            "Producto Descripcion Cantidad Precio Total";
 
-        private const string CentroCostoPattern = "GRUPO DE COMPRAS :";
-        private const string ObservacionesPattern = "PERSONA DE CONTACTO";
+        private const string CentroCostoPattern = "Lugar de Despacho";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -33,10 +34,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public Ecoriles(PDFReader pdfReader)
+        public EnvasadosMovipackChile(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -59,7 +60,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompra.OrdenCompra();
+            OrdenCompra = new OrdenCompra.OrdenCompra
+            {
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
+            };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -87,15 +91,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
                         _readCentroCosto = true;
                     }
                 }
-                if (!_readObs)
-                {
-                    if (IsObservacionPattern(_pdfLines[i]))
-                    {
-                        var split = _pdfLines[i].Split(':');
-                        OrdenCompra.Observaciones += split[1].Trim();
-                        _readObs = true;
-                    }
-                }
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -125,14 +131,26 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
                 switch (optItem)
                 {
                     case 0:
-                        var test0 = aux.Split(' ');
+                        var test0 = pdfLines[++i].Trim().DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[0],
-                            Cantidad = test0[1].Split(',')[0],
-                            Precio = test0[test0.Length - 3].Split(',')[0]
+                            Sku = aux,
+                            Cantidad = test0[test0.Length - 3].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = test1[0],
+                            Cantidad = test1[test1.Length - 3].Split(',')[0],
+                            Precio = test1[test1.Length - 2].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                        };
+                        items.Add(item1);
                         break;
                 }
             }
@@ -174,8 +192,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecoriles
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            return str.Replace("Lugar de Despacho", "").Replace("Tipo Moneda PESOS", "").Replace(",","").Replace(".", "").DeleteContoniousWhiteSpace();
         }
 
 

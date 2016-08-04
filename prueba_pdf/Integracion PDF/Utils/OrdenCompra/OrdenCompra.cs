@@ -13,8 +13,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
             CentroCosto = "";
             Observaciones = "";
             Direccion = "";
+            TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo;
         }
         
+        public TipoPareoCentroCosto TipoPareoCentroCosto { get; set; }
+
         public string Direccion
         {
             get { return _direccion.Replace("'", "''"); }
@@ -28,7 +31,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
             get { return _rut; }
             set
             {
-                _rut = value;
+                _rut = value.Replace(" ","");
                 if (_rut.Contains('-'))
                 {
                     _rut = _rut.Split('-')[0];
@@ -56,6 +59,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
             return $"Rut: {Rut}, N° Compra: {NumeroCompra}, Centro Costo: {CentroCosto}, Observaciones: {Observaciones}, Dirección: {Direccion}\nItems:\n{items}";
         }
 
+    }
+
+    /// <summary>
+    /// Tipo de Pareo de Centro de Costo
+    /// </summary>
+    public enum TipoPareoCentroCosto
+    {
+        SinPareo = 0,
+        PareoDescripcionExacta = 1,
+        PareoDescripcionLike = 2,
+        PareoDescripcionMatch = 3
     }
 
     public class OrdenCompraSecuritas : OrdenCompra
