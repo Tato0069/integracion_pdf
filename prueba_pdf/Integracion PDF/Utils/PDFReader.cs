@@ -92,7 +92,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
         }
 
-        public string[] ExtractTextFromPdfToArraySimpleTextExtractionStrategy()
+        public string[] ExtractTextFromPdfToArraySimpleStrategy()
         {
             Console.WriteLine("SimpleTextExtractionStrategy");
             using (var reader = new PdfReader(_pdfPath))

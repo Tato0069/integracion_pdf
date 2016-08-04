@@ -20,7 +20,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
         private const string ItemsHeaderPattern =
             "MATERIAL CANTIDAD UM DESCRIPCION PRECIO UNIT.";
 
-        private const string CentroCostoPattern = "de entrega:";
+        private const string CentroCostoPattern = "GRUPO DE COMPRAS";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -83,14 +83,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
+                if (!_readCentroCosto)
+                {
+                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        _readCentroCosto = true;
+                    }
+                }
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))

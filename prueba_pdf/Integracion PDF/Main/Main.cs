@@ -65,6 +65,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstruccion;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.UnitedNations;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializadoraRiego;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainSalas;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -497,7 +499,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 57:
                     var aguasAndinas = new Ecoriles(pdfReader);
                     ordenCompra = aguasAndinas.GetOrdenCompra();
-                    ordenCompra.CentroCosto = "152";
+                    ordenCompra.CentroCosto = "161";
                     ocAdapter = ordenCompra.ParearSoloSKU();
                     break;
                 case 58:
@@ -543,6 +545,17 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 66:
                     var ingeniericaComercializadoraRiego = new IngenieriaComercializadoraRiego(pdfReader);
                     ordenCompra = ingeniericaComercializadoraRiego.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
+                case 67:
+                    var envasadosMovipackChile = new EnvasadosMovipackChile(pdfReader);
+                    ordenCompra = envasadosMovipackChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 68:
+                    var larrainSalas = new LarrainSalas(pdfReader);
+                    ordenCompra = larrainSalas.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 

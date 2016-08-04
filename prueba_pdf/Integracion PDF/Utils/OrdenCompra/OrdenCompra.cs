@@ -31,7 +31,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
             get { return _rut; }
             set
             {
-                _rut = value;
+                _rut = value.Replace(" ","");
                 if (_rut.Contains('-'))
                 {
                     _rut = _rut.Split('-')[0];

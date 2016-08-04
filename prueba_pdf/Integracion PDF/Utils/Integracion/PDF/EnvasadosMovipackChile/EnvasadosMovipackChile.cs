@@ -5,22 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile
 {
-    class ShawAlmexChile
+    class EnvasadosMovipackChile
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s"},
-            {1, @"^\d{1,}\s[a-zA-Z]{1,2}\d{7}\s\d{1,}\s" }
+            {0, @"^[a-zA-Z]{1,2}\d{5,6}$"}, //SKU, Siguiente linea Precios y Cantidad
+            {1, @"^[a-zA-Z]{1,2}\d{5,6}\s[a-zA-Z]{1,}\s" } // Una sola linea todo el contenido
         };
-        private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "Orden de Compra";
+        private const string RutPattern = "Rut :";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA NRO";
         private const string ItemsHeaderPattern =
-            "Item Codigo cant unid. Descripción";
+            "Producto Descripcion Cantidad Precio Total";
 
-        private const string CentroCostoPattern = "de entrega:";
+        private const string CentroCostoPattern = "Lugar de Despacho";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -34,10 +34,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public ShawAlmexChile(PDFReader pdfReader)
+        public EnvasadosMovipackChile(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArraySimpleStrategy();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -62,9 +62,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                Rut = "99.578.050-K",
-                CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -76,23 +74,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
                         _readOrdenCompra = true;
                     }
                 }
-                //if (!_readRut)
-                //{
-                //    if (IsRutPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.Rut = GetRut(_pdfLines[i]);
-                //        _readRut = true;
-                //    }
-                //}
+                if (!_readRut)
+                {
+                    if (IsRutPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                        _readRut = true;
+                    }
+                }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
+                if (!_readCentroCosto)
+                {
+                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        _readCentroCosto = true;
+                    }
+                }
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -130,16 +128,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
-                //Console.WriteLine($"AUX: {aux}, OP: {optItem}");
                 switch (optItem)
                 {
                     case 0:
-                        var test0 = aux.Split(' ');
+                        var test0 = pdfLines[++i].Trim().DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[1],
-                            Cantidad = test0[2].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            Sku = aux,
+                            Cantidad = test0[test0.Length - 3].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Replace(".", "").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
@@ -148,11 +145,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
                         var test1 = aux.Split(' ');
                         var item1 = new Item
                         {
-                            Sku = test1[1],
-                            Cantidad = test1[2].Split(',')[0],
-                            Descripcion = test1.ArrayToString(4,test1.Length -2),
-                            Precio = test1[test1.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                            Sku = test1[0],
+                            Cantidad = test1[test1.Length - 3].Split(',')[0],
+                            Precio = test1[test1.Length - 2].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item1);
                         break;
@@ -196,8 +192,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            return str.Replace("Lugar de Despacho", "").Replace("Tipo Moneda PESOS", "").Replace(",","").Replace(".", "").DeleteContoniousWhiteSpace();
         }
 
 
@@ -209,8 +204,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         /// <summary>
@@ -222,7 +217,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         private static string GetRut(string str)
         {
             var split = str.Split(':');
-            return split[1];
+            return split[1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)

@@ -44,7 +44,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         internal static void ExtractTextSimpleStrategy(string pdfP)
         {
             var pdfReader = new PDFReader(pdfP);
-            foreach (var line in pdfReader.ExtractTextFromPdfToArraySimpleTextExtractionStrategy())
+            foreach (var line in pdfReader.ExtractTextFromPdfToArraySimpleStrategy())
             {
                 SavePdfToTxt(
                     pdfP.

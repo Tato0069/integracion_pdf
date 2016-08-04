@@ -93,6 +93,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {64, "Shaw Almex Chile S.A." }, //MZAPATA
             {65, "UNITED NATIONS" },//MZAPATA
             {66, "INGENIERIA Y COMERCIALIZADORA RIEGO 2010 S.A." }, //MZAPATA
+            {67, "ENVASADOS MOVIPACK CHILE LTDA." }, //MZAPATA
+            {68, "Larraín y Asociados Ltda." },//MZAPATA
+            {69, "Laboratorios LBC Limitada" }, //MZAPATA
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

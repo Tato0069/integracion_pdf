@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
 {
-    class ShawAlmexChile
+    class LaboratorioLBC
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s"},
-            {1, @"^\d{1,}\s[a-zA-Z]{1,2}\d{7}\s\d{1,}\s" }
+            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
+            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
         private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "Orden de Compra";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA N";
         private const string ItemsHeaderPattern =
-            "Item Codigo cant unid. Descripción";
+            "Cuenta Descripción Cantidad Precio Total";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -34,10 +34,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public ShawAlmexChile(PDFReader pdfReader)
+        public LaboratorioLBC(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArraySimpleStrategy();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -62,7 +62,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                Rut = "99.578.050-K",
                 CentroCosto = "0",
                 TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
@@ -72,18 +71,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
                         _readOrdenCompra = true;
                     }
                 }
-                //if (!_readRut)
-                //{
-                //    if (IsRutPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.Rut = GetRut(_pdfLines[i]);
-                //        _readRut = true;
-                //    }
-                //}
+                if (!_readRut)
+                {
+                    if (IsRutPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                        _readRut = true;
+                    }
+                }
 
                 //if (!_readCentroCosto)
                 //{
@@ -130,31 +129,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
-                //Console.WriteLine($"AUX: {aux}, OP: {optItem}");
                 switch (optItem)
                 {
                     case 0:
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[1],
-                            Cantidad = test0[2].Split(',')[0],
+                            Sku = test0[6],
+                            Cantidad = test0[4].Split(',')[0],
                             Precio = test0[test0.Length - 2].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
-                        break;
-                    case 1:
-                        var test1 = aux.Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = test1[1],
-                            Cantidad = test1[2].Split(',')[0],
-                            Descripcion = test1.ArrayToString(4,test1.Length -2),
-                            Precio = test1[test1.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
-                        };
-                        items.Add(item1);
                         break;
                 }
             }

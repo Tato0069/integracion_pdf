@@ -36,7 +36,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComerci
         public IngenieriaComercializadoraRiego(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArraySimpleStrategy();
         }
 
         private static void SumarIguales(List<Item> items)

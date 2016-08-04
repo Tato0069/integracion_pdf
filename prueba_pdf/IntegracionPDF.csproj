@@ -135,6 +135,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dole\Dole.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\EnvasadosMovipackChile\EnvasadosMovipackChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ExpressSantiago\ExpressSantiago.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\FoodFantasy\FoodFantasy.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\GenericClass.cs" />
@@ -155,6 +156,8 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuCumminsArrienda.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuDistribuidoraCummins.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuReman.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\LaboratorioLBC\LaboratorioLBC.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainSalas\LarrainSalas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Megasalud\Megasalud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
