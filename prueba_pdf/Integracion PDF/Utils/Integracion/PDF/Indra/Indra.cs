@@ -16,7 +16,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
         public Indra(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static bool IsComment(string str)

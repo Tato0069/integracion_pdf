@@ -11,9 +11,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s"},
-            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
-            //1- 1 S200124 
+            {0, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s" },
+            {1, @"^\d{1,}-\s\d{1,}\s[a-zA-Z]{1,3}\d{4,6}\s" }
         };
         private const string RutPattern = "RUT:";
         private const string OrdenCompraPattern = "Pedido Proveedor";
@@ -37,7 +36,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         public ConsorcioCompaniaSeguridad(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -60,7 +59,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompra.OrdenCompra();
+            OrdenCompra = new OrdenCompra.OrdenCompra
+            {
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionExacta
+            };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -132,9 +134,21 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
                         {
                             Sku = test0[2],
                             Cantidad = test01[test01.Length - 5].Replace(",", ""),
-                            Precio = test01[test01.Length - 3].Replace(",","")
+                            Precio = test01[test01.Length - 3].Replace(",",""),
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = test1[2],
+                            Cantidad = test1[test1.Length - 5].Replace(",", ""),
+                            Precio = test1[test1.Length - 3].Replace(",", ""),
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                        };
+                        items.Add(item1);
                         break;
                 }
             }

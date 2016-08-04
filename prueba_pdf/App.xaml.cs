@@ -45,7 +45,7 @@ namespace IntegracionPDF
             //BANDERITA POST IT INDIVIDUAL VERDE
             //BANDERITA POST-IT SET 4 COLORES
 
-            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("PAÑO COCINA ESPONJA SPONGI 3UN VIRUTEX");
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("RESMA DE PAPEL T/CARTA");
             var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
             Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";

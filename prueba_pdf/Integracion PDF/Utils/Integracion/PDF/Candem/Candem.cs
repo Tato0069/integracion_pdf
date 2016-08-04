@@ -34,7 +34,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Candem
         public Candem(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private int GetFormatItemsPattern(string str)

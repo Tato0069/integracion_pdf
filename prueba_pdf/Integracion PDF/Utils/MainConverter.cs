@@ -17,7 +17,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         public static void ExtractTextDefaultMode(string path)
         {
             var pdfReader = new PDFReader(path);
-            foreach (var line in pdfReader.ExtractTextFromPdfToArray())
+            foreach (var line in pdfReader.ExtractTextFromPdfToArrayDefaultMode())
             {
                 SavePdfToTxt(
                     path.

@@ -14,12 +14,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         {
             {0, @"\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}"},
             {1, @"\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$"},
+            {2, @"^[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$" }
             //U370423 2 $369 $ 738
         };
         private const string RutPattern = "R.U.T.:";
         private const string OrdenCompraPattern = "N°Reg.";
         private const string ItemsHeaderPattern =
-            "Descripción del Articulo Codigo Cantidad Valor Unitario Valor Total";
+            "Codigo Cantidad Valor Unitario Valor Total";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Conforme a vuestra cotización";
@@ -38,7 +39,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         public CorporacionDesarrolloTecnologico(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -63,7 +64,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "0"
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -139,6 +141,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
                         Console.WriteLine($"AUX: {aux}");
                         var item1 = new Item
                         {
+                            TipoPareoProducto = TipoPareoProducto.SinPareo,
                             Sku = test1[test1.Length - 3], //GetSku(test1),
                             Cantidad = test1[test1.Length - 2].Split(',')[0],
                             Precio = test1[test1.Length - 1].Replace(".", "")//.Split(',')[0]
@@ -149,11 +152,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
+                            TipoPareoProducto = TipoPareoProducto.SinPareo,
                             Sku = test0[test0.Length - 4],
                             Cantidad = test0[test0.Length - 3].Split(',')[0],
                             Precio = test0[test0.Length - 2].Replace(".", "")//.Split(',')[0]
                         };
                         items.Add(item0);
+                        break;
+                    case 2:
+                        var test2 = aux.Split(' ');
+                        var item2 = new Item
+                        {
+                            TipoPareoProducto = TipoPareoProducto.SinPareo,
+                            Sku = test2[0],
+                            Cantidad = test2[test2.Length - 3].Split(',')[0],
+                            Precio = test2[test2.Length - 2].Replace(".", "")//.Split(',')[0]
+                        };
+                        items.Add(item2);
                         break;
                 }
             }
@@ -226,11 +241,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
+            str = str.Replace(".", "");
             str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"STR: {str}, OP: {ret}");
             return ret;
         }
 

@@ -24,7 +24,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Komatsu
         public Komatsu(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static bool IsItem(string str)

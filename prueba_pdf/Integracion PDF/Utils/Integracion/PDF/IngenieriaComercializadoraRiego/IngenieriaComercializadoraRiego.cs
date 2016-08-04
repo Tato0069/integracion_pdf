@@ -5,26 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializadoraRiego
 {
-    class Arauco
+    class IngenieriaComercializadoraRiego
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"\s\d{18}$" }
-
-            //000000000000040951
-            //D91 100 01/08/2016 16:00 1.929,00 192.900,00
+            {0, @"^\d{1,}.\s[a-zA-Z]{2}\s"},
         };
-        private const string RutPattern = "Rut ";
-        private const string OrdenCompraPattern = "Núm. Pedido";
+        private const string RutPattern = "Rut:";
+        private const string OrdenCompraPattern = "Nº OC:";
         private const string ItemsHeaderPattern =
-            "Item Descripción Unidad Cantidad Plazo Entrega";
+            "Cantidad U. Med. Descripción Codigo P.Unit Valor Total";
 
         private const string CentroCostoPattern = "de entrega:";
-        private const string ObservacionesPattern = "Sirvase suministrar a :";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -37,7 +33,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public Arauco(PDFReader pdfReader)
+        public IngenieriaComercializadoraRiego(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -65,8 +61,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "0"
-
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -74,7 +70,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        i += 2;
                         OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
@@ -96,22 +91,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
                 //        _readCentroCosto = true;
                 //    }
                 //}
-                if (!_readObs)
-                {
-                    if (IsObservacionPattern(_pdfLines[i]))
-                    {
-                        var obsAux = "";
-                        for(var x = i+3; x < i + 10 && !_pdfLines[x].Contains("Cond. Entrega:"); x++)
-                        {
-                            if (_pdfLines[x].Contains("documentos guía de despacho o factura")) continue;
-                            if (_pdfLines[x].Contains("ejecutivo-cedible")) continue;
-                            if (_pdfLines[x].Contains("ejecutivo-cedible")) continue;
-                            obsAux += $" {_pdfLines[x]}";
-                        }
-                        OrdenCompra.Observaciones += obsAux;
-                        _readObs = true;
-                    }
-                }
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -138,29 +128,20 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
+                Console.WriteLine($"AUX: {aux}, OP: {optItem}");
                 switch (optItem)
                 {
                     case 0:
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0]
+                            Sku = "W102030",
+                            Cantidad = test0[0].Replace(".", ""),
+                            Descripcion = test0.ArrayToString(2, test0.Length - 3).ToUpper(),
+                            Precio = test0[test0.Length - 2].Replace(",", "").Replace(".", ""),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
-                        break;
-                    case 1:
-                        var previous = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
-                        var pTest1 = previous.Split(' ');
-                        var test1 = aux.Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = int.Parse(test1[test1.Length - 1]).ToString(),
-                            Cantidad = pTest1[pTest1.Length - 5],
-                            Precio = pTest1[pTest1.Length - 2].Replace(".", "").Split(',')[0]
-                        };
-                        items.Add(item1);
                         break;
                 }
             }
@@ -215,7 +196,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            return str;
+            var split = str.Split(':');
+            return split[split.Length -1].Trim();
         }
 
         /// <summary>
@@ -226,7 +208,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            return str.Split(' ')[1];
+            var split = str.Split(':');
+            return split[1].Replace("Fono", "").Trim();
         }
 
         private int GetFormatItemsPattern(string str)

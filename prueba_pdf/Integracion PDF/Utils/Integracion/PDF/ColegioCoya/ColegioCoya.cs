@@ -36,7 +36,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColegioCoya
         public ColegioCoya(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)

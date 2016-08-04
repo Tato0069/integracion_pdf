@@ -64,6 +64,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColegioCoya;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstruccion;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ShawAlmexChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.UnitedNations;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializadoraRiego;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -449,7 +450,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 48:
                     var consorcioSeguridad = new ConsorcioCompaniaSeguridad(pdfReader);
                     ordenCompra = consorcioSeguridad.GetOrdenCompra();
-                    ocAdapter = ordenCompra.ParearCentroCostoSinSku();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                 case 49:
                     var megaSalud = new Megasalud(pdfReader);
@@ -491,7 +492,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 56:
                     var corporacionDesarrolloTecnologico = new CorporacionDesarrolloTecnologico(pdfReader);
                     ordenCompra = corporacionDesarrolloTecnologico.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoSinPareo();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                 case 57:
                     var aguasAndinas = new Ecoriles(pdfReader);
@@ -537,6 +538,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 65:
                     var unitedNations = new UnitedNations(pdfReader);
                     ordenCompra = unitedNations.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 66:
+                    var ingeniericaComercializadoraRiego = new IngenieriaComercializadoraRiego(pdfReader);
+                    ordenCompra = ingeniericaComercializadoraRiego.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 

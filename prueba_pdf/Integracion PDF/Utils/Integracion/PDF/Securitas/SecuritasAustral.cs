@@ -18,7 +18,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Securitas
         public SecuritasAustral(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
 

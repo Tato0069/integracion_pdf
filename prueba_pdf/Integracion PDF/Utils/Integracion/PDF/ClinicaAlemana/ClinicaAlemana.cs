@@ -19,7 +19,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
         public ClinicaAlemana(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
 

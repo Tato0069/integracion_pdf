@@ -22,7 +22,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
         public ClinicaDavila(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         public OrdenCompraClinicaDavila GetOrdenCompraProcesada()
@@ -59,7 +59,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
             var item = false;
             var list = new List<string>();
             var pdfReader = new PDFReader(pdf);
-            var pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            var pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
             foreach (var rawLin in pdfLines)
             {
                 if (!item)

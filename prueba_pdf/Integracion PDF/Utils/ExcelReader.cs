@@ -85,7 +85,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             MainConverter.SaveExcelToPdf(_excelPath, pdfOutput);
             var pdfReader = new PDFReader(pdfOutput);
             var ret = pdfReader.ExtractTextFromPdfToString();
-            RawArrayString = pdfReader.ExtractTextFromPdfToArray();
+            RawArrayString = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
             Main.Main.DeleteFile(pdfOutput);
             return ret;
         }

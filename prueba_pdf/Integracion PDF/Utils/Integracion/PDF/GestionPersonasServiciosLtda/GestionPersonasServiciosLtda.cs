@@ -37,7 +37,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.GestionPersonasSe
         public GestionPersonasServiciosLtda(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
             //var success = Regex.Match("asdasd", @"^\d{1,}\s\d{1,}\w{1,}\s|\s($)\s\d{2,}\s($)\s\d{2,}$").Success;
         }
 

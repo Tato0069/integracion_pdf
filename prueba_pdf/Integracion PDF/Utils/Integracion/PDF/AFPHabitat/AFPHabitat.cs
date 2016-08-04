@@ -37,7 +37,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AFPHabitat
         public AFPHabitat(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)

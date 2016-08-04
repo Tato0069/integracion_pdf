@@ -53,7 +53,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.VitaminaWorkLife
             {
                 _pdfReader = pdfReader;
             }
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
 
@@ -194,7 +194,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.VitaminaWorkLife
             var pdf = new PDFReader(pdfCc);
             var ret = "0";
             var item = false;
-            foreach (var s in pdf.ExtractTextFromPdfToArray())
+            foreach (var s in pdf.ExtractTextFromPdfToArrayDefaultMode())
             {
                 //Console.WriteLine($"CENCOS : {s}");
                 if (s.Contains("Codigo Detalle Centro de Costo Cantidad Precio")) item = true;

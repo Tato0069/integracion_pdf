@@ -31,7 +31,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.XLSX.Flores
         public Flores(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)

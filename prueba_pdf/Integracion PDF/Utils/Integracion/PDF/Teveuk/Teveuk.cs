@@ -35,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Teveuk
         public Teveuk(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArray();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         private static void SumarIguales(List<Item> items)
