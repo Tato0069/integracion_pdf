@@ -100,11 +100,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {71, "Biomedical Distribution Chile Ltda" }, //MZAPATA
             {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
             {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR
-            {74, "ARIDOS SANTA FE S.A" }, //MZAPATA
-            { 69, "Laboratorios LBC Limitada" }, //MZAPATA
+            {74, "ARIDOS SANTA FE S.A" }, //MZAPATA            
+            {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
+
+
+
+
+
 
             { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
-            {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
