@@ -68,6 +68,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializ
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainSalas;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -564,6 +565,12 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var laboratorioLBC = new LaboratorioLBC(pdfReader);
                     ordenCompra = laboratorioLBC.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
+                case 200:
+                    var cerveceriaCCU = new CerveceriaCCU(pdfReader);
+                    ordenCompra =  cerveceriaCCU.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
 
