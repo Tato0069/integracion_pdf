@@ -68,6 +68,9 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComercializ
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipackChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainSalas;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ProyektaSA;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.BiomedicalDistributionChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
 
 namespace IntegracionPDF.Integracion_PDF.Main
@@ -564,6 +567,30 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 69:
                     var laboratorioLBC = new LaboratorioLBC(pdfReader);
                     ordenCompra = laboratorioLBC.GetOrdenCompra();
+                    //FALTA HOMOLOGACION Y CCC
+                    break;
+                case 70:
+                    var proyektaSA = new ProyektaSA(pdfReader);
+                    ordenCompra = proyektaSA.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 71:
+                    var biomedicalDistributionChile = new BiomedicalDistributionChile(pdfReader);
+                    ordenCompra = biomedicalDistributionChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 72:
+                    var loginsa = new BiomedicalDistributionChile(pdfReader);
+                    ordenCompra = loginsa.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    //IDENTIFICAR CC
+                    break;
+                case 73:
+                    //INTEGRAR
+                    break;
+                case 74:
+                    var aridosSantaFerSA = new AridosSantaFeSA(pdfReader);
+                    ordenCompra = aridosSantaFerSA.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 

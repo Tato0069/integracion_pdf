@@ -95,6 +95,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {66, "INGENIERIA Y COMERCIALIZADORA RIEGO 2010 S.A." }, //MZAPATA
             {67, "ENVASADOS MOVIPACK CHILE LTDA." }, //MZAPATA
             {68, "Larraín y Asociados Ltda." },//MZAPATA
+            {69, "Laboratorios LBC Limitada" }, //MZAPATA
+            //{70, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
+            {70, "76.053.505-2:76053505" }, //MZAPATA PROYEKTA S.A.
+            {71, "Biomedical Distribution Chile Ltda" }, //MZAPATA
+            {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
+            {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR
+            {74, "ARIDOS SANTA FE S.A" }, //MZAPATA
             { 69, "Laboratorios LBC Limitada" }, //MZAPATA
 
             { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
