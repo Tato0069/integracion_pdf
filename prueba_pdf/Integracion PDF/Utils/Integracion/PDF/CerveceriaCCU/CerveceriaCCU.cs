@@ -12,8 +12,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"\d{1,}\s[a-zA-Z]{2,}\s\d{1,}\s\d{1,}\s\d{1,}$"},
+          
         };
         private const string RutPattern = "Rut:";
         private const string OrdenCompraPattern = "Condiciones Pago";
@@ -135,10 +135,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Sku = "W102030",
+                            Cantidad = test0[test0.Length -5].Split(',')[0],
+                            Precio = test0[test0.Length - 3].Split(',')[0],
+                            Descripcion = test0.ArrayToString(1,test0.Length - 5),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
                         break;
@@ -213,7 +214,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.DeleteDotComa();
+            str = str.Replace(",", "").Replace(".", "").Replace("/", "");
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
