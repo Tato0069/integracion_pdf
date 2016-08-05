@@ -891,7 +891,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             try
             {
                 InstanceTransferWeb.Open();
-                var sql = $"SELECT GET_PRECIOPROD({rutCli},{cencos},'{codpro}',{codemp}) PRECIO FROM DUAL";
+                var sql = $"SELECT GET_PRECIOPROD_BK({rutCli},{cencos},'{codpro}',{codemp}) PRECIO FROM DUAL";
 
                 Console.WriteLine(sql);
                 var command = new OracleCommand(sql, InstanceTransferWeb);

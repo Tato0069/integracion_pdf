@@ -113,10 +113,13 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AIEP\Aiep.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Alsacia\Alsacia.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Arauco\Arauco.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\AridosSantaFeSA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Candem\Candem.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Carozzi\Carozzi.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\CementosTransex\CementosTransex.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\Cencosud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\CencosudRetailSa.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\CencosudShoping.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CorporacionDesarrolloTecnologico\CorporacionDesarrolloTecnologico.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\DepositosContenedores\DepositosContenedores.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dole\Dole.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
@@ -162,6 +166,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\PizzaHut\PizzaHut.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ProyektaSA\ProyektaSA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Securitas\SecuritasAdapter.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Securitas\SecuritasAustral.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dellanatura\Dellanatura.cs" />

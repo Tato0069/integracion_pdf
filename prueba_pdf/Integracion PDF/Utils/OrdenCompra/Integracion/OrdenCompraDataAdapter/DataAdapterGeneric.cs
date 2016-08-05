@@ -360,11 +360,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         ? int.Parse(it.Precio)
                         : precio, //int.Parse(it.Precio),
                     SubTotal = sku.Equals("W102030")
-                        ? (int.Parse(it.Precio) * int.Parse(it.Cantidad)) / multiplo
+                        ? (int.Parse(it.Precio) * int.Parse(it.Cantidad))
                         : (int.Parse(it.Cantidad) * precio) / multiplo,
-
-                    //Precio = precio, //int.Parse(it.Precio),
-                    //SubTotal = (int.Parse(it.Cantidad) * precio)/multiplo,
                     SkuDimerc = sku
                 };
                 ret.AddDetalleCompra(dt);
