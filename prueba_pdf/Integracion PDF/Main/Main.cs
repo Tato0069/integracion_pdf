@@ -71,8 +71,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ProyektaSA;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.BiomedicalDistributionChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
