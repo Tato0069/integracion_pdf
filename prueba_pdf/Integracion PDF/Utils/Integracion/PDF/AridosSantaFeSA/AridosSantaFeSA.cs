@@ -13,6 +13,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
             {0, @"^\d{1,}\s\d{1,}\s[a-zA-Z]{1,}\s"},
+            {1, @"^\d{1,}\s[a-zA-Z0-9]{10}\s\d{1,}\s[a-zA-Z]{1,}\s" }
+            //12 C1Z1Z11455 2,00 
         };
         private const string RutPattern = "RUT";
         private const string OrdenCompraPattern = "Orden de Compra N";
@@ -136,10 +138,21 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         {
                             Sku = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
                             Cantidad = test0[1].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Replace(".","").Split(',')[0],
+                            Precio = test0[test0.Length - 2].Replace(".", "").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
+                            Cantidad = test1[2].Split(',')[0],
+                            Precio = test1[test1.Length - 2].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                        };
+                        items.Add(item1);
                         break;
                 }
             }
@@ -214,7 +227,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         {
             var ret = -1;
             str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(",", "").Replace(".", ""), it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace("Ñ","N").Replace(",", "").Replace(".", ""), it.Value).Success))
             {
                 ret = it.Key;
             }
