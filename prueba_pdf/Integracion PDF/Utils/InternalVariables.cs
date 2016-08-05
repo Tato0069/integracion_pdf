@@ -101,6 +101,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
             {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR
             {74, "ARIDOS SANTA FE S.A" }, //MZAPATA
+            { 69, "Laboratorios LBC Limitada" }, //MZAPATA
+
+            { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
         };
 

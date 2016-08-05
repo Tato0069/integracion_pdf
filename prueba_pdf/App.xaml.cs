@@ -39,9 +39,9 @@ namespace IntegracionPDF
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
             //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
-            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Azúcar Granulada Iansa 1 kg");
-            var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
-            Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Azúcar Granulada Iansa 1 kg");
+            //var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
+            //Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";
             //var precio2 = OracleDataAccess.GetPrecioConvenio("76522179", "0", sku2, "0");
             //Console.WriteLine($"SKU: {sku2}, PRECIO: {precio2}");

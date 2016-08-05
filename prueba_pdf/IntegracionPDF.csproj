@@ -125,6 +125,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\CencosudShoping.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\CencosudTest.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\Easy.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\CerveceriaCCU\CerveceriaCCU.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Clariant\Clariant.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemana.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemanaArtikosFormat.cs" />
