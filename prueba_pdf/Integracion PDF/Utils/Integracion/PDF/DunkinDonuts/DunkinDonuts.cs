@@ -12,7 +12,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{6}\s[a-zA-Z]{1,}"},
+            //{0, @"^\d{6}\s[a-zA-Z]{1,}"},
+            {1, @"\s\d{1,}\s\d{1,}\s[a-zA-Z]{2,}\s\d{1,}$" }
+            //Z301 SOBRE AMERICANO KRAF 450000 2900 UN 130500
         };
         private const string RutPattern = "Emisión :";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
@@ -116,11 +118,23 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts
                         {
                             Sku = test0[0],
                             Descripcion = test0.ArrayToString(1, test0.Length - 4),
-                            Cantidad = test0[test0.Length - 4].Split('.')[0],
-                            Precio = test0[test0.Length - 3].Split('.')[0].Replace(",",""),
+                            Cantidad = test0[test0.Length - 4].Replace(",","").Split('.')[0],
+                            Precio = test0[test0.Length - 3].Replace(",", "").Split('.')[0].Replace(",", ""),
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = test1[0],
+                            //Descripcion = test1.ArrayToString(1, test1.Length - 4),
+                            Cantidad = test1[test1.Length - 4].Replace(",", "").Split('.')[0],
+                            Precio = test1[test1.Length - 3].Replace(",", "").Split('.')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                        };
+                        items.Add(item1);
                         break;
                 }
             }

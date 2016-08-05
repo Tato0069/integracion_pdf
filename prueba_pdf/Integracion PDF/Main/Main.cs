@@ -71,6 +71,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ProyektaSA;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.BiomedicalDistributionChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -591,6 +592,10 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var aridosSantaFerSA = new AridosSantaFeSA(pdfReader);
                     ordenCompra = aridosSantaFerSA.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 75:
+                    var cementosTransex = new CementosTransex(pdfReader);
+                    ordenCompra = cementosTransex.GetOrdenCompra();
                     break;
 
 

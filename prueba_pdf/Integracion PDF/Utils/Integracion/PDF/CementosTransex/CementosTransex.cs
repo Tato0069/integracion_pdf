@@ -12,8 +12,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"^\d{1,}\s[a-zA-Z]{1}\d{9}\s\d{1,}\s"},
+            {1, @"^\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}$" }
         };
         private const string RutPattern = "RUT";
         private const string OrdenCompraPattern = "Orden de Compra";
@@ -67,31 +67,32 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
-                if (!_readOrdenCompra)
-                {
-                    if (IsOrdenCompraPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
-                        _readOrdenCompra = true;
-                    }
-                }
+                //if (!_readOrdenCompra)
+                //{
+                //    if (IsOrdenCompraPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                //        _readOrdenCompra = true;
+                //    }
+                //}
                 if (!_readRut)
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
                         OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
                     }
                 }
 
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        _readCentroCosto = true;
-                    }
-                }
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -135,12 +136,25 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Sku = "W102030",
+                            Cantidad = test0[2].Split(',')[0],
+                            Descripcion = test0.ArrayToString(3, test0.Length - 4),
+                            Precio = test0[test0.Length - 3].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = "W102030",
+                            Cantidad = test1[1].Split(',')[0],
+                            Descripcion = pdfLines[i - 1].Trim().DeleteContoniousWhiteSpace().Split(' ').ArrayToString(1, test1.Length - 1),
+                            Precio = test1[test1.Length - 3].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                        };
+                        items.Add(item1);
                         break;
                 }
             }
@@ -195,8 +209,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(':');
-            return split[1].Trim();
+            return str;
         }
 
         /// <summary>
@@ -207,15 +220,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(':');
-            return split[1];
+            return str;
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
             str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(",","").Replace(".",""), it.Value).Success))
             {
                 ret = it.Key;
             }
