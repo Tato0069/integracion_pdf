@@ -608,6 +608,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 76:
                     var ezentis = new Ezentis(pdfReader);
                     ordenCompra = ezentis.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
 

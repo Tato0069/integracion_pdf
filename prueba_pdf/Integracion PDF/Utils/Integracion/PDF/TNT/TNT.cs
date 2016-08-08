@@ -15,7 +15,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
             {0, @"^\d{5}\s\w{1}\d{6}\s|^\d{5}\s\w{2}\d{6}\s|^\d{5}\s\w{1}\d{6}#|^\d{5}\s\w{2}\d{6}#"},
             {1, @"^\d{5}\s\w{1}\d{6}\w|^\d{5}\s\w{2}\d{6}\w" },
             {2,@"^\d{5}\s[a-zA-Z]{1,2}\d{5,6}-" },
-            {3,@"^\d{5}\s[a-zA-Z]{1,2}\d{5,6}\)" }
+            {3,@"^\d{5}\s[a-zA-Z]{1,2}\d{5,6}\)" },
+            {4,@"^\d{5}\s[a-zA-Z]{1,2}\d{5,6}[a-zA-Z]{1,}" }
         };
         private const string RutPattern = "RUT:_";
         private const string OrdenCompraPattern = "Orden de Compra N°:";
@@ -195,20 +196,28 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         var case3 = aux.Split(' ');
                         var itemCase3 = new Item
                         {
-                            Sku = GetSku(case3[1].Replace(")"," ")).ToUpper()
+                            Sku = GetSku(case3[1].Replace(")", " ")).ToUpper()
                         };
                         aux = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
                         var case31 = aux.Split(' ');
                         itemCase3.Cantidad = case31[0];
                         itemCase3.Precio = case31[case31.Length - 3].Replace(".", "");
-                        //if (!item1.Sku.Contains("#")
-                        //    && (item1.Sku.Contains("ZZ")
-                        //    || item1.Sku.Contains("LL")))
-                        //{
-                        //    item1.Sku = item1.Sku.Substring(1);
-                        //}
                         itemCase3.Sku = NormaliceSku(itemCase3.Sku);//.Split('#')[0];
                         items.Add(itemCase3);
+                        break;
+                    case 4:
+                        Console.WriteLine($"CASE 4:{aux}");
+                        var case4 = aux.Split(' ');
+                        var itemCase4 = new Item
+                        {
+                            Sku = GetSku(case4[1].Replace(")", " ")).ToUpper()
+                        };
+                        aux = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
+                        var case41 = aux.Split(' ');
+                        itemCase4.Cantidad = case41[0];
+                        itemCase4.Precio = case41[case41.Length - 3].Replace(".", "");
+                        itemCase4.Sku = NormaliceSku(itemCase4.Sku);//.Split('#')[0];
+                        items.Add(itemCase4);
                         break;
                 }
 
@@ -239,8 +248,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
 
         private string GetSku(string str)
         {
-            var it1 = @"\w{1}\d{6}";
-            var it2 = @"\w{2}\d{6}";
+            var it1 = @"[a-zA-Z]{1}\d{6}";
+            var it2 = @"[a-zA-Z]{2}\d{5}";
             var index = 0;
             var length = 7;
             if (Regex.Match(str, it1).Success)

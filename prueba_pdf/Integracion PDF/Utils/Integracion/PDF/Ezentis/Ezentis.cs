@@ -12,15 +12,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"\s\d{1,}\s\d{10}$"},
-            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"^CLP\s\d{1,}\s\d{3}\s\d{1,}\sCLP\s\d{1,}\s" },//@"\s\d{1,}\s\d{10}$"},
+            {1, @"^CLP\s\d{1,}\s000\s\d{1,}\sCLP\s\d{1,}$" }
         };
         private const string RutPattern = "RUT :";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
             "Item Cant. U/M Cod. Artículo";
 
-        private const string CentroCostoPattern = "de entrega:";
+        private const string CentroCostoPattern = "Lugar de Entrega :";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -63,8 +63,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
                 CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo,
-                NumeroCompra = _pdfReader.PdfFileName
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -139,11 +138,45 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
                         {
                             Sku = "W102030",//test0[6],
                             Descripcion = test0.ArrayToString(6, test0.Length -2),
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Cantidad = test0[test0.Length - 2].Replace(".","").Split(',')[0],
+                            Precio = test0[5].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        //var concatString1 = "";
+                        //var j = i;
+                        //for (; !Regex.Match(pdfLines[j].Trim().Replace(",", "").Replace(".", "")
+                        //    .DeleteContoniousWhiteSpace(), @"^CLP\s\d{1,}\s\d{3}\s\d{1,}\sCLP\s\d{1,}\s").Success
+                        //    ;j++)
+                        //{
+                        //    concatString1 += $"{pdfLines[j].Trim()} ";
+                        //}
+                        var concatString2 = pdfLines[i].Trim();
+                        for(var j = i+1;j< pdfLines.Length - 1; j++)
+                        {
+                            if (Regex.Match(pdfLines[j].Trim().Replace(",", "").Replace(".", "")
+                            .DeleteContoniousWhiteSpace(), @"^CLP\s\d{1,}\s\d{3}\s\d{1,}\sCLP\s\d{1,}").Success)
+                                break;
+                            concatString2 += $" {pdfLines[j].Trim()} ";
+                        }
+                        Console.WriteLine($"CONCATSTRING: {concatString2.DeleteContoniousWhiteSpace()}");
+                        var test1 = concatString2.DeleteContoniousWhiteSpace().Split(' ');
+                        var p = 1;
+                        var item1 = new Item
+                        {
+                            //Sku = "W102030",//test0[6],
+                            //Precio = test1[test1.Length - 1].Replace(".", "").Split(',')[0],
+                            //TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                            Sku = "W102030",//test0[6],
+                            Descripcion = test1.ArrayToString(6, test1.Length - 2),
+                            Cantidad = !int.TryParse(test1[test1.Length - 2].Replace(".", "").Split(',')[0], out p)? "0": p.ToString(),
+                            Precio = !int.TryParse(test1[test1.Length - 2].Replace(".", "").Split(',')[0], out p) ? "0" : p.ToString(),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                        };
+                        Console.WriteLine("--" + test1[test1.Length - 2].Replace(".", "").Split(',')[0]+", P: "+p);
+                        items.Add(item1);
                         break;
                 }
             }
@@ -185,8 +218,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            var split = str.Split(':');
+            return split[split.Length-1].Trim().Replace("#","");
         }
 
 
@@ -217,10 +250,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(",",""), it.Value).Success))
+            str = str.Replace(",", "").Replace(".", "");
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"STR: {str}, OP: {ret}");
             return ret;
         }
 
