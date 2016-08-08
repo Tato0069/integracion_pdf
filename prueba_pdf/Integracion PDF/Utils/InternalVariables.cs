@@ -112,7 +112,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
             { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
             { 201, "CONSTRUCTORA SANTAFE S.A." }, //APARDO
-            {202, "SEIDOR CHILE S.A" }, //APARDO
+            {202, "SEIDOR CHILE S.A:76139740" }, //APARDO
             {203, "CFT SAN AGUSTIN DE TALCA" } //APARDO
         };
 
