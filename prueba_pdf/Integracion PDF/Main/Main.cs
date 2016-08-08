@@ -612,7 +612,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 201:
                     var constructoraStaFe = new ConstructoraStaFe(pdfReader);
                     ordenCompra = constructoraStaFe.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                     
             }
