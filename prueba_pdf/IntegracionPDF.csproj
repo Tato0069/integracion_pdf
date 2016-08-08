@@ -143,6 +143,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\EnvasadosMovipackChile\EnvasadosMovipackChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ExpressSantiago\ExpressSantiago.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ezentis\Ezentis.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\FoodFantasy\FoodFantasy.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\GenericClass.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\GestionPersonasServiciosLtda\GepysEstLimitada.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Megasalud\Megasalud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Petrobras\Petrobras.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\PizzaHut\PizzaHut.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ProyektaSA\ProyektaSA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Securitas\SecuritasAdapter.cs" />

@@ -75,6 +75,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContenedores;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -397,6 +398,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 41:
                     var ecoriles = new Ecoriles(pdfReader);
                     ordenCompra = ecoriles.GetOrdenCompra();
+                    ordenCompra.CentroCosto = "2";
                     ocAdapter = ordenCompra.ParearSoloSKU();
                     break;
                 case 42:
@@ -602,6 +604,18 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var cementosTransex = new CementosTransex(pdfReader);
                     ordenCompra = cementosTransex.GetOrdenCompra();
                     break;
+                case 76:
+                    var ezentis = new Ezentis(pdfReader);
+                    ordenCompra = ezentis.GetOrdenCompra();
+                    break;
+
+
+
+
+
+
+
+
 
                 case 200:
                     var cerveceriaCCU = new CerveceriaCCU(pdfReader);

@@ -26,6 +26,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         /// Nombre de Archivo PDF
         /// </summary>
         public string PdfFileName => _pdfPath.Substring(_pdfPath.LastIndexOf(@"\", StringComparison.Ordinal) + 1);
+        
+        /// <summary>
+        /// Nombre de Orden de Compra de PDF
+        /// </summary>
+        public string PdfFileNameOC => _pdfPath.Substring(_pdfPath.LastIndexOf(@"\", StringComparison.Ordinal) + 1).Replace(".PDF","").Replace(".pdf","");
 
         /// <summary>
         /// Constructor
