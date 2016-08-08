@@ -76,6 +76,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContenedores;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SeidorChile;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -628,7 +629,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = constructoraStaFe.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
-                    
+                case 202:
+                    var seidorChile = new SeidorChile(pdfReader);
+                    ordenCompra = seidorChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }
