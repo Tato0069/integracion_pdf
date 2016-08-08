@@ -78,6 +78,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SeidorChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Rimasa;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -609,6 +610,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 76:
                     var ezentis = new Ezentis(pdfReader);
                     ordenCompra = ezentis.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 77:
+                    var rimasa = new Rimasa(pdfReader);
+                    ordenCompra = rimasa.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
