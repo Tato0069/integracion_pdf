@@ -1,27 +1,28 @@
-﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+﻿
+using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContenedores
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
 {
-    class DepositosContenedores
+    class ConstructoraStaFe
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            //{0, @"^\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s"},
-            {0, @"[a-zA-Z]{1,2}\d{5,6}\s" }
+            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
+            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "Dirección:";
-        private const string OrdenCompraPattern = "Orden de compra";
+        private const string RutPattern = "Facturar a:";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA N°";
         private const string ItemsHeaderPattern =
-            "Unidad Almacen Valor Total";
+            "Cantidad Precio Unitario Descto. Total";
 
-        private const string CentroCostoPattern = "Lugar de entrega:";
-        private const string ObservacionesPattern = "Lugar de entrega:";
+        private const string CentroCostoPattern = "de entrega:";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -34,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public DepositosContenedores(PDFReader pdfReader)
+        public ConstructoraStaFe(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -62,7 +63,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -70,7 +72,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -78,7 +80,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
                 }
@@ -87,18 +89,21 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
                 {
                     if (IsCentroCostoPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i+1]);
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
                         _readCentroCosto = true;
                     }
                 }
-                if (!_readObs)
-                {
-                    if (IsObservacionPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.Observaciones += _pdfLines[i + 1];
-                        _readObs = true;
-                    }
-                }
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -131,9 +136,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = GetSku(test0),
-                            Cantidad = GetCantidad(test0),
-                            Precio = GetPrecio(test0),
+                            Sku = test0[6],
+                            Cantidad = test0[4].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
@@ -144,32 +149,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
             return items;
         }
 
-        private string GetPrecio(string[] test0)
-        {
-            var ret = "-1";
-            for (var i = 0; i < test0.Length; i++)
-            {
-                if (test0[i].Equals("CLP"))
-                    return ret = test0[i+1];
-            }
-            return ret;
-        }
-
-        private string GetCantidad(string[] test0)
-        {
-            var ret = "-1";
-            for (var i = 0; i < test0.Length; i++)
-            {
-                if (test0[i].Equals("CLP"))
-                    return ret = test0[i-1];
-            }
-            return ret;
-        }
-
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[0].Replace("#", "");
+            var skuDefaultPosition = test1[5].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
@@ -200,9 +183,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var split = str.Split(' ');
-            var ret = split.ArrayToString(split.Length - 3, split.Length);
-            return ret.Replace(".","").Replace(",","").ToUpper();// str.ToUpper().Trim();
+            var aux = str.Split(':');
+            return aux[1].Trim();
         }
 
 
@@ -214,8 +196,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         /// <summary>

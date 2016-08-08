@@ -73,6 +73,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.BiomedicalDistributio
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementosTransex;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContenedores;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -587,7 +589,9 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     //IDENTIFICAR CC
                     break;
                 case 73:
-                    //INTEGRAR
+                    var depositosContenedores = new DepositosContenedores(pdfReader);
+                    ordenCompra = depositosContenedores.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                 case 74:
                     var aridosSantaFerSA = new AridosSantaFeSA(pdfReader);
@@ -602,10 +606,15 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 200:
                     var cerveceriaCCU = new CerveceriaCCU(pdfReader);
                     ordenCompra =  cerveceriaCCU.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
-
+                case 201:
+                    var constructoraStaFe = new ConstructoraStaFe(pdfReader);
+                    ordenCompra = constructoraStaFe.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                    
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }

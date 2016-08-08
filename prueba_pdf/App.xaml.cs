@@ -39,7 +39,7 @@ namespace IntegracionPDF
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
             //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Azúcar Granulada Iansa 1 kg");
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("TIJERA 7 PLASTOMETAL PREMIUM DIMERC");
             //var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
             //Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";

@@ -135,6 +135,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraStaFe\ConstructoraStaFe.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CorporacionDesarrolloTecnologico\CorporacionDesarrolloTecnologico.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DepositosContenedores\DepositosContenedores.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dole\Dole.cs" />

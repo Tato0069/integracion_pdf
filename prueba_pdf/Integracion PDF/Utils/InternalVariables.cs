@@ -109,6 +109,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
 
             { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
+            { 201, "CONSTRUCTORA SANTAFE S.A." }, //APARDO
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
