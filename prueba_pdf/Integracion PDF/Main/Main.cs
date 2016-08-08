@@ -646,7 +646,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 203:
                     var cftSanAgustin = new CftSanAgustin(pdfReader);
                     ordenCompra = cftSanAgustin.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
