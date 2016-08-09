@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
 {//^[a-zA-Z]{3,}\d{3,}\s\d{1,}\s[a-zA-Z0-9]+
-    class Eulen
+    class GrupoEulen
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
@@ -34,7 +34,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public Eulen(PDFReader pdfReader)
+        public GrupoEulen(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();

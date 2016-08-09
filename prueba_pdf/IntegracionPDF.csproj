@@ -143,7 +143,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\EnvasadosMovipackChile\EnvasadosMovipackChile.cs" />
-    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Eulen\Eulen.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Eulen\GrupoEulen.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ExpressSantiago\ExpressSantiago.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ezentis\Ezentis.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\FoodFantasy\FoodFantasy.cs" />
