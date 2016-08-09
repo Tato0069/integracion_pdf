@@ -14,6 +14,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
             {0, @"^[a-zA-Z]{3,}\d{3,}\s\d{1,2}\sUNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" },
             {1, @"\s[a-zA-Z]{1,2}\s?\d{5,6}\sUNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" },
             {2,@"\s[a-zA-Z]{1,2}\s?\d{5,6}UNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" },
+            {3,@"^[a-zA-Z]{3,}\d{3,}\s\d{1,2}\s" }
         };
         private const string RutPattern = "R.U.T. :";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
@@ -132,15 +133,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                 switch (optItem)
                 {
                     case 0:
+
+                        Console.WriteLine("====================0=====================");
                         var test0 = aux.Split(' ');
                         var strPrevious = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
                         var strNext = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
-                        //var str = $"{}";
                         var str = $"{test0.ArrayToString(0, test0.Length - 4)} {strPrevious} {strNext} {test0.ArrayToString(test0.Length - 4, test0.Length) }".DeleteContoniousWhiteSpace();
-                        //Console.WriteLine($"AUX:  {test0.ArrayToString(0,test0.Length-4)}");
-                        //Console.WriteLine($"PREVIOUS: {strPrevious}");
-                        //Console.WriteLine($"NEX: {strNext}");
-                        //Console.WriteLine($"{test0.ArrayToString(test0.Length - 4, test0.Length) }");
                         var test12 = str.Split(' ');
                         var item0 = new Item
                         {
@@ -175,6 +173,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item2);
+                        break;
+                    case 3:
+                        var test3 = aux.Split(' ');
+                        var item3 = new Item
+                        {
+                            Sku = GetSku(test3),
+                            Descripcion = test3.ArrayToString(2,test3.Length -5),
+                            Cantidad = test3[1].Split(',')[0],
+                            Precio = test3[test3.Length - 3].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                        };
+                        items.Add(item3);
                         break;
                 }
             }
@@ -252,7 +262,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
             str = str.Replace(".", "");
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
-                ret = it.Key;
+                return it.Key;
             }
             //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;

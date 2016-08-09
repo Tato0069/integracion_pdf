@@ -329,7 +329,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var sku = it.Sku.ToUpper();
+                var sku = it.Sku.ToUpper().DeleteSymbol();
                 switch (it.TipoPareoProducto)
                 {
                     case TipoPareoProducto.SinPareo:
