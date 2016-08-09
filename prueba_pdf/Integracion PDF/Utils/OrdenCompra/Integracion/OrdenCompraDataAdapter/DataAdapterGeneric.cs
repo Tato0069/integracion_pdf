@@ -345,10 +345,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
                         break;
                 }
-                if (!OracleDataAccess.ExistProduct(sku))
-                {
-                    sku = "W102030";
-                }
+                //if (!OracleDataAccess.ExistProduct(sku))
+                //{
+                //    sku = "W102030";
+                //}
+
+                if (sku.Equals("R397109"))
+                    sku = "R381114";
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);

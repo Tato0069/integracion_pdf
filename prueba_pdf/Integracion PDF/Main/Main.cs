@@ -678,14 +678,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var cftSanAgustin = new CFTSanAgustin(pdfReader);
                     ordenCompra = cftSanAgustin.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
-                    foreach(var det in ocAdapter.DetallesCompra)
-                    {
-                        if (det.SkuDimerc.Equals("R397109"))
-                        {
-                            
-                            det.SkuDimerc = "R381114";                        }
-                    }
-                    break;
+                                        break;
                 case 204:
                     var alimentosSanMartin = new AlimentosSanMartin(pdfReader);
                     ordenCompra = alimentosSanMartin.GetOrdenCompra();

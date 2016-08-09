@@ -13,8 +13,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}"},
-            {1, @"^\d{1,}\s[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}" }
+            //{0, @"^[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}"},
+            //{1, @"^\d{1,}\s[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}" },
+            {2,@"[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}$" }
         };
         private const string RutPattern = "Facturar a:";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA N°";
@@ -108,7 +109,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
                     {
-                        var items = GetItems(_pdfLines, i);
+                        var pdfLines = _pdfReader.ExtractTextFromPdfToArraySimpleStrategy();
+                        var items = GetItems(pdfLines, 0);
                         if (items.Count > 0)
                         {
                             OrdenCompra.Items.AddRange(items);
@@ -128,32 +130,44 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                var aux2 = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
+                //var aux2 = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
                 {
-                    case 0:
-                        var test0 = aux.Split(' ');
-                        var test1 = aux2.Split(' ');
-                        var item0 = new Item
-                        {
-                            Sku = test0[0],
-                            Cantidad = test1[1].Split(',')[0],
-                            Precio = test1[2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
-                        };
-                        items.Add(item0);
-                        break;
+                    //case 0:
+                    //    var test0 = aux.Split(' ');
+                    //    var test1 = aux2.Split(' ');
+                    //    var item0 = new Item
+                    //    {
+                    //        Sku = test0[0],
+                    //        Cantidad = test1[1].Split(',')[0],
+                    //        Precio = test1[2].Split(',')[0],
+                    //        TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                    //    };
+                    //    items.Add(item0);
+                    //    break;
 
-                    case 1:
+                    //case 1:
+                    //    var test3 = aux.Split(' ');
+                    //    var item1 = new Item
+                    //    {
+
+                    //        Sku = test3[1],
+                    //        Cantidad = test3[4].Split(',')[0],
+                    //        Precio = test3[5].Split(',')[0].Replace(".", ""),
+                    //        TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                    //    };
+                    //    items.Add(item1);
+                    //    break;
+                    case 2:
                         var test3 = aux.Split(' ');
                         var item1 = new Item
                         {
 
-                            Sku = test3[1],
-                            Cantidad = test3[4].Split(',')[0],
-                            Precio = test3[5].Split(',')[0].Replace(".", ""),
+                            Sku = test3[test3.Length -1],
+                            Cantidad = test3[3].Split(',')[0],
+                            Precio = test3[0].Split(',')[0].Replace(".", ""),
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         items.Add(item1);
@@ -235,6 +249,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
             {
                 ret = it.Key;
             }
+            Console.WriteLine($"STR: {str}, OP: {ret}");
             return ret;
         }
 
