@@ -15,7 +15,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
             {0, @"^[a-zA-Z]{3,}\d{3,}\s\d{1,}\s[a-zA-Z0-9]+"},
             {1, @"^[a-zA-Z]{3,}\d{3,}\s\d{1,}\sUNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" }
         };
-        private const string RutPattern = "RUT : ";
+        private const string RutPattern = "R.U.T. :";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
             "CODIGO CANTIDAD";

@@ -107,6 +107,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {79, "EULEN CHILE S.A.;96.937.270-3" },//MZPATA
             {80, "PETROBRAS CHILE RED LTDA" }, //MZAPATA
             {81, "PETROBRAS CHILE DISTRIBUCIÓN LTDA" }, //MZAPATA
+            {82, "EULEN SEGURIDAD S.A." }, //MZAPATA
 
 
 
