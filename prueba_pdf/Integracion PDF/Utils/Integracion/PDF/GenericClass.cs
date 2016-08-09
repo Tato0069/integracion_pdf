@@ -135,6 +135,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
                 switch (optItem)
                 {
                     case 0:
+                        Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {

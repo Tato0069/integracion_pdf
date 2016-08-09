@@ -649,6 +649,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = eulenSeugirdad.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
+                case 83:
+                    var servicioExternosACH = new Esach(pdfReader);
+                    ordenCompra = servicioExternosACH.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
 
 
 

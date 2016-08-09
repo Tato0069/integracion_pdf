@@ -108,6 +108,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {80, "PETROBRAS CHILE RED LTDA" }, //MZAPATA
             {81, "PETROBRAS CHILE DISTRIBUCIÓN LTDA" }, //MZAPATA
             {82, "EULEN SEGURIDAD S.A." }, //MZAPATA
+            {83, "Empresa de Serv. Externos ACHS S.A." }, //MZAPATA
 
 
 
