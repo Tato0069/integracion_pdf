@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
@@ -16,7 +15,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
             {1, @"\s[a-zA-Z]{1,2}\s?\d{5,6}\sUNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" },
             {2,@"\s[a-zA-Z]{1,2}\s?\d{5,6}UNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" },
         };
-        private const string RutPattern = "RUT : ";
+        private const string RutPattern = "R.U.T. :";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
             "CODIGO CANTIDAD";
@@ -142,13 +141,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                         //Console.WriteLine($"PREVIOUS: {strPrevious}");
                         //Console.WriteLine($"NEX: {strNext}");
                         //Console.WriteLine($"{test0.ArrayToString(test0.Length - 4, test0.Length) }");
+                        var test12 = str.Split(' ');
                         var item0 = new Item
                         {
                             Sku = GetSku(str.Split(' ')),
-                            Descripcion = test0.ArrayToString(2, test0.Length - 4).Replace("UNIDAD", ""),
+                            Descripcion = test12.ArrayToString(2, test12.Length - 4).Replace("UNIDAD", "").DeleteContoniousWhiteSpace(),
                             Cantidad = test0[1].Split(',')[0],
                             Precio = test0[test0.Length - 3].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
                         break;
@@ -160,7 +160,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                             //Descripcion = $"{pdfLines[i - 1].Trim().DeleteContoniousWhiteSpace()} {pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace()}".DeleteContoniousWhiteSpace(),
                             Cantidad = test1[1].Split(',')[0],
                             Precio = test1[test1.Length - 3].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item1);
                         break;
@@ -172,7 +172,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                             //Descripcion = $"{pdfLines[i - 1].Trim().DeleteContoniousWhiteSpace()} {pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace()}".DeleteContoniousWhiteSpace(),
                             Cantidad = test2[1].Split(',')[0],
                             Precio = test2[test2.Length - 3].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item2);
                         break;
@@ -185,7 +185,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[5].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\s?\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else

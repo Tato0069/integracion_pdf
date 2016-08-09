@@ -641,6 +641,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra.Rut = "79588870";
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
+                case 82:
+                    var eulenSeugirdad = new GrupoEulen(pdfReader);
+                    ordenCompra = eulenSeugirdad.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
 
 
 
