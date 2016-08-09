@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
 {
-    class CftSanAgustin
+    class CFTSanAgustin
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
@@ -34,7 +34,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public CftSanAgustin(PDFReader pdfReader)
+        public CFTSanAgustin(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
