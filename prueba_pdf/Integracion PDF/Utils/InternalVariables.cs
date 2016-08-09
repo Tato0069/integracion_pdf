@@ -16,8 +16,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         {
             
             // : DELIMITADOR PARA 'OR' LÓGICO (||)
-            // ; DELIMITADOR PARA 'AND' LÓGICO (&&)
-            //   SOLO PUEDE HABER UNO POR TOKEN
+            // ; DELIMITADOR PARA 'AND' LÓGICO (&&) === SOLO PUEDE HABER UNO POR TOKEN
 
             {0, "EASY RETAIL S.A.:17990424"},//MZAPATA
             {1, "Cencosud Retail S.A."},//MZAPATA
@@ -106,7 +105,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {77, "RIMASA LTDA." }, //MZAPATA
             {78, "GRUPO EULEN CHILE S.A.;96.997.370-7" },//MZAPATA
             {79, "EULEN CHILE S.A.;96.937.270-3" },//MZPATA
-            {80, "Petrobras Chile Red Ltda" }, //MZAPATA
+            {80, "PETROBRAS CHILE RED LTDA" }, //MZAPATA
+            {81, "PETROBRAS CHILE DISTRIBUCIÓN LTDA" }, //MZAPATA
 
 
 

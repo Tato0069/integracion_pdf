@@ -633,6 +633,13 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var petrobrasChileRed = new Petrobras(pdfReader);
                     ordenCompra = petrobrasChileRed.GetOrdenCompra();
                     ordenCompra.Rut = "79706120";
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 81:
+                    var petrobrasChileDistribucion = new Petrobras(pdfReader);
+                    ordenCompra = petrobrasChileDistribucion.GetOrdenCompra();
+                    ordenCompra.Rut = "79588870";
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
 

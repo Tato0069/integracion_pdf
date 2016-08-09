@@ -44,7 +44,7 @@ namespace IntegracionPDF
             var nics = NetworkInterface.GetAllNetworkInterfaces();
             Console.WriteLine("Interface information for {0}.{1}     ",
                     computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("ARCHIVADOR T/OFICIO LOMO ANCHO BURDEO");
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("VASO DESECH. 200ML.7 ONZ X 25");
             //var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
             //Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";
