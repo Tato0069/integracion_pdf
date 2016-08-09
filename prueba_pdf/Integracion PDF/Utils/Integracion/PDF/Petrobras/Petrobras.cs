@@ -12,13 +12,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"^\d{4}\s[a-zA-Z]{1,2}\d{5,6}\s-\s"},
         };
         private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "Orden de Compra";
+        private const string OrdenCompraPattern = "Pedido N";
         private const string ItemsHeaderPattern =
-            "Item Material/Description Cantidad UM Precio Unit. Valor";
+            "Item Código Descripción del";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -71,27 +70,27 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
                 }
-                if (!_readRut)
-                {
-                    if (IsRutPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
-                        _readRut = true;
-                    }
-                }
+                //if (!_readRut)
+                //{
+                //    if (IsRutPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                //        _readRut = true;
+                //    }
+                //}
 
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        _readCentroCosto = true;
-                    }
-                }
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -116,6 +115,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras
                     }
                 }
             }
+            if (OrdenCompra.NumeroCompra.Equals(""))
+            {
+                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+            }
             return OrdenCompra;
         }
 
@@ -135,9 +138,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            Sku = test0[1],
+                            Cantidad = test0[test0.Length - 6].Replace(".", "").Split(',')[0],
+                            Precio = test0[test0.Length - 4].Replace(".","").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
@@ -195,8 +198,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(':');
-            return split[1].Trim();
+            var split = str.Split(' ');
+            return split[2].Trim();
         }
 
         /// <summary>

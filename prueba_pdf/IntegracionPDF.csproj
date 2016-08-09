@@ -127,7 +127,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\CencosudTest.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\Easy.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CerveceriaCCU\CerveceriaCCU.cs" />
-    <Compile Include="Integracion PDF\Utils\Integracion\PDF\cftSanAgustin\CftSanAgustin.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\CFTSanAgustin\CFTSanAgustin.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Clariant\Clariant.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemana.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemanaArtikosFormat.cs" />
@@ -144,6 +144,8 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\EnvasadosMovipackChile\EnvasadosMovipackChile.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Eulen\EulenChile.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Eulen\GrupoEulen.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ExpressSantiago\ExpressSantiago.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ezentis\Ezentis.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\FoodFantasy\FoodFantasy.cs" />

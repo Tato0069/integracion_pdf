@@ -79,6 +79,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SeidorChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Rimasa;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin;
 
 namespace IntegracionPDF.Integracion_PDF.Main
@@ -492,7 +494,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 53:
                     var intertek = new Intertek(pdfReader);
                     ordenCompra = intertek.GetOrdenCompra();
-                    //FALTA IDENTIFICAR CENTROS DE COSTO
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
                 case 54:
@@ -618,6 +620,29 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = rimasa.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
+                case 78:
+                    var grupoEulenChile = new GrupoEulen(pdfReader);// EULEN CHILE S.A.
+                    ordenCompra = grupoEulenChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 79:
+                    var eluenChile = new EulenChile(pdfReader);
+                    ordenCompra = eluenChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 80:
+                    var petrobrasChileRed = new Petrobras(pdfReader);
+                    ordenCompra = petrobrasChileRed.GetOrdenCompra();
+                    ordenCompra.Rut = "79706120";
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 81:
+                    var petrobrasChileDistribucion = new Petrobras(pdfReader);
+                    ordenCompra = petrobrasChileDistribucion.GetOrdenCompra();
+                    ordenCompra.Rut = "79588870";
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
 
 
 
@@ -645,7 +670,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     break;
 
                 case 203:
-                    var cftSanAgustin = new CftSanAgustin(pdfReader);
+                    var cftSanAgustin = new CFTSanAgustin(pdfReader);
                     ordenCompra = cftSanAgustin.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;

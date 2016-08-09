@@ -10,38 +10,38 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Email
     {
 
         //public List
-        public static void SendEmailFromGmail(string to, string subject, string body)
-        {
-            var mail = new MailMessage
-            {
-                From = new MailAddress("mzapata@ofimarket.cl")
-            };
-            mail.To.Add(to);
-            mail.To.Add("mzapata@ofimarket.cl");
-            mail.Subject = subject;
-            mail.Body = body;
+        //public static void SendEmailFromGmail(string to, string subject, string body)
+        //{
+        //    var mail = new MailMessage
+        //    {
+        //        From = new MailAddress("mzapata@ofimarket.cl")
+        //    };
+        //    mail.To.Add(to);
+        //    mail.To.Add("mzapata@ofimarket.cl");
+        //    mail.Subject = subject;
+        //    mail.Body = body;
 
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 25,//465; //587
-                Credentials = new NetworkCredential("mzapata@ofimarket.cl", "tato006900"),
-                EnableSsl = true
-            };
-            try
-            {
-                smtp.Send(mail);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                smtp.Dispose();
-            }
+        //    var smtp = new SmtpClient
+        //    {
+        //        Host = "smtp.gmail.com",
+        //        Port = 25,//465; //587
+        //        Credentials = new NetworkCredential("mzapata@ofimarket.cl", "tato006900"),
+        //        EnableSsl = true
+        //    };
+        //    try
+        //    {
+        //        smtp.Send(mail);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.ToString());
+        //    }
+        //    finally
+        //    {
+        //        smtp.Dispose();
+        //    }
 
-        }
+        //}
         
         public static void SendEmailFromProcesosXmlDimerc(string[] to, string[] cc, string subject, string body)
         {

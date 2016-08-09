@@ -40,6 +40,11 @@ namespace IntegracionPDF
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
             //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
+            var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
+            var nics = NetworkInterface.GetAllNetworkInterfaces();
+            Console.WriteLine("Interface information for {0}.{1}     ",
+                    computerProperties.HostName, computerProperties.DomainName);
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("VASO DESECH. 200ML.7 ONZ X 25");
             //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
             //var nics = NetworkInterface.GetAllNetworkInterfaces();
             //Console.WriteLine("Interface information for {0}.{1}     ",

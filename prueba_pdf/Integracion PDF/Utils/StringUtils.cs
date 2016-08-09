@@ -11,7 +11,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
 
         public static string ConvertStringToHex(this string asciiString)
         {
-            return asciiString.Aggregate("", (current, c) => current + $"{Convert.ToUInt32(((int) c).ToString()):x2}").Replace("a0","20");
+            return asciiString.Aggregate("", (current, c) => current + $"{Convert.ToUInt32(((int) c).ToString()):x2}").Replace("a0","20").Replace("c2a0", "");
         }
 
         public static string ExtractTextFromImage(this string filePath)

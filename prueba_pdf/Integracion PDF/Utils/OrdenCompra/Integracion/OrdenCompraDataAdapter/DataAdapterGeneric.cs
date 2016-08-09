@@ -301,20 +301,20 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
         public static OrdenCompraIntegracion TraspasoIntegracionTest(this OrdenCompra oc)
         {
-            var cencos = oc.CentroCosto;
+            var cencos = oc.CentroCosto.Replace("-", " ");
             switch (oc.TipoPareoCentroCosto)
             {
                 case TipoPareoCentroCosto.SinPareo:
                     cencos = oc.CentroCosto;
                     break;
                 case TipoPareoCentroCosto.PareoDescripcionMatch:
-                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.Rut, oc.CentroCosto);
+                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.Rut, cencos);
                     break;
                 case TipoPareoCentroCosto.PareoDescripcionExacta:
-                    cencos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto);
+                    cencos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, cencos);
                     break;
                 case TipoPareoCentroCosto.PareoDescripcionLike:
-                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, oc.CentroCosto,true);
+                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, cencos,true);
                     break;
             }
             var ret = new OrdenCompraIntegracion
@@ -329,7 +329,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var sku = it.Sku;
+                var sku = it.Sku.ToUpper();
                 switch (it.TipoPareoProducto)
                 {
                     case TipoPareoProducto.SinPareo:
@@ -358,9 +358,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     Cantidad = int.Parse(it.Cantidad) / multiplo,
                     Precio = sku.Equals("W102030")
                         ? int.Parse(it.Precio)
-                        : precio, //int.Parse(it.Precio),
+                        : precio == 0 ?
+                         int.Parse(it.Precio)
+                         : precio, //int.Parse(it.Precio),
                     SubTotal = sku.Equals("W102030")
                         ? (int.Parse(it.Precio) * int.Parse(it.Cantidad))
+                        : precio == 0 ? 
+                        (int.Parse(it.Precio) * int.Parse(it.Cantidad))
                         : (int.Parse(it.Cantidad) * precio) / multiplo,
                     SkuDimerc = sku
                 };

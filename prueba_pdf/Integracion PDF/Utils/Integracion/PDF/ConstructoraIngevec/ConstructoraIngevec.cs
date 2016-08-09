@@ -16,7 +16,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraIngev
             //{1, @"\w{4}\d{4}\w{1,}" }//MBMA0905Lapiz
         };
 
-        private readonly string _skuPattern = @"\w{1}\d{6}|\w{1}\s\d{6}";
+        private readonly string _skuPattern = @"[a-zA-Z]{1,2}\d{5,6}";
         private const string RutPattern = "Rut: ";
         private const string OrdenCompraPattern = "Orden de Compra Nº";
         private const string ItemsHeaderPattern =
@@ -180,8 +180,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraIngev
 
         private string GetSku(string str)
         {
-            var sku1 = @"\w{1}\d{6}";
-            var sku2 = @"\w{1}\s\d{6}";
+            var sku1 = @"[a-zA-Z]{1,2}\d{5,6}";
+            var sku2 = @"[a-zA-Z]{1,2}\s\d{5,6}";
             int index = 0, length = 0;
             if (Regex.Match(str, sku1).Success)
             {
