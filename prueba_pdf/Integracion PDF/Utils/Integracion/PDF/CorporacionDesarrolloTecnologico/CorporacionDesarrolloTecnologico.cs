@@ -12,15 +12,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}"},
-            {1, @"\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$"},
-            {2, @"^[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$" }
+            //{0, @"\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}"},
+            //{1, @"\s[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$"},
+            //{2, @"^[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$" },
+            //{3, @"^[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}" },
+            {0,@"[a-zA-Z]{1,2}\d{5,6}(\s\d{1,}){2,}" }
             //U370423 2 $369 $ 738
         };
         private const string RutPattern = "R.U.T.:";
         private const string OrdenCompraPattern = "N°Reg.";
         private const string ItemsHeaderPattern =
-            "Codigo Cantidad Valor Unitario Valor Total";
+            "digo Cantidad Valor Unitario Valor Total";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Conforme a vuestra cotización";
@@ -138,12 +140,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
                 {
                     case 0:
                         var test1 = aux.Split(' ');
-                        Console.WriteLine($"AUX: {aux}");
+                        //Console.WriteLine($"AUX: {aux}");
                         var item1 = new Item
                         {
                             TipoPareoProducto = TipoPareoProducto.SinPareo,
-                            Sku = test1[test1.Length - 3], //GetSku(test1),
-                            Cantidad = test1[test1.Length - 2].Split(',')[0],
+                            Sku = GetSku(test1),
+                            Cantidad = test1[test1.Length - 3].Split(',')[0],
                             Precio = test1[test1.Length - 1].Replace(".", "")//.Split(',')[0]
                         };
                         items.Add(item1);
@@ -179,7 +181,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[test1.Length- 4].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
@@ -242,12 +244,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CorporacionDesarr
         {
             var ret = -1;
             str = str.Replace(".", "");
-            str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
-            //Console.WriteLine($"STR: {str}, OP: {ret}");
+            Console.WriteLine($"STR: {str}, OP: {ret}");
             return ret;
         }
 
