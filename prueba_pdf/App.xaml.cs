@@ -44,7 +44,7 @@ namespace IntegracionPDF
             var nics = NetworkInterface.GetAllNetworkInterfaces();
             Console.WriteLine("Interface information for {0}.{1}     ",
                     computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("VASO DESECH. 200ML.7 ONZ X 25");
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("JUGO CONCENTRADO PIÑA");
             //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
             //var nics = NetworkInterface.GetAllNetworkInterfaces();
             //Console.WriteLine("Interface information for {0}.{1}     ",

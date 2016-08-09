@@ -18,7 +18,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
         private const string ItemsHeaderPattern =
             "Pedida Antiguo Unitario Desc Línea";
 
-        private const string CentroCostoPattern = "Dirección:";
+        private const string CentroCostoPattern = "Recepción:";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -61,7 +61,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
                 CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionLike
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -86,7 +86,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                 {
                     if (IsCentroCostoPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]).ToUpper();
+                        var _cc = $"{GetCentroCosto(_pdfLines[i]).ToUpper()} {_pdfLines[i + 1]}".ToUpper().Replace("."," ");
+                        if (_cc.Contains("SOLICITANTE"))
+                        {
+                            var _ccSplit = _cc.Split(':');
+                            _cc = _ccSplit[_ccSplit.Length - 1];
+                        }
+                        OrdenCompra.CentroCosto = _cc.DeleteContoniousWhiteSpace();
+                        Console.WriteLine($"CC:{_cc}");
                         OrdenCompra.Observaciones += $" Dirección: {OrdenCompra.CentroCosto}";
                         _readCentroCosto = true;
                     }
@@ -182,7 +189,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
         private static string GetCentroCosto(string str)
         {
             var split = str.Split(':');
-            return split[split.Length -1].Trim();
+            var split2 = split[split.Length - 1].Trim().Split('-');
+            var ret = split2.ArrayToString(1, split2.Length);
+            return ret;//split[split.Length -1].Trim();
         }
 
 
