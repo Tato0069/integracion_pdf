@@ -218,6 +218,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 

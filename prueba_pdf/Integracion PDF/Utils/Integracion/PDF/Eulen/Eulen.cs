@@ -215,10 +215,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
         {
             var ret = -1;
             //str = str.DeleteDotComa();
+            str = str.Replace(".","");
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
+            Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
