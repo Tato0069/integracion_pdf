@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin
 {
-    class CFTSanAgustin
+    class AlimentosSanMartin
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s(\d{1,}|[a-zA-Z]{3})\s\$\s\d{1,}\s\d{1,}\s\d{1,}" }//^\d{1,}\s\d{1,}\s\$\s\d{1,}\s\d{1,}\s\d{1,}"},
+            {0, @"^\d{1,}\s\d{1,}\.\s"},
             //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "Facturar a";
-        private const string OrdenCompraPattern = "Orden de Compra Nº";
+        private const string RutPattern = "R.U.T";
+        private const string OrdenCompraPattern = "Orden de Compra";
         private const string ItemsHeaderPattern =
-            "Descripción Moneda Unidad Cantidad Precio Unitario Descto. Total";
+            "Código Cant. U. Med. Descripción P.Unit Dscto. Valor Total";
 
         private const string CentroCostoPattern = "";
-        private const string ObservacionesPattern = "Despachar A";
+        private const string ObservacionesPattern = "";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -30,11 +30,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
         private bool _readItem;
         private readonly PDFReader _pdfReader;
         private readonly string[] _pdfLines;
-       
+
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public CFTSanAgustin(PDFReader pdfReader)
+        public AlimentosSanMartin(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -79,7 +79,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i+1]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
                         _readRut = true;
                     }
                 }
@@ -92,16 +92,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
                 //        _readCentroCosto = true;
                 //    }
                 //}
-                if (!_readObs)
-                {
-                    if (IsObservacionPattern(_pdfLines[i]))
-                    {
-
-                        OrdenCompra.Observaciones = _pdfLines[i];
-                        _readObs = true;
-                        _readItem = false;
-                    }
-                }
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -135,9 +136,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
                         var item0 = new Item
                         {
                             Sku = "W102030",
-                            Cantidad = test0[test0.Length - 3],
-                            Precio = test0[test0.Length - 2].Replace(",",""),
-                            Descripcion = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
+                            Cantidad = test0[1].Replace(".", ""),
+                            Precio = test0[test0.Length - 2].Replace(",", ""),
+                            Descripcion = test0[2].Trim().DeleteContoniousWhiteSpace(),
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
@@ -182,7 +183,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(' ');
+            var aux = str.Split(':');
             return aux[1].Trim();
         }
 
@@ -196,7 +197,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
         private static string GetOrdenCompra(string str)
         {
             var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            return split[3].Trim();
         }
 
         /// <summary>
@@ -207,8 +208,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(':');
-            return split[1];
+            var split = str.Split(' ');
+            return split[0];
         }
 
         private int GetFormatItemsPattern(string str)
@@ -219,8 +220,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin
             {
                 ret = it.Key;
             }
-
-            Console.WriteLine($"AUX: {str}, OP: {ret}");
             return ret;
         }
 

@@ -45,6 +45,11 @@ namespace IntegracionPDF
             Console.WriteLine("Interface information for {0}.{1}     ",
                     computerProperties.HostName, computerProperties.DomainName);
             //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("VASO DESECH. 200ML.7 ONZ X 25");
+            //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
+            //var nics = NetworkInterface.GetAllNetworkInterfaces();
+            //Console.WriteLine("Interface information for {0}.{1}     ",
+            //        computerProperties.HostName, computerProperties.DomainName);
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Rollos Termicos");
             //var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
             //Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";
@@ -54,16 +59,16 @@ namespace IntegracionPDF
             //var en = Encrypt.EncryptKey("17990424");
             //Console.WriteLine($"RUT: 17990424, CL_{en}, {en.Length}");
 
-            String sMacAddress = string.Empty;
-            foreach (NetworkInterface adapter in nics)
-            {
-                if (sMacAddress == String.Empty)// only return MAC Address from first card  
-                {
-                    IPInterfaceProperties properties = adapter.GetIPProperties();
-                    sMacAddress = adapter.GetPhysicalAddress().ToString();
-                }
-            }
-            Console.WriteLine($"{sMacAddress}");
+            //String sMacAddress = string.Empty;
+            //foreach (NetworkInterface adapter in nics)
+            //{
+            //    if (sMacAddress == String.Empty)// only return MAC Address from first card  
+            //    {
+            //        IPInterfaceProperties properties = adapter.GetIPProperties();
+            //        sMacAddress = adapter.GetPhysicalAddress().ToString();
+            //    }
+            //}
+            //Console.WriteLine($"{sMacAddress}");
             InternalVariables.InitializeVariables();
             if (!FirstInstance)
             {

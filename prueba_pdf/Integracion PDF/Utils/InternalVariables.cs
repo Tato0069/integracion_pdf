@@ -118,6 +118,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {201, "CONSTRUCTORA SANTAFE S.A." }, //APARDO
             {202, "SEIDOR CHILE S.A:76139740" }, //APARDO
             {203, "CFT SAN AGUSTIN DE TALCA" } //APARDO
+            { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
+            { 201, "CONSTRUCTORA SANTAFE S.A." }, //APARDO
+            {202, "SEIDOR CHILE S.A" }, //APARDO
+            {203, "CFT SAN AGUSTIN DE TALCA" }, //APARDO
+            {204, "77.177.430-K" } //APARDO Alimentos San Martin 
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
