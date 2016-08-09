@@ -18,7 +18,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
         private const string RutPattern = "RUT : ";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
-            "CODIGO CANTIDADDESCRIPCION UND VUNITARIO TOTAL";
+            "CODIGO CANTIDAD";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -214,7 +214,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.DeleteDotComa();
+            //str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;

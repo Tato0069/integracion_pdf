@@ -79,6 +79,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SeidorChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Rimasa;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -616,6 +617,10 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var rimasa = new Rimasa(pdfReader);
                     ordenCompra = rimasa.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 78:
+                    var eulenChile = new Eulen(pdfReader);// EULEN CHILE S.A.
+                    ordenCompra = eulenChile.GetOrdenCompra();
                     break;
 
 
