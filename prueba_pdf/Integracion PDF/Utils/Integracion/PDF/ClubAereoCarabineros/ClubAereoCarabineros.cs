@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClubAereoCarabineros
 {
-    class AlimentosSanMartin
+    class ClubAereoCarabineros
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\d{1,}\.\s"},
-            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+          {0, @"[a-zA-Z]{1,2}\d{5,6}\s"},
+          
         };
-        private const string RutPattern = "R.U.T";
-        private const string OrdenCompraPattern = "Orden de Compra";
+        private const string RutPattern = "Sirvase enviar a la Dirección indicada, lo siguiente:";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA Nº";
         private const string ItemsHeaderPattern =
-            "Código Cant. U. Med. Descripción P.Unit Dscto. Valor Total";
+            "Cant. Cód. Unitario Dscto. Neto";
 
-        private const string CentroCostoPattern = "";
-        private const string ObservacionesPattern = "";
+        private const string CentroCostoPattern = "de entrega:";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -34,7 +34,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public AlimentosSanMartin(PDFReader pdfReader)
+        public ClubAereoCarabineros(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -79,19 +79,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i-2]);
                         _readRut = true;
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
+                if (!_readCentroCosto)
+                {
+                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        _readCentroCosto = true;
+                    }
+                }
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -116,6 +116,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                     }
                 }
             }
+            if (OrdenCompra.NumeroCompra.Equals(""))
+            {
+                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+            }
             return OrdenCompra;
         }
 
@@ -135,11 +139,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = "W102030",
-                            Cantidad = test0[1].Replace(".", ""),
-                            Precio = test0[test0.Length - 2].Replace(",", ""),
-                            Descripcion = test0.ArrayToString(3,test0.Length - 2).ToUpper().Replace("ROLLOS","ROLLO"), //ArrayToString([posicion inicial],[posicion final])
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionCliente
+                            Sku = test0[1].Trim(),
+                            Cantidad = test0[0],
+                            Precio = test0[test0.Length - 3].Replace(".",""),
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
                         break;
@@ -152,7 +155,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[5].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
@@ -197,7 +200,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
         private static string GetOrdenCompra(string str)
         {
             var split = str.Split(' ');
-            return split[3].Trim();
+            return split[3].Trim().Replace("Nº", "");
         }
 
         /// <summary>
@@ -209,17 +212,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
         private static string GetRut(string str)
         {
             var split = str.Split(' ');
-            return split[0];
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.Replace(",", "");
+            //str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
