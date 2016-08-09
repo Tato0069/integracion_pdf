@@ -104,7 +104,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
             {76, "EZENTIS CHILE S.A."}, //MZAPATA
             {77, "RIMASA LTDA." }, //MZAPATA
-            {78, "EULEN CHILE S.A." },//MZAPATA
+            {78, "EULEN CHILE S.A.;96.997.370-7" },//MZAPATA
 
 
 

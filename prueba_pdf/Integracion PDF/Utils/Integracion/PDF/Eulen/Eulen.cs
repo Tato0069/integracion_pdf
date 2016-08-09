@@ -135,12 +135,25 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Sku = "W102030",
+                            Descripcion = test0.ArrayToString(2, test0.Length - 4).Replace("UNIDAD",""),
+                            Cantidad = test0[1].Split(',')[0],
+                            Precio = test0[test0.Length - 3].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
+                        break;
+                    case 1:
+                        var test1 = aux.Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = "W102030",
+                            Descripcion = $"{pdfLines[i-1].Trim().DeleteContoniousWhiteSpace()} {pdfLines[i+1].Trim().DeleteContoniousWhiteSpace()}".DeleteContoniousWhiteSpace(),
+                            Cantidad = test1[1].Split(',')[0],
+                            Precio = test1[test1.Length - 3].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                        };
+                        items.Add(item1);
                         break;
                 }
             }
@@ -220,7 +233,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
             {
                 ret = it.Key;
             }
-            Console.WriteLine($"STR: {str}, RET: {ret}");
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
