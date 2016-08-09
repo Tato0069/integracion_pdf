@@ -115,6 +115,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
                     }
                 }
             }
+            if (OrdenCompra.NumeroCompra.Equals(""))
+            {
+                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+            }
             return OrdenCompra;
         }
 
