@@ -93,7 +93,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                             _cc = _ccSplit[_ccSplit.Length - 1];
                         }
                         OrdenCompra.CentroCosto = _cc.DeleteContoniousWhiteSpace();
-                        Console.WriteLine($"CC:{_cc}");
                         OrdenCompra.Observaciones += $" Dirección: {OrdenCompra.CentroCosto}";
                         _readCentroCosto = true;
                     }
