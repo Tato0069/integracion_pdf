@@ -893,7 +893,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 InstanceTransferWeb.Open();
                 var sql = $"SELECT GET_PRECIOPROD_BK({rutCli},{cencos},'{codpro}',{codemp}) PRECIO FROM DUAL";
 
-                Console.WriteLine(sql);
+                //Console.WriteLine(sql);
                 var command = new OracleCommand(sql, InstanceTransferWeb);
                 var data = command.ExecuteReader();
                 if (data.Read())

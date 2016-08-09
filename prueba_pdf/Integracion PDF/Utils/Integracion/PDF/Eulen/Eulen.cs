@@ -5,22 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
-{
-    class Intertek
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
+{//^[a-zA-Z]{3,}\d{3,}\s\d{1,}\s[a-zA-Z0-9]+
+    class Eulen
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
-        {// H502910 3657 7314
-            {0, @"[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}$"},
-            {1, @"[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$" }
+        {
+            {0, @"^[a-zA-Z]{3,}\d{3,}\s\d{1,}\s[a-zA-Z0-9]+"},
+            {1, @"^[a-zA-Z]{3,}\d{3,}\s\d{1,}\sUNIDAD\s\$\s\d{1,}\s\$\s\d{1,}$" }
         };
-        private const string RutPattern = "RUT.:";
-        private const string OrdenCompraPattern = "OC N°:";
+        private const string RutPattern = "RUT : ";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
-            "Unitario (neto)";
+            "CODIGO CANTIDADDESCRIPCION UND VUNITARIO TOTAL";
 
-        private const string CentroCostoPattern = "CC %";
+        private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -34,7 +34,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public Intertek(PDFReader pdfReader)
+        public Eulen(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -62,8 +62,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                //CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionLike
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -71,8 +71,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        Console.WriteLine($"OC: {_pdfLines[i]}");
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -89,47 +88,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                 {
                     if (IsCentroCostoPattern(_pdfLines[i]))
                     {
-                        var p = 0.0;
-                        var cc = "0";
-                        for(var j = i; j < _pdfLines.Length - 1; j++)
-                        {
-                            if (Regex.Match(_pdfLines[j], @"^\d{1,}-\d{3}-\d{2}\s").Success)
-                            {
-                                var raw = _pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                                //if (raw.Contains("IVA 19%"))
-                                //{
-                                //    var splitAux = raw.Split(' ');
-                                //    raw = splitAux.ArrayToString(0, splitAux.Length - 3);
-                                //}
-                                //var split = raw.Split(' ');
-                                //if (p < float.Parse(split[split.Length - 3]))
-                                //{
-                                //    p = float.Parse(split[split.Length - 3]);
-                                //    cc = split.ArrayToString(0, split.Length- 3);
-                                //}
-                                var f = 0.0;
-                                var raw2 = "";
-                                foreach (var st in raw.Split(' '))
-                                {
-                                    if(!double.TryParse(st,out f))
-                                    {
-                                        raw2 += $" {st}";
-                                    }else
-                                    {
-                                        raw2 += $" {st}";
-                                        break;
-                                    }
-                                }
-                                Console.WriteLine($"RAW2: {raw2}");
-                                var split = raw2.Split(' ');
-                                if (p < float.Parse(split[split.Length - 1]))
-                                {
-                                    p = float.Parse(split[split.Length - 1]);
-                                    cc = split.ArrayToString(0, split.Length - 1);
-                                }
-                            }
-                        }
-                        OrdenCompra.CentroCosto = cc.ToUpper().Replace(".","").Replace(",","");//GetCentroCosto(_pdfLines[i]);
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
                         _readCentroCosto = true;
                     }
                 }
@@ -167,35 +126,21 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
             for (; i < pdfLines.Length; i++)
             //foreach(var str in pdfLines)
             {
-                var aux = pdfLines[i].Trim().Replace("$","").Replace(",","").DeleteContoniousWhiteSpace();
-                var hex = aux.DeleteNullHexadecimalValues();
-                //Console.WriteLine($"AASDASDASDAS: {hex}");
+                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(hex);
-                //Console.WriteLine($"AUX: {aux}, op: {optItem}");
+                var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
                 {
                     case 0:
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[test0.Length - 3].ToUpper(),
-                            Cantidad = test0[0],
-                            Precio = test0[test0.Length - 2],
+                            Sku = test0[6],
+                            Cantidad = test0[4].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
-                        break;
-                    case 1:
-                        var test1 = aux.Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = test1[test1.Length - 4].ToUpper(),
-                            Cantidad = test1[0],
-                            Precio = $"{test1[test1.Length - 3]}{test1[test1.Length - 2]}",
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
-                        };
-                        items.Add(item1);
                         break;
                 }
             }
@@ -249,10 +194,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         /// <param name="str"></param>
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
-        {//OC N°: GO/16/C1793
-            var aux = str.Split(' ');
-            str = aux[aux.Length - 1];
-            return str;
+        {
+            var split = str.Split(' ');
+            return split[1].Trim();
         }
 
         /// <summary>
@@ -263,20 +207,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(' ');
-            var ret = split[split.Length - 1];
-            return ret;
+            var split = str.Split(':');
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.Replace(",","").DeleteContoniousWhiteSpace();
+            str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
-            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 

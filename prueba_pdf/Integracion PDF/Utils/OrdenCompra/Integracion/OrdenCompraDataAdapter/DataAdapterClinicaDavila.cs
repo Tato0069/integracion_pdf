@@ -21,13 +21,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             {
                 var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
+                var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
                 var precio = int.Parse(pConv);
                 var dt = new DetalleOrdenCompraIntegracion
                 {
                     NumPed = ret.NumPed,
-                    Cantidad = int.Parse(it.Cantidad),
-                    Precio = precio,
-                    SubTotal = int.Parse(it.Cantidad) * precio,
+                    Cantidad = int.Parse(it.Cantidad) / multiplo,
+                    Precio = sku.Equals("W102030")
+                        ? int.Parse(it.Precio)
+                        : precio, //int.Parse(it.Precio),
+                    SubTotal = sku.Equals("W102030")
+                        ? (int.Parse(it.Precio) * int.Parse(it.Cantidad)) / multiplo
+                        : (int.Parse(it.Cantidad) * precio) / multiplo,
                     SkuDimerc = sku
                 };
                 ret.AddDetalleCompra(dt);
@@ -46,7 +51,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 && oc.CentroCosto.Contains("EDIF"))
             {
                 oc.CentroCosto = "RECUPERACION SECUNDARIA 4 PISO EDIF G";
+            }else if (oc.CentroCosto.Contains("LAB")
+                && oc.CentroCosto.Contains("CENTRAL")
+                && oc.CentroCosto.Contains("CITROMETRIA")
+                && oc.CentroCosto.Contains("FLUJO")
+                && oc.CentroCosto.Contains("DE"))
+            {
+                oc.CentroCosto = "LAB CENTRAL - CITROMETRIA DE FLUJO";
             }
+
+            //LAB CENTRAL - CITROMETRIA DE FLUJO
             var ret = new OrdenCompraIntegracion
             {
                 NumPed = OracleDataAccess.GetNumPed(),
@@ -60,14 +74,20 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             foreach (var it in oc.ItemsClinicaDavila)
             {
                 var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
+                var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var dt = new DetalleOrdenCompraIntegracion
                 {
                     NumPed = ret.NumPed,
-                    Cantidad = int.Parse(it.Cantidad),
-                    Precio = precio,
-                    SubTotal = int.Parse(it.Cantidad) * precio,
+                    Cantidad = sku.Equals("W102030") ? int.Parse(it.Cantidad)
+                    : int.Parse(it.Cantidad) / multiplo,
+                    Precio = sku.Equals("W102030")
+                        ? int.Parse(it.Precio)
+                        : precio, //int.Parse(it.Precio),
+                    SubTotal = sku.Equals("W102030")
+                        ? (int.Parse(it.Precio) * int.Parse(it.Cantidad)) / multiplo
+                        : (int.Parse(it.Cantidad) * precio) / multiplo,
                     SkuDimerc = sku
                 };
                 ret.AddDetalleCompra(dt);

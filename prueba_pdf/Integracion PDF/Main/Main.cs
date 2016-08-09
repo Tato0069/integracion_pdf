@@ -491,7 +491,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 53:
                     var intertek = new Intertek(pdfReader);
                     ordenCompra = intertek.GetOrdenCompra();
-                    //FALTA IDENTIFICAR CENTROS DE COSTO
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
 
                 case 54:
