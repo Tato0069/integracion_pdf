@@ -40,11 +40,11 @@ namespace IntegracionPDF
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
             //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
-            var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
-            var nics = NetworkInterface.GetAllNetworkInterfaces();
-            Console.WriteLine("Interface information for {0}.{1}     ",
-                    computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("ARCHIVADOR T/OFICIO LOMO ANCHO BURDEO");
+            //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
+            //var nics = NetworkInterface.GetAllNetworkInterfaces();
+            //Console.WriteLine("Interface information for {0}.{1}     ",
+            //        computerProperties.HostName, computerProperties.DomainName);
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Rollos Termicos");
             //var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
             //Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
             //var sku2 = "R284220";
@@ -54,16 +54,16 @@ namespace IntegracionPDF
             //var en = Encrypt.EncryptKey("17990424");
             //Console.WriteLine($"RUT: 17990424, CL_{en}, {en.Length}");
 
-            String sMacAddress = string.Empty;
-            foreach (NetworkInterface adapter in nics)
-            {
-                if (sMacAddress == String.Empty)// only return MAC Address from first card  
-                {
-                    IPInterfaceProperties properties = adapter.GetIPProperties();
-                    sMacAddress = adapter.GetPhysicalAddress().ToString();
-                }
-            }
-            Console.WriteLine($"{sMacAddress}");
+            //String sMacAddress = string.Empty;
+            //foreach (NetworkInterface adapter in nics)
+            //{
+            //    if (sMacAddress == String.Empty)// only return MAC Address from first card  
+            //    {
+            //        IPInterfaceProperties properties = adapter.GetIPProperties();
+            //        sMacAddress = adapter.GetPhysicalAddress().ToString();
+            //    }
+            //}
+            //Console.WriteLine($"{sMacAddress}");
             InternalVariables.InitializeVariables();
             if (!FirstInstance)
             {

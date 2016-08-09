@@ -111,6 +111,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AFPHabitat\AFPHabitat.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AguasAndinas\Ecoriles.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AIEP\Aiep.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\AlimentosSanMartin\AlimentosSanMartin.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Alsacia\Alsacia.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Arauco\Arauco.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\AridosSantaFeSA.cs" />

@@ -79,6 +79,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SeidorChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Rimasa;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -647,6 +648,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var cftSanAgustin = new CftSanAgustin(pdfReader);
                     ordenCompra = cftSanAgustin.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 204:
+                    var alimentosSanMartin = new AlimentosSanMartin(pdfReader);
+                    ordenCompra = alimentosSanMartin.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
