@@ -11,15 +11,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"^\d{1,}\s\d{1,}\sC\/U\s\d{6}\s"},
         };
         private const string RutPattern = "R.U.T.:";
         private const string OrdenCompraPattern = "N° O.C.:";
         private const string ItemsHeaderPattern =
             "Pedida Antiguo Unitario Desc Línea";
 
-        private const string CentroCostoPattern = "de entrega:";
+        private const string CentroCostoPattern = "Dirección:";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -62,7 +61,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
                 CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionLike
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -70,7 +69,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -87,7 +86,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                 {
                     if (IsCentroCostoPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]).ToUpper();
+                        OrdenCompra.Observaciones += $" Dirección: {OrdenCompra.CentroCosto}";
                         _readCentroCosto = true;
                     }
                 }
@@ -134,10 +134,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Sku = test0[3],
+                            Cantidad = test0[1].Split(',')[0],
+                            Precio = test0[test0.Length - 4].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         items.Add(item0);
                         break;
@@ -181,8 +181,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            var split = str.Split(':');
+            return split[split.Length -1].Trim();
         }
 
 
@@ -213,7 +213,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
