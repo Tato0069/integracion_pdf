@@ -1118,6 +1118,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         /// <returns></returns>
         public static string GetSkuWithMatchClientProductDescription(string rutcli, string descPro)
         {
+            if (descPro == null) return "W102030";
             descPro = descPro.ToUpper().DeleteAcent().DeleteContoniousWhiteSpace();
             var split = descPro.Split(' ');
             var descContainsRow = new List<string>();

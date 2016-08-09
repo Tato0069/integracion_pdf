@@ -134,6 +134,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaDavila\ClinicaDavila.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaLilas\ClinicaLilas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaUniversidadAndes\ClinicaUniversidadAndes.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClubAereoCarabineros\ClubAereoCarabineros.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UNAB\CorpUNAB.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UnitedNations\UnitedNations.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\VitaminaWorkLife\VitaminaWorkLife.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Zical\Zical.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\XLSX\Excel.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\XLSX\ExcelExport.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\XLSX\Flores\Flores.cs" />

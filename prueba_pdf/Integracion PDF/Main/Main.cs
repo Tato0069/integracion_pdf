@@ -82,6 +82,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Rimasa;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Zical;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClubAereoCarabineros;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -683,11 +685,21 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var cftSanAgustin = new CFTSanAgustin(pdfReader);
                     ordenCompra = cftSanAgustin.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
-                                        break;
+                    break;
                 case 204:
                     var alimentosSanMartin = new AlimentosSanMartin(pdfReader);
                     ordenCompra = alimentosSanMartin.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 205:
+                    var zical = new Zical(pdfReader);
+                    ordenCompra = zical.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 206:
+                    var clubAereoCarabineros = new ClubAereoCarabineros(pdfReader);
+                    ordenCompra = clubAereoCarabineros.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
