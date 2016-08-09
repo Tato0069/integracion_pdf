@@ -94,7 +94,43 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 }
                 return ret2.ToArray();
             }
+        }
 
+        /// <summary>
+        /// Retorna texto de PDF eliminando valores Hexadecimales Nulos
+        /// </summary>
+        /// <returns></returns>
+        public string[] ExtractTextFromPdfToArrayDefaultModeDeleteHexadeximalNullValues()
+        {
+            using (var reader = new PdfReader(_pdfPath))
+            {
+                NumerOfPages = reader.NumberOfPages;
+                var text = new StringBuilder();
+                for (var i = 1; i <= reader.NumberOfPages; i++)
+                {
+                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i).DeleteContoniousWhiteSpace().DeleteNullHexadecimalValues());
+                }
+                var ret = text.ToString().Split('\n');
+                for (var i = 0; i < text.Length; i++)
+                {
+                    for (var j = i + 1; j < ret.Length - 1; j++)
+                    {
+                        if (ret[i].Equals(ret[j]))
+                        {
+                            ret[j] = "-1*";
+                        }
+                    }
+                }
+                var ret2 = new List<string>();
+                foreach (var x in ret)
+                {
+                    if (!x.Equals("-1*"))
+                    {
+                        ret2.Add(x);
+                    }
+                }
+                return ret2.ToArray();
+            }
         }
 
         public string[] ExtractTextFromPdfToArraySimpleStrategy()

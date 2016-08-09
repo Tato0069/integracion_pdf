@@ -37,7 +37,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         public Intertek(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultModeDeleteHexadeximalNullValues();
         }
 
         private static void SumarIguales(List<Item> items)
@@ -165,14 +165,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         {
             var items = new List<Item>();
             for (; i < pdfLines.Length; i++)
-            //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().Replace("$","").Replace(",","").DeleteContoniousWhiteSpace();
                 var hex = aux.DeleteNullHexadecimalValues();
-                //Console.WriteLine($"AASDASDASDAS: {hex}");
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(hex);
-                //Console.WriteLine($"AUX: {aux}, op: {optItem}");
                 switch (optItem)
                 {
                     case 0:
@@ -276,7 +273,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
             {
                 ret = it.Key;
             }
-            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
