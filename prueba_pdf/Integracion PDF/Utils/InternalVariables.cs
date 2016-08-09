@@ -104,15 +104,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
             {76, "EZENTIS CHILE S.A."}, //MZAPATA
             {77, "RIMASA LTDA." }, //MZAPATA
-            {78, "EULEN CHILE S.A.;96.997.370-7" },//MZAPATA
+            {78, "GRUPO EULEN CHILE S.A.;96.997.370-7" },//MZAPATA
+            {79, "EULEN CHILE S.A.;96.937.270-3" },//MZPATA
 
 
 
 
 
 
-            { 200, "CERVECERA CCU CHILE LTDA." }, //APARDO
-            { 201, "CONSTRUCTORA SANTAFE S.A." }, //APARDO
+            {200, "CERVECERA CCU CHILE LTDA." }, //APARDO
+            {201, "CONSTRUCTORA SANTAFE S.A." }, //APARDO
             {202, "SEIDOR CHILE S.A:76139740" }, //APARDO
             {203, "CFT SAN AGUSTIN DE TALCA" } //APARDO
         };

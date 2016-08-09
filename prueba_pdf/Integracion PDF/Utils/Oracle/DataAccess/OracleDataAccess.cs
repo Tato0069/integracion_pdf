@@ -1342,7 +1342,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 var sql = $"SELECT CODPRO FROM ma_product WHERE {likes}";
                 var command = new OracleCommand(sql, InstanceDmVentas);
                 var data = command.ExecuteReader();
-                Console.WriteLine(sql);
+                //Console.WriteLine(sql);
                 while (data.Read())
                     ret++;
                 data.Close();

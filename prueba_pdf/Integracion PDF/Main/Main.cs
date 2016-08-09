@@ -619,10 +619,16 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
                 case 78:
-                    var eulenChile = new GrupoEulen(pdfReader);// EULEN CHILE S.A.
-                    ordenCompra = eulenChile.GetOrdenCompra();
+                    var grupoEulenChile = new GrupoEulen(pdfReader);// EULEN CHILE S.A.
+                    ordenCompra = grupoEulenChile.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
+                case 79:
+                    var eluenChile = new EulenChile(pdfReader);
+                    ordenCompra = eluenChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
 
 
 
