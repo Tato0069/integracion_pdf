@@ -80,6 +80,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SeidorChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.cftSanAgustin;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Rimasa;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -627,6 +628,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var eluenChile = new EulenChile(pdfReader);
                     ordenCompra = eluenChile.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 80:
+                    var petrobrasChileRed = new Petrobras(pdfReader);
+                    ordenCompra = petrobrasChileRed.GetOrdenCompra();
+                    ordenCompra.Rut = "79706120";
                     break;
 
 
