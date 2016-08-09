@@ -154,7 +154,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[5].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
