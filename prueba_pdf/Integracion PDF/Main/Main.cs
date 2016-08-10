@@ -739,7 +739,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 209:
                     var constructoraLampaOriente = new ConstructoraLampaOriente(pdfReader);
                     ordenCompra = constructoraLampaOriente.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
