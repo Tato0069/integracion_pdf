@@ -13,7 +13,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
             {0, @"^\d{1,}\s\d{1,}\s[a-zA-Z]{1,}\s"},
-            {1, @"^\d{1,}\s[a-zA-Z0-9]{10}\s\d{1,}\s[a-zA-Z]{1,}\s" }
+            {1, @"^\d{1,}\s[a-zA-Z0-9]{10}\s\d{1,}\s[a-zA-Z]{1,}\s" },
+            {2, @"^\d{1,}\s[a-zA-Z]{1,}\s\d{1,}\s[a-zA-Z]{1,}\s"}, 
             //12 C1Z1Z11455 2,00 
         };
         private const string RutPattern = "RUT";
@@ -154,6 +155,26 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         };
                         items.Add(item1);
                         break;
+                    case 2:
+                        var test2 = aux.Split(' ');
+                        var item2 = new Item
+                        {
+                            Sku = "W102030",
+                            Cantidad = test2[2].Split(',')[0],
+                            Precio = test2[test2.Length - 2].Replace(".", "").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                        };
+                        //pdfLines[++i].Trim().DeleteContoniousWhiteSpace()
+                        var concatAll = "";
+                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        {
+                            concatAll += $" {aux}";
+                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        }
+                        item2.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
+                        items.Add(item2);
+                        break;
                 }
             }
             //SumarIguales(items);
@@ -163,7 +184,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[5].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
