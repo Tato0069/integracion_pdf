@@ -12,7 +12,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-           // {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
+            {0, @"^[a-zA-Z]{1,2}\d{5,6}\s"},
             //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
         private const string RutPattern = "Constructora Lampa Oriente S.A.";
@@ -20,8 +20,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         private const string ItemsHeaderPattern =
             "Precio Unitario Descuento VALOR TOTAL";
 
-        private const string CentroCostoPattern = "";
-        private const string ObservacionesPattern = "";
+        private const string CentroCostoPattern = "de entrega:";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -31,30 +31,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         private readonly PDFReader _pdfReader;
         private readonly string[] _pdfLines;
 
-        #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
+
+        #endregion
 
         public ConstructoraLampaOriente(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
-        }
-
-        private static void SumarIguales(List<Item> items)
-        {
-            for (var i = 0; i < items.Count; i++)
-            {
-                for (var j = i + 1; j < items.Count; j++)
-                {
-                    if (items[i].Sku.Equals(items[j].Sku))
-                    {
-                        items[i].Cantidad = (int.Parse(items[i].Cantidad) + int.Parse(items[j].Cantidad)).ToString();
-                        items.RemoveAt(j);
-                        j--;
-                        Console.WriteLine($"Delete {j} from {i}");
-                    }
-                }
-            }
         }
 
         #region Funciones Get
@@ -131,6 +115,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
+                var aux2 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
@@ -138,11 +123,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
+                        var test1 = aux2.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            Sku = test0[0],
+                            Cantidad = GetCantidad(test1).Trim(),
+                            Precio = GetPrecio(test0).Trim().Replace(",", "").Replace(".",""),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
@@ -161,7 +147,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length - 1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
@@ -212,8 +198,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(':');
-            return split[1].Trim();
+            var split = str.Split(' ');
+            return split[split.Length - 1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)
@@ -227,6 +213,55 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
+
+        private static void SumarIguales(List<Item> items)
+        {
+            for (var i = 0; i < items.Count; i++)
+            {
+                for (var j = i + 1; j < items.Count; j++)
+                {
+                    if (items[i].Sku.Equals(items[j].Sku))
+                    {
+                        items[i].Cantidad = (int.Parse(items[i].Cantidad) + int.Parse(items[j].Cantidad)).ToString();
+                        items.RemoveAt(j);
+                        j--;
+                        Console.WriteLine($"Delete {j} from {i}");
+                    }
+                }
+            }
+        }
+
+        private string GetPrecio(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
+            {
+                if (test0[i].Equals("UN"))
+                    return ret = test0[i + 1];
+            }
+            return ret;
+        }
+
+        private string GetCantidad(string[] test1)
+        {
+           Console.WriteLine($"CANTIDAD: {test1.ArrayToString(0,test1.Length-1)}");
+            var ret = "-2";
+            for (var i = 0; i < test1.Length; i++)
+            {
+                if (test1[i].Equals("UN") || test1[i].Equals("Caja"))
+                    //if (test1[i] == test1[0])
+                    //{
+
+                    //    return ret;
+                    //}
+                    //ret = test1[i - 1];
+               
+                if (ret.Contains(",")) return ret = test1[i - 1];
+            } 
+                
+            return ret;
+        }
+
 
         #endregion
 
