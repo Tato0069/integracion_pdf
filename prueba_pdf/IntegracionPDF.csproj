@@ -119,6 +119,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Candem\Candem.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\CapacitacionCienciasTecnologiasLimitada\CapacitacionCienciasTecnologiasLimitada.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Carozzi\Carozzi.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CementosTransex\CementosTransex.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\Cencosud.cs" />

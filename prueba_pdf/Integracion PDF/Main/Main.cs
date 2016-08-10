@@ -89,6 +89,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TecnologiaTrasnporteM
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MaestranzaMParts;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.VrkConstructora;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampaOriente;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CapacitacionCienciasTecnologiaLimitada;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -676,7 +677,12 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = tecnologiaTransporteMinerales.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
-
+                case 86:
+                    //Capacitación en Ciencias y Tecnologías Limitada
+                    var cecyt = new CapacitacionCienciasTecnologiasLimitada(pdfReader);
+                    ordenCompra = cecyt.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
 
 
 
