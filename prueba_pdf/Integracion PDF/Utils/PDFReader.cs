@@ -188,7 +188,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 ITextExtractionStrategy its = new LocationTextExtractionStrategy();
                 for (var i = 1; i <= reader.NumberOfPages; i++)
                 {
-                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i, its).DeleteContoniousWhiteSpace());
+                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i, its)
+                        .DeleteContoniousWhiteSpace().DeleteNullHexadecimalValues());
 
                 }
                 var ret = text.ToString().Split('\n');
