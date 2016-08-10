@@ -1603,7 +1603,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 if (rows >= 1)
                 {
                     ret = GetCenCosFromRutClienteAndDescCencos(rutCli,
-                        descContainsRow.ToArray().ArrayToString(0, descContainsRow.Count), true);
+                        descContainsRow.ToArray().ArrayToString(0, descContainsRow.Count-1), true);
 
                     Console.WriteLine($"ret2: {ret}");
                 }

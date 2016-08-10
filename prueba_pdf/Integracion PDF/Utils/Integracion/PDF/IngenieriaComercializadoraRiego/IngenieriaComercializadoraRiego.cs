@@ -137,7 +137,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComerci
                         {
                             Sku = "W102030",
                             Cantidad = test0[0].Replace(".", ""),
-                            Descripcion = test0.ArrayToString(2, test0.Length - 3).ToUpper(),
+                            Descripcion = test0.ArrayToString(2, test0.Length - 4).ToUpper(),
                             Precio = test0[test0.Length - 2].Replace(",", "").Replace(".", ""),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
@@ -157,7 +157,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IngenieriaComerci
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

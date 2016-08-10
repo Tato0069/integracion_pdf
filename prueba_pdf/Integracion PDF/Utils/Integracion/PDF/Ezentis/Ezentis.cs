@@ -137,7 +137,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
                         var item0 = new Item
                         {
                             Sku = "W102030",//test0[6],
-                            Descripcion = test0.ArrayToString(6, test0.Length -2),
+                            Descripcion = test0.ArrayToString(6, test0.Length -3),
                             Cantidad = test0[test0.Length - 2].Replace(".","").Split(',')[0],
                             Precio = test0[5].Replace(".", "").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
@@ -170,7 +170,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
                             //Precio = test1[test1.Length - 1].Replace(".", "").Split(',')[0],
                             //TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                             Sku = "W102030",//test0[6],
-                            Descripcion = test1.ArrayToString(6, test1.Length - 2),
+                            Descripcion = test1.ArrayToString(6, test1.Length - 3),
                             Cantidad = !int.TryParse(test1[test1.Length - 2].Replace(".", "").Split(',')[0], out p)? "0": p.ToString(),
                             Precio = !int.TryParse(test1[test1.Length - 2].Replace(".", "").Split(',')[0], out p) ? "0" : p.ToString(),
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
@@ -192,7 +192,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ezentis
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

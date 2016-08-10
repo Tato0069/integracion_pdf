@@ -138,7 +138,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecogestion
                         var item0 = new Item
                         {
                             Sku = "W102030",
-                            Descripcion = test0.ArrayToString(1, test0.Length - 4),
+                            Descripcion = test0.ArrayToString(1, test0.Length - 5),
                             Cantidad = test0[0].Split(',')[0],
                             Precio = test0[test0.Length - 3].Split(',')[0].Replace(".","")
                         };
@@ -152,7 +152,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecogestion
                         var item1 = new Item
                         {
                             Sku = "W102030",
-                            Descripcion = test1.ArrayToString(1, test1.Length - 4),
+                            Descripcion = test1.ArrayToString(1, test1.Length - 5),
                             Cantidad = test1[0].Split(',')[0],
                             Precio = test1[test1.Length - 3].Split(',')[0].Replace(".", "")
                         };
@@ -168,7 +168,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecogestion
                         var item2 = new Item
                         {
                             Sku = "W102030",
-                            Descripcion = test2.ArrayToString(1, test2.Length - 4),
+                            Descripcion = test2.ArrayToString(1, test2.Length - 5),
                             Cantidad = test2[0].Split(',')[0],
                             Precio = test2[test2.Length - 3].Split(',')[0].Replace(".", "")
                         };
@@ -188,7 +188,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Ecogestion
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

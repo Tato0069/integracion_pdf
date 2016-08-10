@@ -69,6 +69,10 @@ namespace IntegracionPDF
             //    }
             //}
             //Console.WriteLine($"{sMacAddress}");
+
+            //var pdfReader = new PDFReader(@"C:\Proyectos\Integración PDF\C#\Procesar\Integrar\PDF\09-09-Report(Falta CC)\88237 dimerc.pdf");
+            //var x = pdfReader.ExtractTextByCoOrdinate(1, 100, 50, 400, 500);
+            //Console.WriteLine($"XXX: {x}");
             InternalVariables.InitializeVariables();
             if (!FirstInstance)
             {

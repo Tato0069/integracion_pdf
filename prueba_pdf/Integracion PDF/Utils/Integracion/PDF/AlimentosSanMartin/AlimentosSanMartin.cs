@@ -138,7 +138,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                             Sku = "W102030",
                             Cantidad = test0[1].Replace(".", ""),
                             Precio = test0[test0.Length - 2].Replace(",", ""),
-                            Descripcion = test0.ArrayToString(3,test0.Length - 2).ToUpper().Replace("ROLLOS","ROLLO"), //ArrayToString([posicion inicial],[posicion final])
+                            Descripcion = test0.ArrayToString(3,test0.Length - 3).ToUpper().Replace("ROLLOS","ROLLO"), //ArrayToString([posicion inicial],[posicion final])
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionCliente
                         };
                         items.Add(item0);
@@ -157,7 +157,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length-1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

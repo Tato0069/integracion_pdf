@@ -110,7 +110,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.GestionPersonasSe
                 //        if (d3.ToUpper().Contains("SANTIAGO"))
                 //        {
                 //            var split = d3.Split(' ');
-                //            d3 = split.Length > 1 ? split.ArrayToString(1, split.Length - 1) : "";
+                //            d3 = split.Length > 1 ? split.ArrayToString(1, split.Length - 2) : "";
                 //        }
                 //        OrdenCompra.Observaciones +=
                 //            d3.Equals("")
@@ -149,8 +149,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.GestionPersonasSe
                 if (optItem == -1)
                 {
                     var split = aux.Replace("$","").DeleteContoniousWhiteSpace().Split(' ');
-                    Console.WriteLine(split.ArrayToString(0, split.Length - 2));
-                    optItem = GetFormatItemsPattern(split.ArrayToString(0, split.Length - 2));
+                    Console.WriteLine(split.ArrayToString(0, split.Length - 3));
+                    optItem = GetFormatItemsPattern(split.ArrayToString(0, split.Length - 3));
                 }
                 //Console.WriteLine($"{aux}, {optItem}");
                 switch (optItem)
@@ -205,7 +205,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.GestionPersonasSe
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

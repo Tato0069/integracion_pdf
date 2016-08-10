@@ -135,7 +135,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.FoodFantasy
                             Cantidad = test0[test0.Length - 4],
                             Precio = test0[test0.Length - 2]
                         };
-                        aux = test0.ArrayToString(2, test0.Length - 4);
+                        aux = test0.ArrayToString(2, test0.Length - 5);
                         var sku = "W102030";
                         for (var j = i; j < i + 4; j++)
                         {
@@ -172,7 +172,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.FoodFantasy
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

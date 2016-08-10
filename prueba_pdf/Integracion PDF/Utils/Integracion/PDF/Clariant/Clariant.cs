@@ -159,13 +159,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Clariant
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            //Console.WriteLine(test1.ArrayToString(0, test1.Length));
+            //Console.WriteLine(test1.ArrayToString(0, test1.Length -1));
             var skuDefaultPosition = test1[test1.Length - 1].ToUpper();
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"[a-zA-Z]{1}\d{6}").Index;
