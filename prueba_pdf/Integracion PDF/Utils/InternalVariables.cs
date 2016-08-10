@@ -110,6 +110,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {82, "EULEN SEGURIDAD S.A." }, //MZAPATA
             {83, "Empresa de Serv. Externos ACHS S.A." }, //MZAPATA
             {84, "RECURSOS PORTUARIOS Y ESTIBAS LIMITADA" }, //MZAPATA
+            {85, "TECNOLOGIA EN TRANSPORTE DE MINERALES S.A." }, //MZAPATA
+            {86,"Capacitación en Ciencias y Tecnologías Limitada" },//MZAPATA
 
 
 

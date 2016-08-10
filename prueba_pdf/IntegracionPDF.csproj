@@ -188,6 +188,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ShawAlmexChile\ShawAlmexChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadEducacionalAraucana\SociedadEducacionalAraucana.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadInstruccion\SociedadInstruccion.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\TecnologiaTrasnporteMinerales\TecnologiaTransporteMinerales.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Teveuk\Teveuk.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\TNT\TNT.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Toc\Toc.cs" />
