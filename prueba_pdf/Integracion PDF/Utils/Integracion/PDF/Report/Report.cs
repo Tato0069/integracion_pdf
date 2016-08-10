@@ -1,23 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Report
 {
-    public class Indra
+    class Report
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\sUnidad\s\d{1,}\s\d{1,}$"},
-            {-2,@"^\d{5}\s\d{10}\s" }
+            {0, @"^[a-zA-Z]{1,2}\d{5,6}\s"},
         };
-        private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "pedido/Fecha";
+        private const string RutPattern = "Datos de Facturación:";
+        private const string OrdenCompraPattern = "Núm. pedido/Fecha";
         private const string ItemsHeaderPattern =
-            "Pos. Material Denominación";
+            "Cond.pago:";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -34,7 +34,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
 
         #endregion
 
-        public Indra(PDFReader pdfReader)
+        public Report(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -54,7 +54,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i+2]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -62,19 +62,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i+3]);
                         _readRut = true;
                     }
                 }
 
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        _readCentroCosto = true;
-                    }
-                }
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -121,26 +121,43 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
-                        var test01 = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
                         {
-                            Sku = "W102030",
-                            Cantidad = test0[0].Split('.')[0],
-                            Precio = test0[test0.Length - 2].Split('.')[0].Replace(",",""),
+                            Sku = test0[0],
+                            Cantidad = GetCantidad(test0),
+                            Precio = GetPrecio(test0),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
-                        var strAux ="";
-                        for (var j = i+1;GetFormatItemsPattern(strAux) != -2 && j < pdfLines.Length; j++)
-                        {
-                            strAux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                            Console.WriteLine($"STRAUX: {strAux}");
-                        }
                         items.Add(item0);
                         break;
                 }
             }
             //SumarIguales(items);
             return items;
+        }
+
+        private string GetPrecio(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = test0.Length - 1; i >= 0; i--)
+            {
+                if (test0[i].Equals("UNI")
+                    || test0[i].Equals("CJA"))
+                    return ret = test0[i + 2];
+            }
+            return ret;
+        }
+
+        private string GetCantidad(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = test0.Length-1; i >=0 ;i--)
+            {
+                if (test0[i].Equals("UNI")
+                    || test0[i].Equals("CJA"))
+                    return ret = test0[i + 1];
+            }
+            return ret;
         }
 
         private string GetSku(string[] test1)
@@ -190,8 +207,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length -3].Trim();
+            var split = str.Split('/');
+            return split[0].Trim();
         }
 
         /// <summary>
@@ -202,14 +219,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(':');
-            return split[1];
+            return str;
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.Replace(".","").Replace(",","");
+            //str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
@@ -233,28 +249,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Indra
                     }
                 }
             }
-        }
-
-        private string GetPrecio(string[] test0)
-        {
-            var ret = "-1";
-            for (var i = 0; i < test0.Length; i++)
-            {
-                if (test0[i].Equals("CLP"))
-                    return ret = test0[i + 1];
-            }
-            return ret;
-        }
-
-        private string GetCantidad(string[] test0)
-        {
-            var ret = "-1";
-            for (var i = 0; i < test0.Length; i++)
-            {
-                if (test0[i].Equals("CLP"))
-                    return ret = test0[i - 1];
-            }
-            return ret;
         }
 
 

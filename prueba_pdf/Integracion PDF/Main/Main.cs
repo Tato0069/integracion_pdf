@@ -84,6 +84,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Petrobras;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Zical;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClubAereoCarabineros;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Report;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -169,7 +170,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 3:
                     var indra = new Indra(pdfReader);
                     ordenCompra = indra.GetOrdenCompra();
-                    ocAdapter = ordenCompra.AdapterGenericFormatToCompraIntegracion();
+
                     break;
                 case 5:
                     var unab = new Unab(pdfReader);
@@ -314,6 +315,13 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 25:
                     var tnt = new TNT(pdfReader);
                     ordenCompra = tnt.GetOrdenCompra();
+                    //foreach(var o in ordenCompra.Items)
+                    //{
+                    //    if (o.Sku.Equals("P107404"))
+                    //    {
+                    //        o.Cantidad = "1";
+                    //    }
+                    //}
                     ocAdapter = ordenCompra.AdapterGenericFormatWithSkuAndDescriptionCencosWithMatchToCompraIntegracion();
                     break;
                 case 26:
@@ -653,6 +661,10 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var servicioExternosACH = new Esach(pdfReader);
                     ordenCompra = servicioExternosACH.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+                case 84:
+                    var report = new Report(pdfReader);
+                    ordenCompra = report.GetOrdenCompra();
                     break;
 
 

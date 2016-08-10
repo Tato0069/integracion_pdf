@@ -51,6 +51,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
@@ -141,7 +142,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         {
                             Sku = test0[1].ToUpper()
                         };
-                        aux = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
+                        aux = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
                         var test02 = aux.Split(' ');
                         item0.Cantidad = test02[0];
                         item0.Precio = test02[test02.Length - 3].Replace(".", "");
@@ -160,7 +161,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         {
                             Sku = GetSku(test1[1]).ToUpper()
                         };
-                        aux = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
+                        aux = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
                         var test12 = aux.Split(' ');
                         item1.Cantidad = test12[0];
                         item1.Precio = test12[test12.Length - 3].Replace(".", "");
@@ -198,7 +199,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         {
                             Sku = GetSku(case3[1].Replace(")", " ")).ToUpper()
                         };
-                        aux = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
+                        aux = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
                         var case31 = aux.Split(' ');
                         itemCase3.Cantidad = case31[0];
                         itemCase3.Precio = case31[case31.Length - 3].Replace(".", "");
@@ -212,7 +213,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         {
                             Sku = GetSku(case4[1].Replace(")", " ")).ToUpper()
                         };
-                        aux = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
+                        aux = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
                         var case41 = aux.Split(' ');
                         itemCase4.Cantidad = case41[0];
                         itemCase4.Precio = case41[case41.Length - 3].Replace(".", "");

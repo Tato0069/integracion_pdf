@@ -30,8 +30,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
         private readonly PDFReader _pdfReader;
         private readonly string[] _pdfLines;
 
-        #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
+
+        #endregion
 
         public GenericClass(PDFReader pdfReader)
         {
@@ -39,24 +40,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
-        private static void SumarIguales(List<Item> items)
-        {
-            for (var i = 0; i < items.Count; i++)
-            {
-                for (var j = i + 1; j < items.Count; j++)
-                {
-                    if (items[i].Sku.Equals(items[j].Sku))
-                    {
-                        items[i].Cantidad = (int.Parse(items[i].Cantidad) + int.Parse(items[j].Cantidad)).ToString();
-                        items.RemoveAt(j);
-                        j--;
-                        Console.WriteLine($"Delete {j} from {i}");
-                    }
-                }
-            }
-        }
-
-        #region Funciones Get
+         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
@@ -226,6 +210,46 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
             //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
+
+        private static void SumarIguales(List<Item> items)
+        {
+            for (var i = 0; i < items.Count; i++)
+            {
+                for (var j = i + 1; j < items.Count; j++)
+                {
+                    if (items[i].Sku.Equals(items[j].Sku))
+                    {
+                        items[i].Cantidad = (int.Parse(items[i].Cantidad) + int.Parse(items[j].Cantidad)).ToString();
+                        items.RemoveAt(j);
+                        j--;
+                        Console.WriteLine($"Delete {j} from {i}");
+                    }
+                }
+            }
+        }
+
+        private string GetPrecio(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
+            {
+                if (test0[i].Equals("CLP"))
+                    return ret = test0[i + 1];
+            }
+            return ret;
+        }
+
+        private string GetCantidad(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
+            {
+                if (test0[i].Equals("CLP"))
+                    return ret = test0[i - 1];
+            }
+            return ret;
+        }
+
 
         #endregion
 
