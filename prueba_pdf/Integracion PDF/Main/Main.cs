@@ -86,6 +86,9 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Zical;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClubAereoCarabineros;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Report;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TecnologiaTrasnporteMinerales;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MaestranzaMParts;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.VrkConstructora;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampaOriente;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -719,6 +722,24 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var clubAereoCarabineros = new ClubAereoCarabineros(pdfReader);
                     ordenCompra = clubAereoCarabineros.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
+                case 207:
+                    var maestranzaMParts = new MaestranzaMParts(pdfReader);
+                    //ordenCompra = maestranzaMParts.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
+                case 208:
+                    var vrkConstructora = new VrkConstructora(pdfReader);
+                    //ordenCompra = vrkConstructora.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    break;
+
+                case 209:
+                    var constructoraLampaOriente = new ConstructoraLampaOriente(pdfReader);
+                    ordenCompra = constructoraLampaOriente.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
