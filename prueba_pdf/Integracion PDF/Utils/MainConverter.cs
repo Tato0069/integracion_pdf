@@ -51,5 +51,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                     Substring(0, pdfP.LastIndexOf(".", StringComparison.Ordinal)) + "_simple_strategy.txt", line);
             }
         }
+
+        internal static void ExtractTextLocalStrategy(string pdfP)
+        {
+            var pdfReader = new PDFReader(pdfP);
+            foreach (var line in pdfReader.ExtractTextFromPdfToArrayLocalStrategy())
+            {
+                SavePdfToTxt(
+                    pdfP.
+                    Substring(0, pdfP.LastIndexOf(".", StringComparison.Ordinal)) + "_local_strategy.txt", line);
+            }
+        }
     }
 }

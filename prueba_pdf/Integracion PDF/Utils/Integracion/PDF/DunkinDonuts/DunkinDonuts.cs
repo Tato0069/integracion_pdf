@@ -117,7 +117,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts
                         var item0 = new Item
                         {
                             Sku = test0[0],
-                            Descripcion = test0.ArrayToString(1, test0.Length - 4),
+                            Descripcion = test0.ArrayToString(1, test0.Length - 5),
                             Cantidad = test0[test0.Length - 4].Replace(",","").Split('.')[0],
                             Precio = test0[test0.Length - 3].Replace(",", "").Split('.')[0].Replace(",", ""),
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
@@ -129,7 +129,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts
                         var item1 = new Item
                         {
                             Sku = test1[0],
-                            //Descripcion = test1.ArrayToString(1, test1.Length - 4),
+                            //Descripcion = test1.ArrayToString(1, test1.Length - 5),
                             Cantidad = test1[test1.Length - 4].Replace(",", "").Split('.')[0],
                             Precio = test1[test1.Length - 3].Replace(",", "").Split('.')[0],
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
@@ -150,7 +150,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DunkinDonuts
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

@@ -37,7 +37,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Cencosud
                         Cantidad = test[test.Length - 4],
                         Precio = test[test.Length - 2]
                     };
-                    aux = test.ArrayToString(2, test.Length - 4);
+                    aux = test.ArrayToString(2, test.Length - 5);
                     items.Add(item);
                 }
                 itemsArray.Add(aux);

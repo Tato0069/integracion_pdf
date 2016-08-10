@@ -66,6 +66,7 @@ namespace IntegracionPDF.Integracion_PDF.View
                 {
                     MainConverter.ExtractTextDefaultMode(pdfP);
                     MainConverter.ExtractTextSimpleStrategy(pdfP);
+                    MainConverter.ExtractTextLocalStrategy(pdfP);
                 }
             }
             catch (Exception e)

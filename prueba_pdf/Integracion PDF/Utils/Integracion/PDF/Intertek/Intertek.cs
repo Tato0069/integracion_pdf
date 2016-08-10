@@ -99,13 +99,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                                 //if (raw.Contains("IVA 19%"))
                                 //{
                                 //    var splitAux = raw.Split(' ');
-                                //    raw = splitAux.ArrayToString(0, splitAux.Length - 3);
+                                //    raw = splitAux.ArrayToString(0, splitAux.Length - 4);
                                 //}
                                 //var split = raw.Split(' ');
                                 //if (p < float.Parse(split[split.Length - 3]))
                                 //{
                                 //    p = float.Parse(split[split.Length - 3]);
-                                //    cc = split.ArrayToString(0, split.Length- 3);
+                                //    cc = split.ArrayToString(0, split.Length- 4);
                                 //}
                                 var f = 0.0;
                                 var raw2 = "";
@@ -125,7 +125,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                                 if (p < float.Parse(split[split.Length - 1]))
                                 {
                                     p = float.Parse(split[split.Length - 1]);
-                                    cc = split.ArrayToString(0, split.Length - 1);
+                                    cc = split.ArrayToString(0, split.Length - 2);
                                 }
                             }
                         }
@@ -208,7 +208,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

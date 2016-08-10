@@ -138,7 +138,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU
                             Sku = "W102030",
                             Cantidad = test0[test0.Length -5].Split(',')[0],
                             Precio = test0[test0.Length - 3].Split(',')[0],
-                            Descripcion = test0.ArrayToString(1,test0.Length - 5),
+                            Descripcion = test0.ArrayToString(1,test0.Length - 6),
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
@@ -157,7 +157,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CerveceriaCCU
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

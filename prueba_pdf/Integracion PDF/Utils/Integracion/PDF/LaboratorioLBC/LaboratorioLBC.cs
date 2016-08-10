@@ -136,7 +136,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
                         {
                             Sku = "W102030",
                             Cantidad = test0[test0.Length - 3].Split('.')[0],
-                            Descripcion = test0.ArrayToString(1, test0.Length - 3),
+                            Descripcion = test0.ArrayToString(1, test0.Length - 4),
                             Precio = test0[test0.Length - 2].Split('.')[0],
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
@@ -156,7 +156,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LaboratorioLBC
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length-1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;

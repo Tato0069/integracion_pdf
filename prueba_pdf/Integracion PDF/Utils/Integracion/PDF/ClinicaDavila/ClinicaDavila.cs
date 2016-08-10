@@ -96,7 +96,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                 var rawLin = list[i];
                 var aux = rawLin.Split(' ');
                 var cant = aux[aux.Length - 1];
-                var rawLine = aux.ArrayToString(0, aux.Length - 2);
+                var rawLine = aux.ArrayToString(0, aux.Length - 3);
                 //Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
                 //Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
                 if (rawLine.Equals("?")) continue;
@@ -120,7 +120,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                             {
                                 if (desCenCos.Replace(" ", "")
                                     .Equals(splitAux
-                                        .ArrayToString(0, splitDesCc.Length - 1).Replace(" ", "")))
+                                        .ArrayToString(0, splitDesCc.Length - 2).Replace(" ", "")))
                                 {
                                     //Se SOLAPA Descripcion de ITEM, ITEM ERRONEO
                                     //Console.WriteLine(rawLin.Substring(desCenCos.Length));
@@ -169,7 +169,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
         private ItemDavila GetItemFromDescripcion(string desc)
         {
             var aux = desc.Split(' ');
-            var realDesc = aux.ArrayToString(0, aux.Length - 2);
+            var realDesc = aux.ArrayToString(0, aux.Length - 3);
             return OrdenCompra.ItemsClinicaDavila.FirstOrDefault(x => x.Descripcion.Equals(realDesc));
         }
 
@@ -201,7 +201,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                         Sku = test[0],
                         Cantidad = test[test.Length - 3],
                         Precio = test[test.Length - 2].Split(',')[0],
-                        Descripcion = test.ArrayToString(1, test.Length - 3)
+                        Descripcion = test.ArrayToString(1, test.Length - 4)
                     };
                     items.Add(item);
                 }

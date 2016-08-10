@@ -138,12 +138,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                         var test0 = aux.Split(' ');
                         var strPrevious = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
                         var strNext = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
-                        var str = $"{test0.ArrayToString(0, test0.Length - 4)} {strPrevious} {strNext} {test0.ArrayToString(test0.Length - 4, test0.Length) }".DeleteContoniousWhiteSpace();
+                        var str = $"{test0.ArrayToString(0, test0.Length - 5)} {strPrevious} {strNext} {test0.ArrayToString(test0.Length - 4, test0.Length -1) }".DeleteContoniousWhiteSpace();
                         var test12 = str.Split(' ');
                         var item0 = new Item
                         {
                             Sku = GetSku(str.Split(' ')),
-                            Descripcion = test12.ArrayToString(2, test12.Length - 4).Replace("UNIDAD", "").DeleteContoniousWhiteSpace(),
+                            Descripcion = test12.ArrayToString(2, test12.Length - 5).Replace("UNIDAD", "").DeleteContoniousWhiteSpace(),
                             Cantidad = test0[1].Split(',')[0],
                             Precio = test0[test0.Length - 3].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
@@ -179,7 +179,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                         var item3 = new Item
                         {
                             Sku = GetSku(test3),
-                            Descripcion = test3.ArrayToString(2,test3.Length -5),
+                            Descripcion = test3.ArrayToString(2,test3.Length -6),
                             Cantidad = test3[1].Split(',')[0],
                             Precio = test3[test3.Length - 3].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
@@ -200,7 +200,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Eulen
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\s?\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\s?\d{6}").Index;

@@ -174,7 +174,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length);
+                var str = test1.ArrayToString(0, test1.Length -1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
@@ -201,7 +201,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
         private static string GetCentroCosto(string str)
         {
             var split = str.Split(' ');
-            var ret = split.ArrayToString(split.Length - 3, split.Length);
+            var ret = split.ArrayToString(split.Length - 3, split.Length -1);
             return ret.Replace(".","").Replace(",","").ToUpper();// str.ToUpper().Trim();
         }
 
