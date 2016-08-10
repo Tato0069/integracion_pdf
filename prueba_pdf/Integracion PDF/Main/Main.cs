@@ -478,7 +478,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 48:
                     var consorcioSeguridad = new ConsorcioCompaniaSeguridad(pdfReader);
                     ordenCompra = consorcioSeguridad.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 49:
                     var megaSalud = new Megasalud(pdfReader);
@@ -493,7 +493,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-                    //falta cc y sku
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
@@ -504,7 +504,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 53:
                     var intertek = new Intertek(pdfReader);
                     ordenCompra = intertek.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 54:
@@ -521,7 +521,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 56:
                     var corporacionDesarrolloTecnologico = new CorporacionDesarrolloTecnologico(pdfReader);
                     ordenCompra = corporacionDesarrolloTecnologico.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 57:
                     var aguasAndinas = new Ecoriles(pdfReader);
@@ -532,7 +532,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 58:
                     var ingeProject = new Ingeproject(pdfReader);
                     ordenCompra = ingeProject.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 59:
                     var sociedadAraucana = new SociedadEducacionalAraucana(pdfReader);
@@ -542,48 +542,48 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 60:
                     var dunkinDonuts = new DunkinDonuts(pdfReader);
                     ordenCompra = dunkinDonuts.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 61:
                     var teveuk = new Teveuk(pdfReader);
                     ordenCompra = teveuk.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 62:
                     var colegioCoya = new ColegioCoya(pdfReader);
                     ordenCompra = colegioCoya.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 63:
                     var sociedadInstruccion = new SociedadInstruccion(pdfReader);
                     ordenCompra = sociedadInstruccion.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 64:
                     var shawAlmexChile = new ShawAlmexChile(pdfReader);
                     ordenCompra = shawAlmexChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 65:
                     var unitedNations = new UnitedNations(pdfReader);
                     ordenCompra = unitedNations.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 66:
                     var ingeniericaComercializadoraRiego = new IngenieriaComercializadoraRiego(pdfReader);
                     ordenCompra = ingeniericaComercializadoraRiego.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 67:
                     var envasadosMovipackChile = new EnvasadosMovipackChile(pdfReader);
                     ordenCompra = envasadosMovipackChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 68:
                     var larrainSalas = new LarrainSalas(pdfReader);
                     ordenCompra = larrainSalas.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 69:
                     var laboratorioLBC = new LaboratorioLBC(pdfReader);
@@ -593,28 +593,28 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 70:
                     var proyektaSA = new ProyektaSA(pdfReader);
                     ordenCompra = proyektaSA.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 71:
                     var biomedicalDistributionChile = new BiomedicalDistributionChile(pdfReader);
                     ordenCompra = biomedicalDistributionChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 72:
                     var loginsa = new BiomedicalDistributionChile(pdfReader);
                     ordenCompra = loginsa.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     //IDENTIFICAR CC
                     break;
                 case 73:
                     var depositosContenedores = new DepositosContenedores(pdfReader);
                     ordenCompra = depositosContenedores.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 74:
                     var aridosSantaFerSA = new AridosSantaFeSA(pdfReader);
                     ordenCompra = aridosSantaFerSA.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 75:
                     var cementosTransex = new CementosTransex(pdfReader);
@@ -623,44 +623,44 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 76:
                     var ezentis = new Ezentis(pdfReader);
                     ordenCompra = ezentis.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 77:
                     var rimasa = new Rimasa(pdfReader);
                     ordenCompra = rimasa.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 78:
                     var grupoEulenChile = new GrupoEulen(pdfReader);// EULEN CHILE S.A.
                     ordenCompra = grupoEulenChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 79:
                     var eluenChile = new EulenChile(pdfReader);
                     ordenCompra = eluenChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 80:
                     var petrobrasChileRed = new Petrobras(pdfReader);
                     ordenCompra = petrobrasChileRed.GetOrdenCompra();
                     ordenCompra.Rut = "79706120";
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 81:
                     var petrobrasChileDistribucion = new Petrobras(pdfReader);
                     ordenCompra = petrobrasChileDistribucion.GetOrdenCompra();
                     ordenCompra.Rut = "79588870";
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 82:
                     var eulenSeugirdad = new GrupoEulen(pdfReader);
                     ordenCompra = eulenSeugirdad.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 83:
                     var servicioExternosACH = new Esach(pdfReader);
                     ordenCompra = servicioExternosACH.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 84:
                     var report = new Report(pdfReader);
@@ -679,39 +679,39 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 200:
                     var cerveceriaCCU = new CerveceriaCCU(pdfReader);
                     ordenCompra =  cerveceriaCCU.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 201:
                     var constructoraStaFe = new ConstructoraStaFe(pdfReader);
                     ordenCompra = constructoraStaFe.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 202:
                     var seidorChile = new SeidorChile(pdfReader);
                     ordenCompra = seidorChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 203:
                     var cftSanAgustin = new CFTSanAgustin(pdfReader);
                     ordenCompra = cftSanAgustin.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 204:
                     var alimentosSanMartin = new AlimentosSanMartin(pdfReader);
                     ordenCompra = alimentosSanMartin.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 205:
                     var zical = new Zical(pdfReader);
                     ordenCompra = zical.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 206:
                     var clubAereoCarabineros = new ClubAereoCarabineros(pdfReader);
                     ordenCompra = clubAereoCarabineros.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);

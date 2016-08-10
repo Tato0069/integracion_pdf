@@ -299,7 +299,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             return ret;
         }
 
-        public static OrdenCompraIntegracion TraspasoIntegracionTest(this OrdenCompra oc)
+        public static OrdenCompraIntegracion TraspasoUltimateIntegracion(this OrdenCompra oc)
         {
             var cencos = oc.CentroCosto.Replace("-", " ");
             switch (oc.TipoPareoCentroCosto)

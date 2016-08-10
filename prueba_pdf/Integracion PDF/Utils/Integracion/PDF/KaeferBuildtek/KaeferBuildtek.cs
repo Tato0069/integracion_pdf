@@ -59,7 +59,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek
         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompra.OrdenCompra();
+            OrdenCompra = new OrdenCompra.OrdenCompra
+            {
+                CentroCosto = "0"
+            };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -131,9 +134,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.KaeferBuildtek
                         var item0 = new Item
                         {
                             Sku = test0[1],
-                            Descripcion = test0.ArrayToString(1, test0.Length-6),
+                            Descripcion = test0.ArrayToString(2, test0.Length-7),
                             Cantidad = test0[test0.Length-6].Split(',')[0],
-                            Precio = test0[test0.Length - 3].Split(',')[0].Replace(".","")
+                            Precio = test0[test0.Length - 3].Split(',')[0].Replace(".",""),
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
                         break;
