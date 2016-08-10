@@ -108,7 +108,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 var text = new StringBuilder();
                 for (var i = 1; i <= reader.NumberOfPages; i++)
                 {
-                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i).DeleteContoniousWhiteSpace().DeleteNullHexadecimalValues());
+                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i)
+                        .DeleteContoniousWhiteSpace().DeleteNullHexadecimalValues());
                 }
                 var ret = text.ToString().Split('\n');
                 for (var i = 0; i < text.Length; i++)
@@ -133,6 +134,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             }
         }
 
+        /// <summary>
+        /// Extrae texto de PDF con Simple Strategy
+        /// </summary>
+        /// <returns></returns>
         public string[] ExtractTextFromPdfToArraySimpleStrategy()
         {
             Console.WriteLine("SimpleTextExtractionStrategy");
@@ -169,6 +174,45 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             }
         }
 
+        /// <summary>
+        /// Extrae texto de PDF con Local Strategy
+        /// </summary>
+        /// <returns></returns>
+        public string[] ExtractTextFromPdfToArrayLocalStrategy()
+        {
+            Console.WriteLine("LocalTextExtractionStrategy");
+            using (var reader = new PdfReader(_pdfPath))
+            {
+                NumerOfPages = reader.NumberOfPages;
+                var text = new StringBuilder();
+                ITextExtractionStrategy its = new LocationTextExtractionStrategy();
+                for (var i = 1; i <= reader.NumberOfPages; i++)
+                {
+                    text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i, its).DeleteContoniousWhiteSpace());
+
+                }
+                var ret = text.ToString().Split('\n');
+                for (var i = 0; i < text.Length; i++)
+                {
+                    for (var j = i + 1; j < ret.Length - 1; j++)
+                    {
+                        if (ret[i].Equals(ret[j]))
+                        {
+                            ret[j] = "-1*";
+                        }
+                    }
+                }
+                var ret2 = new List<string>();
+                foreach (var x in ret)
+                {
+                    if (!x.Equals("-1*"))
+                    {
+                        ret2.Add(x);
+                    }
+                }
+                return ret2.ToArray();
+            }
+        }
 
 
         /// <summary>
