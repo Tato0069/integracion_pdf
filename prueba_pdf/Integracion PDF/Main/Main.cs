@@ -85,6 +85,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMartin;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Zical;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClubAereoCarabineros;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Report;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TecnologiaTrasnporteMinerales;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -493,7 +494,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    //FACTA CC y PAREO DE SKU
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
@@ -665,6 +667,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 84:
                     var report = new Report(pdfReader);
                     ordenCompra = report.GetOrdenCompra();
+                    break;
+                case 85:
+                    var tecnologiaTransporteMinerales = new TecnologiaTransporteMinerales(pdfReader);
+                    ordenCompra = tecnologiaTransporteMinerales.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
 
