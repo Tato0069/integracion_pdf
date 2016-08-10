@@ -60,6 +60,29 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         }
 
         /// <summary>
+        /// Extrae texto de un Rectangulo en especifico dado un Número de Página especificado
+        /// </summary>
+        /// <param name="numeroPagina">Número de Página</param>
+        /// <param name="coordenadaXInicio">X Inicio</param>
+        /// <param name="coordenadaYInicio">Y Inicio</param>
+        /// <param name="coordenadaXFin">X Fin</param>
+        /// <param name="coordenadaYFin">Y Fin</param>
+        /// <returns></returns>
+        public string ExtractTextByCoOrdinate(int numeroPagina,int coordenadaXInicio, int coordenadaYInicio, int coordenadaXFin, int coordenadaYFin)
+        {
+            List<string> linestringlist = new List<string>();
+            PdfReader reader = new PdfReader(_pdfPath);
+            iTextSharp.text.Rectangle rect = new iTextSharp.text
+                .Rectangle(coordenadaXInicio, coordenadaYInicio, coordenadaXFin, coordenadaYFin);
+            RenderFilter[] renderFilter = new RenderFilter[1];
+            renderFilter[0] = new RegionTextRenderFilter(rect);
+            ITextExtractionStrategy textExtractionStrategy = new FilteredTextRenderListener(new LocationTextExtractionStrategy(), renderFilter);
+            string text = PdfTextExtractor.GetTextFromPage(reader, numeroPagina, textExtractionStrategy);
+            return text;
+            // string[] words = text.Split('\n');         
+        }
+
+        /// <summary>
         /// Extrae Texto de PDF y retorna un Arreglo con dicho texto.
         /// </summary>
         /// <returns>Arreglo con Texto del PDF</returns>
