@@ -128,6 +128,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
                             Precio = test0[test0.Length - 2].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
+                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                        var concatAll = "";
+                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        {
+                            concatAll += $" {aux}";
+                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        }
+                        item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
                         break;
                 }
