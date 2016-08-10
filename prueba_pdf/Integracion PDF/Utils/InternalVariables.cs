@@ -125,7 +125,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {206, "CLUB AEREO DEL PERSONAL DE CARABINEROS" }, //APARDO
             {207, "Maestranza Mining Parts Ltda." }, //APARDO under construction 
             {208, "CONSTRUCTORA VRK S.P.A.;GLOSA PROV" }, //APARDO under construction
-            {209, "Constructora Lampa Oriente S.A." }//APARDO
+            {209, "Constructora Lampa Oriente S.A." }//APARDO under construction
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

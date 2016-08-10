@@ -13,14 +13,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            //{0, @"^[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}"},
-            //{1, @"^\d{1,}\s[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}" },
+            {0, @"^[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}"},
+            {1, @"^\d{1,}\s[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}" },
             {2,@"[a-zA-Z]{1,}\.\d{2,}\.\d{2,}\.\d{2,}\.\d{2,}$" }
         };
         private const string RutPattern = "Facturar a:";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA N°";
         private const string ItemsHeaderPattern =
-            "Ítem Descripción Unidad Moneda Cantidad Precio";
+            "Descto. Total";
 
         private const string CentroCostoPattern = "";
         private const string ObservacionesPattern = "";
@@ -130,35 +130,35 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraStaFe
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                //var aux2 = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
+                var aux2 = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
                 {
-                    //case 0:
-                    //    var test0 = aux.Split(' ');
-                    //    var test1 = aux2.Split(' ');
-                    //    var item0 = new Item
-                    //    {
-                    //        Sku = test0[0],
-                    //        Cantidad = test1[1].Split(',')[0],
-                    //        Precio = test1[2].Split(',')[0],
-                    //        TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
-                    //    };
-                    //    items.Add(item0);
-                    //    break;
+                    case 0:
+                        var test0 = aux.Split(' ');
+                        var test1 = aux2.Split(' ');
+                        var item0 = new Item
+                        {
+                            Sku = test0[0],
+                            Cantidad = test1[1].Replace(",","").Trim(),
+                            Precio = test1[2].Replace(",","").Replace(".",""),
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                        };
+                        items.Add(item0);
+                        break;
 
                     //case 1:
-                    //    var test3 = aux.Split(' ');
-                    //    var item1 = new Item
+                    //    var test3 = aux.split(' ');
+                    //    var item1 = new item
                     //    {
 
-                    //        Sku = test3[1],
-                    //        Cantidad = test3[4].Split(',')[0],
-                    //        Precio = test3[5].Split(',')[0].Replace(".", ""),
-                    //        TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                    //        sku = test3[1],
+                    //        cantidad = test3[4].split(',')[0],
+                    //        precio = test3[5].split(',')[0].replace(".", ""),
+                    //        tipopareoproducto = tipopareoproducto.pareocodigocliente
                     //    };
-                    //    items.Add(item1);
+                    //    items.add(item1);
                     //    break;
                     case 2:
                         var test3 = aux.Split(' ');

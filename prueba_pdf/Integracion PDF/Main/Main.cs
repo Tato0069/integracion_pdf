@@ -733,19 +733,19 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 207:
                     var maestranzaMParts = new MaestranzaMParts(pdfReader);
                     //ordenCompra = maestranzaMParts.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 208:
                     var vrkConstructora = new VrkConstructora(pdfReader);
                     //ordenCompra = vrkConstructora.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoIntegracionTest();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 209:
                     var constructoraLampaOriente = new ConstructoraLampaOriente(pdfReader);
-                    ordenCompra = constructoraLampaOriente.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    //ordenCompra = constructoraLampaOriente.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
