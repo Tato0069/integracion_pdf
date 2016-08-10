@@ -138,6 +138,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraLampaOriente\ConstructoraLampaOriente.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraStaFe\ConstructoraStaFe.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CorporacionDesarrolloTecnologico\CorporacionDesarrolloTecnologico.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DepositosContenedores\DepositosContenedores.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuReman.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LaboratorioLBC\LaboratorioLBC.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainSalas\LarrainSalas.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\MaestranzaMParts\MaestranzaMParts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Megasalud\Megasalud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UNAB\CorpUNAB.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UnitedNations\UnitedNations.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\VitaminaWorkLife\VitaminaWorkLife.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\VrkConstructora\VrkConstructora.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Zical\Zical.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\XLSX\Excel.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\XLSX\ExcelExport.cs" />
