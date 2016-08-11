@@ -90,6 +90,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MaestranzaMParts;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.VrkConstructora;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampaOriente;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CapacitacionCienciasTecnologiaLimitada;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MasterLineEnjoy;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColumbiaMaquinarias;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -746,6 +748,17 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var constructoraLampaOriente = new ConstructoraLampaOriente(pdfReader);
                     //ordenCompra = constructoraLampaOriente.GetOrdenCompra();
                     //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 210:
+                    var masterLineEnjoy = new MasterLineEnjoy(pdfReader);
+                    ordenCompra = masterLineEnjoy.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
+                case 211:
+                    var columbiaMaquinarias = new ColumbiaMaquinarias(pdfReader);
+                    ordenCompra = columbiaMaquinarias.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);

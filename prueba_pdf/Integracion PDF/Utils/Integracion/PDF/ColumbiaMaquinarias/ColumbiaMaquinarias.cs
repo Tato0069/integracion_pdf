@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampaOriente
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColumbiaMaquinarias
 {
-    class ConstructoraLampaOriente
+    class ColumbiaMaquinarias
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"\s\d{1,}\s\d{1,}\s\d{1,}$"},
-            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {0, @"\$\s\d{1,}\s\$\s\d{1,}"},
+           // {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "Constructora Lampa Oriente S.A.";
-        private const string OrdenCompraPattern = "ORDEN DE COMPRA";
+        private const string RutPattern = "RUT:";
+        private const string OrdenCompraPattern = "Orden de Compra";
         private const string ItemsHeaderPattern =
-            "Precio Unitario Descuento VALOR TOTAL";
+            "UNITARIO PRECIO TOTAL";
 
-        private const string CentroCostoPattern = "de entrega:";
-        private const string ObservacionesPattern = "Tienda :";
+        private const string CentroCostoPattern = "";
+        private const string ObservacionesPattern = "RUT 96.670.840-9";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -35,10 +35,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
 
         #endregion
 
-        public ConstructoraLampaOriente(PDFReader pdfReader)
+        public ColumbiaMaquinarias(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArraySimpleStrategy();   // ExtractTextFromPdfToArrayDefaultMode();
         }
 
         #region Funciones Get
@@ -51,19 +51,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
-                if (!_readOrdenCompra)
-                {
-                    if (IsOrdenCompraPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i+2]);
-                        _readOrdenCompra = true;
-                    }
-                }
+                //if (!_readOrdenCompra)
+                //{
+                //    if (IsOrdenCompraPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.NumeroCompra =  GetOrdenCompra(_pdfLines[i]);
+                //        _readOrdenCompra = true;
+                //    }
+                //}
                 if (!_readRut)
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
                 }
@@ -76,17 +76,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                 //        _readCentroCosto = true;
                 //    }
                 //}
-                //if (!_readObs)
-                //{
-                //    if (IsObservacionPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.Observaciones +=
-                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
-                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
-                //        _readObs = true;
-                //        _readItem = false;
-                //    }
-                //}
+                if (!_readObs)
+                {
+                    if (IsObservacionPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.Observaciones +=
+                            $"{_pdfLines[++i].Replace("Direcccion", "").Trim().DeleteContoniousWhiteSpace()} ";
+                        _readObs = true;
+                        _readItem = false;
+                    }
+                }
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -115,7 +114,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                var aux2 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
@@ -123,14 +121,22 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
-                        var test1 = aux2.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[0],
-                            Cantidad = GetCantidad(test1).Trim(),
-                            Precio = GetPrecio(test0).Trim().Replace(",", "").Replace(".",""),
+                            Sku = test0[1].Trim(),
+                            Cantidad = test0[0].Trim(),
+                            Precio = test0[test0.Length - 3].Replace(".",""),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
+                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                        //var concatAll = "";
+                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        //{
+                        //    concatAll += $" {aux}";
+                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        //}
+                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
                         break;
                 }
@@ -173,7 +179,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
+            var aux = str.Split(' ');
             return aux[1].Trim();
         }
 
@@ -186,8 +192,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         /// <summary>
@@ -198,14 +204,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            var split = str.Split(':');
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.Replace(",","");
+            str = str.Replace(".","");
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
@@ -236,29 +242,20 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             var ret = "-1";
             for (var i = 0; i < test0.Length; i++)
             {
-                if (test0[i].Equals("UN"))
+                if (test0[i].Equals("CLP"))
                     return ret = test0[i + 1];
             }
             return ret;
         }
 
-        private string GetCantidad(string[] test1)
+        private string GetCantidad(string[] test0)
         {
-           Console.WriteLine($"CANTIDAD: {test1.ArrayToString(0,test1.Length-1)}");
-            var ret = "-2";
-            for (var i = 0; i < test1.Length; i++)
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
             {
-                if (test1[i].Equals("UN") || test1[i].Equals("Caja"))
-                    //if (test1[i] == test1[0])
-                    //{
-
-                    //    return ret;
-                    //}
-                    //ret = test1[i - 1];
-               
-                if (ret.Contains(",")) return ret = test1[i - 1];
-            } 
-                
+                if (test0[i].Equals("CLP"))
+                    return ret = test0[i - 1];
+            }
             return ret;
         }
 
