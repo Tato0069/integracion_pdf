@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
 {
-    class AridosSantaFeSA
+    class MaquinariasSantaFe
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
@@ -37,7 +37,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public AridosSantaFeSA(PDFReader pdfReader)
+        public MaquinariasSantaFe(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -139,8 +139,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
-                            Cantidad = test0[1].Split(',')[0],
+                            Sku = GetSku(pdfLines[++i].Trim().DeleteContoniousWhiteSpace().Split(' ')),
+                            Cantidad = test0[1].Split('.')[0],
                             Precio = test0[test0.Length - 2].Replace(".", "").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
@@ -152,7 +152,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         var item1 = new Item
                         {
                             Sku = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
-                            Cantidad = test1[2].Split(',')[0],
+                            Cantidad = test1[2].Split('.')[0],
                             Precio = test1[test1.Length - 2].Replace(".", "").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
@@ -164,7 +164,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         var item2 = new Item
                         {
                             Sku = "W102030",
-                            Cantidad = test2[2].Split(',')[0],
+                            Cantidad = test2[1].Split('.')[0],
                             Precio = test2[test2.Length - 2].Replace(".", "").Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
@@ -179,27 +179,27 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         item2.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
                         items.Add(item2);
                         break;
-                    case 3:
-                        Console.WriteLine("==================ITEM CASE 2=====================");
-                        var test3 = aux.Split(' ');
-                        var item3 = new Item
-                        {
-                            Sku = "W102030",
-                            Cantidad = GetCantidad(test3),
-                            Precio = test3[test3.Length - 2].Replace(".", "").Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
-                        };
-                        //pdfLines[++i].Trim().DeleteContoniousWhiteSpace()
-                        concatAll = "";
-                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
-                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
-                        {
-                            concatAll += $" {aux}";
-                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                        }
-                        item3.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
-                        items.Add(item3);
-                        break;
+                    //case 3:
+                    //    Console.WriteLine("==================ITEM CASE 3=====================");
+                    //    var test3 = aux.Split(' ');
+                    //    var item3 = new Item
+                    //    {
+                    //        Sku = "W102030",
+                    //        Cantidad = GetCantidad(test3),
+                    //        Precio = test3[test3.Length - 2].Replace(".", "").Split(',')[0],
+                    //        TipoPareoProducto = TipoPareoProducto.SinPareo
+                    //    };
+                    //    //pdfLines[++i].Trim().DeleteContoniousWhiteSpace()
+                    //    concatAll = "";
+                    //    aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                    //    for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                    //    {
+                    //        concatAll += $" {aux}";
+                    //        aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                    //    }
+                    //    item3.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
+                    //    items.Add(item3);
+                    //    break;
                 }
             }
             //SumarIguales(items);
@@ -214,7 +214,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                 if (test0[i].Contains(","))
                 {
                     var cantidad = -1;
-                    if(int.TryParse(test0[i].Replace(",", ""),out cantidad))
+                    if (int.TryParse(test0[i].Replace(",", ""), out cantidad))
                     {
                         return test0[i].Split(',')[0];
                     }
@@ -231,7 +231,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length-1);
+                var str = test1.ArrayToString(0, test1.Length - 1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
@@ -290,9 +290,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         {
             var ret = -1;
             str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace("Ñ","N").Replace(",", "").Replace(".", ""), it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace("Ñ", "N").Replace(",", "").Replace(".", ""), it.Value).Success))
             {
-                ret = it.Key;
+                return it.Key;
             }
             return ret;
         }

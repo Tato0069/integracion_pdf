@@ -90,6 +90,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MaestranzaMParts;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.VrkConstructora;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampaOriente;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CapacitacionCienciasTecnologiaLimitada;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaSanBernardo;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LosAndesOperadora;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MasterLineEnjoy;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColumbiaMaquinarias;
 
@@ -683,6 +685,21 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     //Capacitación en Ciencias y Tecnologías Limitada
                     var cecyt = new CapacitacionCienciasTecnologiasLimitada(pdfReader);
                     ordenCompra = cecyt.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 87:
+                    var maquinariasSantaFe = new MaquinariasSantaFe(pdfReader);
+                    ordenCompra = maquinariasSantaFe.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 88:
+                    var clinicaSanBernardo = new ClinicaSanBernardo(pdfReader);
+                    ordenCompra = clinicaSanBernardo.GetOrdenCompra();
+                    break;
+
+                case 89:
+                    var losAndesOperadora = new LosAndesOperadora(pdfReader);
+                    ordenCompra = losAndesOperadora.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 

@@ -5,23 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LosAndesOperadora
 {
-    class AridosSantaFeSA
+    class LosAndesOperadora
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s\d{1,}\s[a-zA-Z]{1,}\s"},
-            {1, @"^\d{1,}\s[a-zA-Z0-9]{10}\s\d{1,}\s[a-zA-Z]{1,}\s" },
-            {2, @"^\d{1,}\s[a-zA-Z]{1,}\s\d{1,}\s[a-zA-Z]{1,}\s"},
-            {3, @"^\d{1,}\s\w{1,}\d{1,}\s[a-zA-Z]{1,}\s" }
-            //12 C1Z1Z11455 2,00 
+            {0, @"^\d{1,}\s[a-zA-ZñÑ]{1,}\s"},
         };
-        private const string RutPattern = "RUT";
-        private const string OrdenCompraPattern = "Orden de Compra N";
+        private const string RutPattern = "RUT ";
+        private const string OrdenCompraPattern = "Orden de Compra";
         private const string ItemsHeaderPattern =
-            "Item Precio Unitario";
+            "Pos. Cant. Descripci";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -34,30 +30,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         private readonly PDFReader _pdfReader;
         private readonly string[] _pdfLines;
 
-        #endregion
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
-        public AridosSantaFeSA(PDFReader pdfReader)
+        #endregion
+
+        public LosAndesOperadora(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
-        }
-
-        private static void SumarIguales(List<Item> items)
-        {
-            for (var i = 0; i < items.Count; i++)
-            {
-                for (var j = i + 1; j < items.Count; j++)
-                {
-                    if (items[i].Sku.Equals(items[j].Sku))
-                    {
-                        items[i].Cantidad = (int.Parse(items[i].Cantidad) + int.Parse(items[j].Cantidad)).ToString();
-                        items.RemoveAt(j);
-                        j--;
-                        Console.WriteLine($"Delete {j} from {i}");
-                    }
-                }
-            }
         }
 
         #region Funciones Get
@@ -82,19 +62,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
                 }
 
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                        _readCentroCosto = true;
-                    }
-                }
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -119,6 +99,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                     }
                 }
             }
+            if (OrdenCompra.NumeroCompra.Equals(""))
+            {
+                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+            }
             return OrdenCompra;
         }
 
@@ -139,88 +123,27 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
-                            Cantidad = test0[1].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Replace(".", "").Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Sku = "W102030",
+                            Cantidad = int.Parse(test0[0].Split(',')[0]).ToString(),
+                            Descripcion = test0.ArrayToString(1,test0.Length-1).ToUpper(),
+                            Precio = "0",
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionCliente
                         };
+                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                        //var concatAll = "";
+                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        //{
+                        //    concatAll += $" {aux}";
+                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        //}
+                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
-                        break;
-                    case 1:
-                        Console.WriteLine("==================ITEM CASE 1=====================");
-                        var test1 = aux.Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = pdfLines[++i].Trim().DeleteContoniousWhiteSpace(),
-                            Cantidad = test1[2].Split(',')[0],
-                            Precio = test1[test1.Length - 2].Replace(".", "").Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
-                        };
-                        items.Add(item1);
-                        break;
-                    case 2:
-                        Console.WriteLine("==================ITEM CASE 2=====================");
-                        var test2 = aux.Split(' ');
-                        var item2 = new Item
-                        {
-                            Sku = "W102030",
-                            Cantidad = test2[2].Split(',')[0],
-                            Precio = test2[test2.Length - 2].Replace(".", "").Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
-                        };
-                        //pdfLines[++i].Trim().DeleteContoniousWhiteSpace()
-                        var concatAll = "";
-                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
-                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
-                        {
-                            concatAll += $" {aux}";
-                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                        }
-                        item2.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
-                        items.Add(item2);
-                        break;
-                    case 3:
-                        Console.WriteLine("==================ITEM CASE 2=====================");
-                        var test3 = aux.Split(' ');
-                        var item3 = new Item
-                        {
-                            Sku = "W102030",
-                            Cantidad = GetCantidad(test3),
-                            Precio = test3[test3.Length - 2].Replace(".", "").Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
-                        };
-                        //pdfLines[++i].Trim().DeleteContoniousWhiteSpace()
-                        concatAll = "";
-                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
-                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
-                        {
-                            concatAll += $" {aux}";
-                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                        }
-                        item3.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
-                        items.Add(item3);
                         break;
                 }
             }
             //SumarIguales(items);
             return items;
-        }
-
-        private string GetCantidad(string[] test0)
-        {
-            var ret = "-1";
-            for (var i = 0; i < test0.Length; i++)
-            {
-                if (test0[i].Contains(","))
-                {
-                    var cantidad = -1;
-                    if(int.TryParse(test0[i].Replace(",", ""),out cantidad))
-                    {
-                        return test0[i].Split(',')[0];
-                    }
-                }
-            }
-            return ret;
         }
 
         private string GetSku(string[] test1)
@@ -231,7 +154,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                 ret = skuDefaultPosition;
             else
             {
-                var str = test1.ArrayToString(0, test1.Length-1);
+                var str = test1.ArrayToString(0, test1.Length - 1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
@@ -271,7 +194,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         private static string GetOrdenCompra(string str)
         {
             var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            return split[split.Length - 1];
         }
 
         /// <summary>
@@ -283,19 +206,60 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
         private static string GetRut(string str)
         {
             var split = str.Split(' ');
-            return split[0];
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace("Ñ","N").Replace(",", "").Replace(".", ""), it.Value).Success))
+            //str = str.DeleteDotComa();
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
+
+        private static void SumarIguales(List<Item> items)
+        {
+            for (var i = 0; i < items.Count; i++)
+            {
+                for (var j = i + 1; j < items.Count; j++)
+                {
+                    if (items[i].Sku.Equals(items[j].Sku))
+                    {
+                        items[i].Cantidad = (int.Parse(items[i].Cantidad) + int.Parse(items[j].Cantidad)).ToString();
+                        items.RemoveAt(j);
+                        j--;
+                        Console.WriteLine($"Delete {j} from {i}");
+                    }
+                }
+            }
+        }
+
+        private string GetPrecio(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
+            {
+                if (test0[i].Equals("CLP"))
+                    return ret = test0[i + 1];
+            }
+            return ret;
+        }
+
+        private string GetCantidad(string[] test0)
+        {
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
+            {
+                if (test0[i].Equals("CLP"))
+                    return ret = test0[i - 1];
+            }
+            return ret;
+        }
+
 
         #endregion
 
