@@ -129,7 +129,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaSanBernard
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
-                        var concatAll = "";
+                        var concatAll = aux;
                         aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
                         for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
                         {
@@ -150,7 +150,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaSanBernard
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
-                        concatAll = "";
+                        concatAll = aux;
                         aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
                         for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
                         {
