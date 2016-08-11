@@ -112,6 +112,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {84, "RECURSOS PORTUARIOS Y ESTIBAS LIMITADA" }, //MZAPATA
             {85, "TECNOLOGIA EN TRANSPORTE DE MINERALES S.A." }, //MZAPATA
             {86,"Capacitación en Ciencias y Tecnologías Limitada" },//MZAPATA
+            {87, "MAQUINARIAS SANTA FE S.A." }, //MZAPATA
+            {88, "MEDICA SAN BERNARDO S.A." }, //MZAPATA
+            {89, "OPERADORA AUTOPISTA DE LOS ANDES LIMITADA" },//MZAPATA
 
 
 

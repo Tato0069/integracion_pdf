@@ -115,6 +115,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Alsacia\Alsacia.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Arauco\Arauco.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\AridosSantaFeSA.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\MaquinariasSantaFe.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemanaArtikosFormat.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaDavila\ClinicaDavila.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaLilas\ClinicaLilas.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaSanBernardo\ClinicaSanBernardo.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaUniversidadAndes\ClinicaUniversidadAndes.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClubAereoCarabineros\ClubAereoCarabineros.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuReman.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LaboratorioLBC\LaboratorioLBC.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainSalas\LarrainSalas.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\LosAndesOperadora\LosAndesOperadora.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MaestranzaMParts\MaestranzaMParts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Megasalud\Megasalud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
