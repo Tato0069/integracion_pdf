@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Integracion PDF\Main\ColumbiaMaquinaria.cs" />
     <Compile Include="Integracion PDF\Utils\Email\Email.cs" />
     <Compile Include="Integracion PDF\Utils\Encrypt.cs" />
     <Compile Include="Integracion PDF\Utils\ExcelReader.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaUniversidadAndes\ClinicaUniversidadAndes.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClubAereoCarabineros\ClubAereoCarabineros.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColumbiaMaquinarias\ColumbiaMaquinarias.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraLampaOriente\ConstructoraLampaOriente.cs" />
@@ -176,6 +178,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainSalas\LarrainSalas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LosAndesOperadora\LosAndesOperadora.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MaestranzaMParts\MaestranzaMParts.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\MasterLineEnjoy\MasterLineEnjoy.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Megasalud\Megasalud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
