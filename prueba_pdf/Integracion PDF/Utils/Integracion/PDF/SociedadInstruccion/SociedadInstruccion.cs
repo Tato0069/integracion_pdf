@@ -133,6 +133,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                 switch (optItem)
                 {
                     case 0:
+                        Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
@@ -146,6 +147,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                         items.Add(item0);
                         break;
                     case 1:
+                        Console.WriteLine("==================ITEM CASE 1=====================");
                         var test1 = aux.Split(' ');
                         var item1 = new Item
                         {
@@ -159,10 +161,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                         items.Add(item1);
                         break;
                     case 2:
+                        Console.WriteLine("==================ITEM CASE 2=====================");
                         var test2 = aux.Split(' ');
                         var item2 = new Item
                         {
-                            Sku = "W102030",
+                            Sku = GetSku(test2).ToUpper(),
                             Cantidad = test2[test2.Length - 3].Equals("Unidad")
                             ? test2[test2.Length - 4].Split(',')[0]
                             : test2[test2.Length - 3].Split(',')[0],
@@ -180,7 +183,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[5].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
                 ret = skuDefaultPosition;
             else
