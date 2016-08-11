@@ -21,7 +21,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
             "Código Cant. U. Med. Descripción P.Unit Dscto. Valor Total";
 
         private const string CentroCostoPattern = "";
-        private const string ObservacionesPattern = "";
+        private const string ObservacionesPattern = "DESPACHAR A:";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -92,17 +92,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                 //        _readCentroCosto = true;
                 //    }
                 //}
-                //if (!_readObs)
-                //{
-                //    if (IsObservacionPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.Observaciones +=
-                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
-                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
-                //        _readObs = true;
-                //        _readItem = false;
-                //    }
-                //}
+                if (!_readObs)
+                {
+                    if (IsObservacionPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.Observaciones +=
+                            $"{_pdfLines[i].Split(':')[0].Trim().DeleteContoniousWhiteSpace()}: " +
+                            $"{_pdfLines[i + 1].Replace("Descuento 1", "").Trim().DeleteContoniousWhiteSpace()}, "+
+                            $"{_pdfLines[i + 2].Replace("Descuento 2", "").Trim().DeleteContoniousWhiteSpace()} "+
+                            $"{_pdfLines[i + 3].Replace("Otros impuestos", "").Trim().DeleteContoniousWhiteSpace()}";
+                        _readObs = true;
+                        _readItem = false;
+                    }
+                }
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
