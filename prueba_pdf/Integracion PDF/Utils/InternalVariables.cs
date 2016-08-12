@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows;
 
 namespace IntegracionPDF.Integracion_PDF.Utils
@@ -176,9 +178,24 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             return ConfigurationManager.AppSettings.Get("PasswordEmailFrom");
         }
 
-        public static string[] GetMainEmailDebug()
+        public static string[] GetMainEmail()
         {
-            return ConfigurationManager.AppSettings.Get("MainEmailDebug").Split(';').ToArray();
+            var sMacAddress = string.Empty;
+            var nics = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (NetworkInterface adapter in nics)
+            {
+                if (sMacAddress == String.Empty)// La primera Mac de la Tarjeta
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    sMacAddress = adapter.GetPhysicalAddress().ToString();
+                }
+            }
+            if (IsDebug()) //Si es Debug solo enviar email a responsable (definida por su respectiva Mac)
+            {
+                Console.WriteLine("MACCCC: " + sMacAddress);
+                //return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) };
+            }
+            return ConfigurationManager.AppSettings.Get("MainEmail").Split(';').ToArray();
         }
 
         public static string[] GetEmailCc()

@@ -246,7 +246,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {
                 Email.Email.
                     SendEmailFromProcesosXmlDimerc(
-                        InternalVariables.GetMainEmailDebug()
+                        InternalVariables.GetMainEmail()
                         , null
                         , mail.Subject
                         , mail.MailBody);
@@ -262,7 +262,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {
                 Email.Email.
                     SendEmailFromProcesosXmlDimerc(
-                        InternalVariables.GetMainEmailDebug(),
+                        InternalVariables.GetMainEmail(),
                         null,
                         InternalVariables.IsDebug()
                             ? $"DEBUG: {mail.Subject}"
@@ -279,7 +279,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {
                 Email.Email.
                     SendEmailFromProcesosXmlDimerc(
-                        InternalVariables.GetMainEmailDebug(),
+                        InternalVariables.GetMainEmail(),
                         null,
                         InternalVariables.IsDebug()
                             ? $"DEBUG: {mail.Subject}"
@@ -339,7 +339,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             }
             Email.Email.
                 SendEmailFromProcesosXmlDimerc(
-                    InternalVariables.GetMainEmailDebug(),
+                    InternalVariables.GetMainEmail(),
                     InternalVariables.IsDebug()
                         ? null
                         : InternalVariables.GetEmailCc(),
