@@ -130,10 +130,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {207, "Maestranza Mining Parts Ltda." }, //APARDO falta tomar items
             {208, "CONSTRUCTORA VRK S.P.A.;GLOSA PROV" }, //APARDO falta tomar items
             {209, "Constructora Lampa Oriente S.A." },//APARDO falta tomar items
-            {210, "Masterline S.A."}, // APARDO ENJOY  falta definir cc y pareo cliente
+            {210, "Masterline S.A."}, // APARDO ENJOY  falta pareo cliente
             {211, "Comercializadora de Máquinas Columbia Limitada" }, //APARDO 
             {212, "Joy Global (Chile) S.A."},//APARDO
-            {213, "Academia de Guerra del Ejército" } //APARDO
+            {213, "Academia de Guerra del Ejército" }, //APARDO
+            {214, "61.602.057-9" } //APARDO Servicio de Salud Valpo San Antonio (HOSPITAL EDUARDO PEREIRA)
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

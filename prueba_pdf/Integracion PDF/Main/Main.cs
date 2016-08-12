@@ -96,6 +96,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MasterLineEnjoy;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColumbiaMaquinarias;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Prolab;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.JoyGlobal;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SaludValpoSanAntonio;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -790,6 +792,19 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = joyGlobal.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
+
+                case 213:
+                    var ejercitodeChile = new EjercitodeChile(pdfReader);
+                    ordenCompra = ejercitodeChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
+                case 214:
+                    var saludValpoSanAntonio = new SaludValpoSanAntonio(pdfReader);
+                    ordenCompra = saludValpoSanAntonio.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }
