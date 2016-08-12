@@ -125,7 +125,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
                 switch (optItem)
                 {
                     case 0:
-                        Console.WriteLine($"Aux: {aux.Replace("$", "").DeleteContoniousWhiteSpace()}");
                         var test0 = aux.Replace("$","").DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
                         {
@@ -139,13 +138,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
                         var auxi = 0;
                         var count = 0;
                         test0 = aux.DeleteContoniousWhiteSpace().Split(' ');
+                        //Console.WriteLine($"Aux: {aux.Replace("$", "").DeleteContoniousWhiteSpace()}");
                         for (var j = test0.Length-1; j >= 0; j--)
                         {
                             if (test0[j].Equals("$")) count++;
                             if (count == 2)
                             {
                                 item0.Cantidad = test0[j - 1];
-                                item0.Precio = test0[j + 2];
+                                item0.Precio = test0[j + 1];
                                 break;
                             }
                         }
@@ -160,7 +160,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
                         //    item0.Precio = int1;
                         //}
 
-                        //Console.WriteLine($"{item0.Sku}, {item0.Cantidad}, {item0.Precio}");
+                        Console.WriteLine($"{item0.Sku}, {item0.Cantidad}, {item0.Precio}");
                         items.Add(item0);
                         break;
                 }
@@ -217,7 +217,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
         private static string GetOrdenCompra(string str)
         {
             var split = str.Replace(" ","").Split(':');
-            return split[1];
+            return split[split.Length-1];
         }
 
         /// <summary>

@@ -696,6 +696,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 88:
                     var clinicaSanBernardo = new ClinicaSanBernardo(pdfReader);
                     ordenCompra = clinicaSanBernardo.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
                 case 89:

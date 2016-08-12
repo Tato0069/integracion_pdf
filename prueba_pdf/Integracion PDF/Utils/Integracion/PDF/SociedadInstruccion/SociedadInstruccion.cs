@@ -14,7 +14,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
         {
             {0, @"^[a-zA-Z]{1,2}\d{5,6}\s[a-zA-Z]{1,}\s"},
             {1, @"^[a-zA-Z]{1,2}\d{5,6}[a-zA-Z]{1,}\s" },
-            {2, @"\d{1,}\s\d{1,}\s\d{1,}$" }
+            {2, @"\d{1,}(\s[a-zA-Z]{1,})?\s\d{1,}\s\d{1,}$" }
         };
         private const string RutPattern = "Rut:";
         private const string OrdenCompraPattern = "NRO:";
@@ -133,6 +133,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                 switch (optItem)
                 {
                     case 0:
+                        Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
@@ -146,6 +147,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                         items.Add(item0);
                         break;
                     case 1:
+                        Console.WriteLine("==================ITEM CASE 1=====================");
                         var test1 = aux.Split(' ');
                         var item1 = new Item
                         {
@@ -159,11 +161,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                         items.Add(item1);
                         break;
                     case 2:
+                        Console.WriteLine("==================ITEM CASE 2=====================");
                         var test2 = aux.Split(' ');
                         var item2 = new Item
                         {
-                            Sku = "W102030",
-                            Cantidad = test2[test2.Length - 3].Equals("Unidad")
+                            Sku = GetSku(test2).ToUpper(),
+                            Cantidad = test2[test2.Length - 3].ToUpper().Equals("UNIDAD") || test2[test2.Length - 3].ToUpper().Equals("LITROS")
                             ? test2[test2.Length - 4].Split(',')[0]
                             : test2[test2.Length - 3].Split(',')[0],
                             Precio = test2[test2.Length - 2].Split(',')[0],
@@ -180,12 +183,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
         private string GetSku(string[] test1)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[5].Replace("#", "");
+            var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
-                ret = skuDefaultPosition;
+            {
+                var index = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Index;
+                var length = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Length;
+                ret = skuDefaultPosition.Substring(index, length).Trim();
+            }
             else
             {
-                var str = test1.ArrayToString(0, test1.Length -1);
+                var str = test1.ArrayToString(0, test1.Length - 1);
                 if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
                 {
                     var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
