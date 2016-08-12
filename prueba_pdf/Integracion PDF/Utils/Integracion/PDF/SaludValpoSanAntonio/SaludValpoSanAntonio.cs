@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SaludValpoSanAntonio
 {
-    class EjercitodeChile
+    class SaludValpoSanAntonio
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
@@ -35,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile
 
         #endregion
 
-        public EjercitodeChile(PDFReader pdfReader)
+        public SaludValpoSanAntonio(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -101,7 +101,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile
             }
             if (OrdenCompra.NumeroCompra.Equals(""))
             {
-               // OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+                // OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
             }
             return OrdenCompra;
         }
@@ -125,7 +125,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile
                         {
                             //Sku = test0[6],
                             Cantidad = GetCantidad(test0).Trim(),
-                            Precio = test0[test0.Length - 4].Replace(".",""),
+                            Precio = test0[test0.Length - 4].Replace(".", ""),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
@@ -197,7 +197,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile
         private static string GetOrdenCompra(string str)
         {
             var split = str.Split(' ');
-            return split[split.Length -1].Trim();
+            return split[split.Length - 1].Trim();
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile
             {
                 ret = it.Key;
             }
-           // Console.WriteLine($"STR: {str}, RET: {ret}");
+            // Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
