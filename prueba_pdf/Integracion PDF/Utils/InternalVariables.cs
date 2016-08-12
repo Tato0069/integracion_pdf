@@ -131,7 +131,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {208, "CONSTRUCTORA VRK S.P.A.;GLOSA PROV" }, //APARDO falta tomar items
             {209, "Constructora Lampa Oriente S.A." },//APARDO falta tomar items
             {210, "Masterline S.A."}, // APARDO ENJOY  falta definir cc y pareo cliente
-            {211, "Comercializadora de Máquinas Columbia Limitada" } //APARDO 
+            {211, "Comercializadora de Máquinas Columbia Limitada" }, //APARDO 
+            {212, "Joy Global (Chile) S.A."},//APARDO
+            {213, "Academia de Guerra del Ejército" } //APARDO
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

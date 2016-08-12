@@ -95,6 +95,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LosAndesOperadora;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MasterLineEnjoy;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColumbiaMaquinarias;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Prolab;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.JoyGlobal;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -782,6 +783,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 211:
                     var columbiaMaquinarias = new ColumbiaMaquinarias(pdfReader);
                     ordenCompra = columbiaMaquinarias.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 212:
+                    var joyGlobal = new JoyGlobal(pdfReader);
+                    ordenCompra = joyGlobal.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
             }

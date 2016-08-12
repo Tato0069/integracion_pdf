@@ -103,7 +103,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Integracion PDF\Main\ColumbiaMaquinaria.cs" />
     <Compile Include="Integracion PDF\Utils\Email\Email.cs" />
     <Compile Include="Integracion PDF\Utils\Encrypt.cs" />
     <Compile Include="Integracion PDF\Utils\ExcelReader.cs" />
@@ -150,6 +149,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dole\Dole.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\EjercitodeChile\ejercitodeChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\EnvasadosMovipackChile\EnvasadosMovipackChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Eulen\EulenChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Eulen\GrupoEulen.cs" />
@@ -168,6 +168,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegramedicaAtencionAmbulatoria.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Intertek\Intertek.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IsapreConsalud\IsapreConsalud.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\JoyGlobal\JoyGlobal.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\KaeferBuildtek\KaeferBuildtek.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\Komatsu.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuCummins.cs" />
