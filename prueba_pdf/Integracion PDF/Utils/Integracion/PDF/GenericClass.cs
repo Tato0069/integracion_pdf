@@ -150,7 +150,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF
             var ret = "W102030";
             var skuDefaultPosition = test1[0].Replace("#", "");
             if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
-                ret = skuDefaultPosition;
+            {
+                var index = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Index;
+                var length = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Length;
+                ret = skuDefaultPosition.Substring(index, length).Trim();
+            }
             else
             {
                 var str = test1.ArrayToString(0, test1.Length -1);
