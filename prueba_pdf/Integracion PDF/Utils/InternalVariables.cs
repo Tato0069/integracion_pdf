@@ -175,9 +175,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             return ConfigurationManager.AppSettings.Get("PasswordEmailFrom");
         }
 
-        public static string[] GetMainEmailDebug()
+        public static string[] GetMainEmail()
         {
-            return ConfigurationManager.AppSettings.Get("MainEmailDebug").Split(';').ToArray();
+            return ConfigurationManager.AppSettings.Get("MainEmail").Split(';').ToArray();
         }
 
         public static string[] GetEmailCc()

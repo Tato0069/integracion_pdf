@@ -1232,7 +1232,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
         private static void SendAlertError()
         {
             Email.SendEmailFromProcesosXmlDimerc(
-                InternalVariables.GetMainEmailDebug(),
+                InternalVariables.GetMainEmail(),
                 null,
                 "Alerta de Error Consecutivo",
                 "Han ocurrido más de 3 errores consecutivos con " +
@@ -1271,7 +1271,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                          "no es posible" +
                      " reconocerlo...");
             Email.SendEmailFromProcesosXmlDimercWithAttachments(
-               InternalVariables.GetMainEmailDebug(),
+               InternalVariables.GetMainEmail(),
                 null,
                 "Formato de PDF Desconocido", $"El Formato del PDF: {pdfFileName}, " +
                                        "no es posible reconocerlo, favor de Revisar...",
@@ -1292,7 +1292,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 "Ha ocurrido un error al momento de insertar " +
                 $"las Ordenes de Compra del archivo {pdfFileName}");
             Email.SendEmailFromProcesosXmlDimerc(
-                InternalVariables.GetMainEmailDebug(),
+                InternalVariables.GetMainEmail(),
                 null,
                 "Error de Inserción de Datos",
                 "Ha ocurrido un error al momento de insertar " +
@@ -1309,7 +1309,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 "para mayor información, revisar el archivo de Registro de Errores.",
                 BalloonIcon.Error);
             Email.SendEmailFromProcesosXmlDimerc(
-                InternalVariables.GetMainEmailDebug(),
+                InternalVariables.GetMainEmail(),
                 null,
                 "Error al momento de Procesar",
                 "Ha ocurrido un error al momento de Procesar " +

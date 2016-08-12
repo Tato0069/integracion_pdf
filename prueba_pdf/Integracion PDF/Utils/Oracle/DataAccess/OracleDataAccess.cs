@@ -43,7 +43,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             IntegracionPdf.Instance.ShowBalloon("Error",
                 "No es posible Conectarse a la Base de Datos, Análisis Cancelado", BalloonIcon.Info);
             Email.Email.SendEmailFromProcesosXmlDimerc(
-                InternalVariables.GetMainEmailDebug(),
+                InternalVariables.GetMainEmail(),
                 null,
                 "Fallo Conexión a Base de Datos",
                 "No es posible Conectarse a la Base de Datos, Análisis Cancelado");
