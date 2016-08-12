@@ -115,6 +115,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {87, "MAQUINARIAS SANTA FE S.A." }, //MZAPATA
             {88, "MEDICA SAN BERNARDO S.A." }, //MZAPATA
             {89, "OPERADORA AUTOPISTA DE LOS ANDES LIMITADA" },//MZAPATA
+            {90, "IMPORTADORA E INVERSIONES PROLAB LTDA." }, //MZAPATA
 
 
 

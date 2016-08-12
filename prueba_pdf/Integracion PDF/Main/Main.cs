@@ -94,6 +94,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaSanBernardo;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LosAndesOperadora;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MasterLineEnjoy;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ColumbiaMaquinarias;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Prolab;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.JoyGlobal;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SaludValpoSanAntonio;
@@ -704,6 +705,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 89:
                     var losAndesOperadora = new LosAndesOperadora(pdfReader);
                     ordenCompra = losAndesOperadora.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 90:
+                    var prolab = new Prolab(pdfReader);
+                    ordenCompra = prolab.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 

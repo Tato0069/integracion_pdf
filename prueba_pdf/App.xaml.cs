@@ -44,7 +44,7 @@ namespace IntegracionPDF
             //var nics = NetworkInterface.GetAllNetworkInterfaces();
             //Console.WriteLine("Interface information for {0}.{1}     ",
             //        computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("MERMELADA DURAZNO LIGHT 250 GR");
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("ENCUAD. KIT VELOBINDER");
             //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
             //var nics = NetworkInterface.GetAllNetworkInterfaces();
             //Console.WriteLine("Interface information for {0}.{1}     ",
