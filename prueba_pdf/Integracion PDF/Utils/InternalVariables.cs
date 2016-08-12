@@ -192,8 +192,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             }
             if (IsDebug()) //Si es Debug solo enviar email a responsable (definida por su respectiva Mac)
             {
-                Console.WriteLine("MACCCC: " + sMacAddress);
-                //return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) };
+                //Console.WriteLine("MACCCC: " + sMacAddress);
+                return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) };
             }
             return ConfigurationManager.AppSettings.Get("MainEmail").Split(';').ToArray();
         }
