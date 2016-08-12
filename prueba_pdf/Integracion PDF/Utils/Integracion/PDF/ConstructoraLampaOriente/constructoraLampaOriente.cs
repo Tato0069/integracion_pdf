@@ -12,16 +12,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"\s\d{1,}\s\d{1,}\s\d{1,}$"},
+            {0, @"\s\d{1,}\s\d{1,}\s\d{1,}"},
             //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "Constructora Lampa Oriente S.A.";
+        private const string RutPattern = "Rut:";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
             "Precio Unitario Descuento VALOR TOTAL";
 
-        private const string CentroCostoPattern = "de entrega:";
-        private const string ObservacionesPattern = "Tienda :";
+        private const string CentroCostoPattern = "";
+        private const string ObservacionesPattern = "";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -63,7 +63,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
                 }
@@ -102,7 +102,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             }
             if (OrdenCompra.NumeroCompra.Equals(""))
             {
-                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+                //OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
             }
             return OrdenCompra;
         }
@@ -114,8 +114,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             for (; i < pdfLines.Length; i++)
             //foreach(var str in pdfLines)
             {
-                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                var aux2 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace().Replace(",","").Replace(".","");
+                //var aux2 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
@@ -123,12 +123,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
-                        var test1 = aux2.Split(' ');
+                        //var test1 = aux2.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[0],
-                            Cantidad = GetCantidad(test1).Trim(),
-                            Precio = GetPrecio(test0).Trim().Replace(",", "").Replace(".",""),
+                            Sku = "W102030",
+                            Cantidad = GetCantidad(test0).Trim(),
+                            Precio = GetPrecio(test0).Trim(),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
@@ -205,7 +205,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.Replace(",","");
+            //str = str.Replace(",","");
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
@@ -236,29 +236,27 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             var ret = "-1";
             for (var i = 0; i < test0.Length; i++)
             {
-                if (test0[i].Equals("UN"))
-                    return ret = test0[i + 1];
+                ret = test0[test0.Length - 3].Trim();
+                //if (test0[i].Equals("UN"))
+                //    return ret = test0[i + 1];
             }
             return ret;
         }
 
-        private string GetCantidad(string[] test1)
+        private string GetCantidad(string[] test0)
         {
-           Console.WriteLine($"CANTIDAD: {test1.ArrayToString(0,test1.Length-1)}");
-            var ret = "-2";
-            for (var i = 0; i < test1.Length; i++)
+           //Console.WriteLine($"CANTIDAD: {test0.ArrayToString(0,test0.Length-1)}");
+            var ret = "-1";
+            for (var i = 0; i < test0.Length; i++)
             {
-                if (test1[i].Equals("UN") || test1[i].Equals("Caja"))
-                    //if (test1[i] == test1[0])
-                    //{
+                if (test0[i].Equals("UN") || test0[i].Equals("Caja"))
+                {
 
-                    //    return ret;
-                    //}
-                    //ret = test1[i - 1];
-               
-                if (ret.Contains(",")) return ret = test1[i - 1];
+                    ret = test0[i - 1].Split(',')[0];
+                }
+              
             } 
-                
+             
             return ret;
         }
 

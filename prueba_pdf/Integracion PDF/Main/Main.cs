@@ -773,8 +773,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
 
                 case 209:
                     var constructoraLampaOriente = new ConstructoraLampaOriente(pdfReader);
-                    //ordenCompra = constructoraLampaOriente.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    ordenCompra = constructoraLampaOriente.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 210:
                     var masterLineEnjoy = new MasterLineEnjoy(pdfReader);
