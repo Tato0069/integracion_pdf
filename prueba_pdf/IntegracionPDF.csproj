@@ -184,6 +184,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Petrobras\Petrobras.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\PizzaHut\PizzaHut.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Prolab\Prolab.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ProyektaSA\ProyektaSA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Report\Report.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Rimasa\Rimasa.cs" />
