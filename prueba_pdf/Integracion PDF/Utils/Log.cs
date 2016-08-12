@@ -265,7 +265,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                         InternalVariables.GetMainEmail(),
                         null,
                         InternalVariables.IsDebug()
-                            ? $"DEBUG: {mail.Subject}"
+                            ? $"DEBUG {InternalVariables.GetSubjectDebug()}: {mail.Subject}"
                             : mail.Subject,
                         mail.MailBody);
             }
@@ -282,7 +282,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                         InternalVariables.GetMainEmail(),
                         null,
                         InternalVariables.IsDebug()
-                            ? $"DEBUG: {mail.Subject}"
+                            ? $"DEBUG {InternalVariables.GetSubjectDebug()}: {mail.Subject}"
                             : mail.Subject,
                         mail.MailBody);
             }
@@ -344,7 +344,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                         ? null
                         : InternalVariables.GetEmailCc(),
                     InternalVariables.IsDebug()
-                        ? $"DEBUG: {subject}"
+                        ? $"DEBUG {InternalVariables.GetSubjectDebug()}: {subject}"
                         : subject,
                     body);
             OrdenesProcesadas = new List<OrdenCompraIntegracion>();

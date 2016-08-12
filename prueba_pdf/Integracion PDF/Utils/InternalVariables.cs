@@ -178,6 +178,28 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             return ConfigurationManager.AppSettings.Get("PasswordEmailFrom");
         }
 
+        public static string GetSubjectDebug()
+        {
+            try
+            {
+                var sMacAddress = string.Empty;
+                var nics = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (NetworkInterface adapter in nics)
+                {
+                    if (sMacAddress == String.Empty)// La primera Mac de la Tarjeta
+                    {
+                        IPInterfaceProperties properties = adapter.GetIPProperties();
+                        sMacAddress = adapter.GetPhysicalAddress().ToString();
+                    }
+                }
+                return ConfigurationManager.AppSettings.Get(sMacAddress).Split('@')[0].ToUpper();
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
         public static string[] GetMainEmail()
         {
             var sMacAddress = string.Empty;
@@ -193,7 +215,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             if (IsDebug()) //Si es Debug solo enviar email a responsable (definida por su respectiva Mac)
             {
                 //Console.WriteLine("MACCCC: " + sMacAddress);
-                return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) };
+                try
+                {
+                    return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) };
+                }
+                catch { };
             }
             return ConfigurationManager.AppSettings.Get("MainEmail").Split(';').ToArray();
         }
