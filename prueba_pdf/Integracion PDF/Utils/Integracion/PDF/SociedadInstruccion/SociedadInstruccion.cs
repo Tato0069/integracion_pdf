@@ -166,7 +166,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                         var item2 = new Item
                         {
                             Sku = GetSku(test2).ToUpper(),
-                            Cantidad = test2[test2.Length - 3].ToUpper().Equals("UNIDAD") || test2[test2.Length - 3].ToUpper().Equals("LITROS")
+                            Cantidad = test2[test2.Length - 3].ToUpper().Equals("UNIDAD") || test2[test2.Length - 3].ToUpper().Equals("LITROS") || test2[test2.Length - 3].ToUpper().Equals("TARRO") || test2[test2.Length - 3].ToUpper().Equals("CAJA")
                             ? test2[test2.Length - 4].Split(',')[0]
                             : test2[test2.Length - 3].Split(',')[0],
                             Precio = test2[test2.Length - 2].Split(',')[0],

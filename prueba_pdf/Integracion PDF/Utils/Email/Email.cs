@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using OpenPop.Pop3;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -42,7 +44,52 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Email
         //    }
 
         //}
-        
+        public static void TestLecturaMail()
+        {
+           using (Pop3Client client = new Pop3Client())
+            {
+                // Connect to the server
+                client.Connect("mail.dimerc.cl", 110, false);//"mta.gtdinternet.com", 25,false);
+
+                // Authenticate ourselves towards the server
+                client.Authenticate("procesosxml@dimerc.cl", "password_123");
+
+                // Get the number of messages in the inbox
+                int messageCount = client.GetMessageCount();
+                Console.WriteLine($"MENSAJES : {messageCount}");
+                //Console.WriteLine($"MENSAJES : {client.GetMessage(0).ToString()}");
+                // We want to download all messages
+                List<OpenPop.Mime.Message> allMessages = new List<OpenPop.Mime.Message>(messageCount);
+
+                // Messages are numbered in the interval: [1, messageCount]
+                // Ergo: message numbers are 1-based.
+                // Most servers give the latest message the highest number
+                for (int i = messageCount; i > 0; i--)
+                {
+                    allMessages.Add(client.GetMessage(i));
+                }
+
+                // Now return the fetched messages
+                foreach(var msg in allMessages)
+                {
+                    Console.WriteLine($"==={msg.Headers.Subject}");
+                    if (msg.Headers.Subject.Equals("TEST_LECTURA"))
+                    {
+
+                        Console.WriteLine($"ContentDescription==={msg.Headers.ContentDescription}");
+                        Console.WriteLine($"==={msg.Headers}");
+                        Console.WriteLine($"==={msg.Headers.ContentDescription}");
+                        Console.WriteLine($"==={msg.Headers.ContentDescription}");
+
+                    }
+                }
+            }
+
+
+        }
+
+
+
         public static void SendEmailFromProcesosXmlDimerc(string[] to, string[] cc, string subject, string body)
         {
             var mail = new MailMessage

@@ -345,13 +345,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
                         break;
                 }
-                //if (!OracleDataAccess.ExistProduct(sku))
-                //{
-                //    sku = "W102030";
-                //}
-
-                if (sku.Equals("R397109"))
-                    sku = "R381114";
+                if (!OracleDataAccess.ExistProduct(sku))
+                {
+                    sku = "W102030";
+                }
+                //if (sku.Equals("R397109"))
+                //    sku = "R381114";
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
@@ -528,6 +527,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             {
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, it.Sku, it.Precio);
                 var precio = int.Parse(pConv);
+                var cantidad = 1;
+                if(int.TryParse(it.Cantidad.Equals("00050")|| it.Cantidad.Equals("La") ? "1" : it.Cantidad, out cantidad))
+                {
+                    cantidad = 1;
+                }
+                it.Cantidad = cantidad.ToString();
                 var dt = new DetalleOrdenCompraIntegracion
                 {
                     NumPed = ret.NumPed,

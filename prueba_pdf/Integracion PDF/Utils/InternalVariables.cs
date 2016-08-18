@@ -118,6 +118,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {88, "MEDICA SAN BERNARDO S.A." }, //MZAPATA
             {89, "OPERADORA AUTOPISTA DE LOS ANDES LIMITADA" },//MZAPATA
             {90, "IMPORTADORA E INVERSIONES PROLAB LTDA." }, //MZAPATA
+            {91, "CEMENTERIO METROPOLITANO LTDA" },//MZAPATA
+            {92, "Sembcorp Aguas" },//MZAPATA
+
 
 
 
@@ -204,6 +207,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         {
             var sMacAddress = string.Empty;
             var nics = NetworkInterface.GetAllNetworkInterfaces();
+            //var cc = 0;
             foreach (NetworkInterface adapter in nics)
             {
                 if (sMacAddress == String.Empty)// La primera Mac de la Tarjeta
@@ -211,13 +215,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                     IPInterfaceProperties properties = adapter.GetIPProperties();
                     sMacAddress = adapter.GetPhysicalAddress().ToString();
                 }
+                //Console.WriteLine($"{++cc}.-{adapter.GetPhysicalAddress().ToString()}");
             }
             if (IsDebug()) //Si es Debug solo enviar email a responsable (definida por su respectiva Mac)
             {
-                //Console.WriteLine("MACCCC: " + sMacAddress);
+                Console.WriteLine("MACCCC: " + sMacAddress);
                 try
                 {
-                    return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) };
+                    //Console.WriteLine($"MACCC: {ConfigurationManager.AppSettings.Get(sMacAddress)}");
+                    return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) == null? ConfigurationManager.AppSettings.Get("1002B5C4275F") : ConfigurationManager.AppSettings.Get(sMacAddress) };
                 }
                 catch { };
             }

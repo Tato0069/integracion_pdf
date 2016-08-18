@@ -71,10 +71,17 @@
     <Reference Include="LinqToExcel">
       <HintPath>lib\LinqToExcel.dll</HintPath>
     </Reference>
+    <Reference Include="Mail">
+      <HintPath>lib\Mail.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 14.0\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenPop, Version=2.0.6.1120, Culture=neutral, PublicKeyToken=6bdb97f144b7efc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenPop.NET.2.0.6.1120\lib\net40\OpenPop.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Remotion.Data.Linq">
       <HintPath>lib\Remotion.Data.Linq.dll</HintPath>
@@ -122,6 +129,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Candem\Candem.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CapacitacionCienciasTecnologiasLimitada\CapacitacionCienciasTecnologiasLimitada.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Carozzi\Carozzi.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\CementerioMetropolitanoLTDA\CementerioMetropolitanoLTDA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CementosTransex\CementosTransex.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\Cencosud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\CencosudRetailSa.cs" />
@@ -194,6 +202,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Securitas\SecuritasAustral.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dellanatura\Dellanatura.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SeidorChile\SeidorChile.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\SembcorpAguas\SembcorpAguas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ServiciosAndinos\ServicioAndinos.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ShawAlmexChile\ShawAlmexChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadEducacionalAraucana\SociedadEducacionalAraucana.cs" />

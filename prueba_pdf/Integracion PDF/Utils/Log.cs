@@ -337,6 +337,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                         $"{(from det in oc.DetallesCompra select det.SubTotal).Sum():C0}\n";
                 }
             }
+            Console.WriteLine("==============PROCESADAS================");
             Email.Email.
                 SendEmailFromProcesosXmlDimerc(
                     InternalVariables.GetMainEmail(),

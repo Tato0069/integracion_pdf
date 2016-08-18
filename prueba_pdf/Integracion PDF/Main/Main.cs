@@ -98,6 +98,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Prolab;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.JoyGlobal;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SaludValpoSanAntonio;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementerioMetropolitanoLTDA;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -712,6 +714,17 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = prolab.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
+                case 91:
+                    var cementerioMetropolotano = new CementerioMetropolitanoLTDA(pdfReader);
+                    ordenCompra = cementerioMetropolotano.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    //FALTA PAREO DE CÓDIGOS
+                    break;
+                case 92:
+                    var semCopr = new SembcorpAguas(pdfReader);
+                    ordenCompra = semCopr.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
 
 
 
@@ -1008,7 +1021,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                         }
                         else if (option == 21 || option == 22 || option == 31 || option == -8)
                         {
-                            //Console.WriteLine("===================================0005");
+                            Console.WriteLine("===================================0005");
                             ordenCompra = new OrdenCompra {Rut = ocAdapterList[0].RutCli.ToString()};
                             MoveFileToProcessFolder(pdfReader.PdfPath, ordenCompra);
                             foreach (var ocIntegracion in ocAdapterList)

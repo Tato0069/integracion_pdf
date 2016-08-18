@@ -12,6 +12,7 @@ using IntegracionPDF.Integracion_PDF.View;
 using IntegracionPDF.Integracion_PDF.ViewModel;
 using Timer = System.Timers.Timer;
 using System.Net.NetworkInformation;
+using IntegracionPDF.Integracion_PDF.Utils.Email;
 
 namespace IntegracionPDF
 {
@@ -36,6 +37,7 @@ namespace IntegracionPDF
      
         protected override void OnStartup(StartupEventArgs e)
         {
+            //Console.WriteLine($"========={InternalVariables.GetMainEmail()}");
             //OracleDataAccess.GetSkuWithMatcthDimercProductDescription("SOBRE 1/2 CARTA BLANCO 90GR 50UN DIMERC");
             //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
             //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
@@ -44,7 +46,7 @@ namespace IntegracionPDF
             //var nics = NetworkInterface.GetAllNetworkInterfaces();
             //Console.WriteLine("Interface information for {0}.{1}     ",
             //        computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("ENCUAD. KIT VELOBINDER");
+            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Regla Acrilica 30cm Transparente");
             //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
             //var nics = NetworkInterface.GetAllNetworkInterfaces();
             //Console.WriteLine("Interface information for {0}.{1}     ",
