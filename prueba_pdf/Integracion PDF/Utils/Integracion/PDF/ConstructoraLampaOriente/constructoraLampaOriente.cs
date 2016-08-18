@@ -114,10 +114,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             for (; i < pdfLines.Length; i++)
             //foreach(var str in pdfLines)
             {
-                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace().Replace(",","").Replace(".","");
+                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //var aux2 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(aux);
+                var optItem = GetFormatItemsPattern(aux.Replace(",", "").Replace(".", ""));
                 switch (optItem)
                 {
                     case 0:
@@ -126,11 +126,20 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
                         //var test1 = aux2.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = "W102030",
+                            //Sku = "W102030",
                             Cantidad = GetCantidad(test0).Trim(),
                             Precio = GetPrecio(test0).Trim(),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
+                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                        var concatAll = "";
+                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        {
+                            concatAll += $" {aux}";
+                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        }
+                        item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
                         break;
                 }
@@ -251,9 +260,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraLampa
             {
                 if (test0[i].Equals("UN") || test0[i].Equals("Caja"))
                 {
-
+                  
                     ret = test0[i - 1].Split(',')[0];
                 }
+                  if (!test0[i].Equals("UN") || test0[i].Equals("Caja"))
+                    {
+                    
+                        ret = test0[1].Split(',')[0];
+                    if (ret == "UN" || ret == "Caja") return ret = test0[0].Split(',')[0];
+                    }
               
             } 
              
