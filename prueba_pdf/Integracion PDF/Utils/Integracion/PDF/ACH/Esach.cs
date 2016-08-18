@@ -86,14 +86,33 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                 {
                     if (IsCentroCostoPattern(_pdfLines[i]))
                     {
+                        //var ccaux_ = _pdfReader.ExtractTextByCoOrdinate(1, 930, 550, 1170, 580);
+                        //var ccaux2_ = _pdfReader.ExtractTextByCoOrdinate(1, 68, 34, 80, 50);
+                        //Console.WriteLine($"CCAUX:_ {ccaux_}, AUX2: {ccaux2_}");
                         var _cc = $"{GetCentroCosto(_pdfLines[i]).ToUpper()} {_pdfLines[i + 1]}".ToUpper().Replace("."," ");
                         if (_cc.Contains("SOLICITANTE"))
                         {
                             var _ccSplit = _cc.Split(':');
                             _cc = _ccSplit[_ccSplit.Length - 1];
                         }
-                        OrdenCompra.CentroCosto = _cc.DeleteContoniousWhiteSpace();
+                        var _ccAux = GetCentroCosto(_pdfLines[i]).ToUpper().Replace("ENTREGAR","")
+                            .Replace("AT", "")
+                            .Replace(".", " ")
+                            .Replace("LU A VI","")
+                            .Replace("/"," ")
+                            .Replace(",", " ")
+                            .Replace(" AV ","")
+                            .DeleteAcent()
+                            .DeleteContoniousWhiteSpace();
+                        if (_ccAux.Contains("-"))
+                        {
+                            var split = _ccAux.Split('-');
+                            var _ccAux2 = split.ArrayToString(1, split.Length - 1);
+                            _ccAux = _ccAux2.Replace("-"," ").DeleteContoniousWhiteSpace();
+                        }
+                        OrdenCompra.CentroCosto = _ccAux.Equals("")?"BODEGA":_ccAux;
                         OrdenCompra.Observaciones += $" Dirección: {OrdenCompra.CentroCosto}";
+                        Console.WriteLine($"================================\nCC: {_ccAux}");
                         _readCentroCosto = true;
                     }
                 }
@@ -190,7 +209,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
             var split = str.Split(':');
             var split2 = split[split.Length - 1].Trim().Split('-');
             var ret = split2.ArrayToString(1, split2.Length-1);
-            return ret;//split[split.Length -1].Trim();
+            return split[split.Length -1].Trim();
         }
 
 
