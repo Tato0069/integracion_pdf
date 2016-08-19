@@ -355,6 +355,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
                 var dt = new DetalleOrdenCompraIntegracion
+                //if (! int.TryParse(it.Cantidad))
                 {
                     NumPed = ret.NumPed,
                     Cantidad = int.Parse(it.Cantidad) / multiplo,

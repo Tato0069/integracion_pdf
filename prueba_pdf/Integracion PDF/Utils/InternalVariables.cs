@@ -139,7 +139,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {211, "Comercializadora de Máquinas Columbia Limitada" }, //APARDO 
             {212, "Joy Global (Chile) S.A."},//APARDO
             {213, "Academia de Guerra del Ejército" }, //APARDO
-            {214, "61.602.057-9" } //APARDO Servicio de Salud Valpo San Antonio (HOSPITAL EDUARDO PEREIRA)
+            {214, "61.602.057-9" }, //APARDO Servicio de Salud Valpo San Antonio (HOSPITAL EDUARDO PEREIRA)
+            {215, "Larraín Prieto Risopatron S.A." } // APARDO
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>

@@ -184,6 +184,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuDistribuidoraCummins.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuReman.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LaboratorioLBC\LaboratorioLBC.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainPrieto\LarrainPrieto.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainSalas\LarrainSalas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LosAndesOperadora\LosAndesOperadora.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MaestranzaMParts\MaestranzaMParts.cs" />

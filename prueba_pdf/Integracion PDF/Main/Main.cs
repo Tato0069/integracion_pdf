@@ -100,6 +100,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EjercitodeChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SaludValpoSanAntonio;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementerioMetropolitanoLTDA;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -815,6 +816,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 214:
                     var saludValpoSanAntonio = new SaludValpoSanAntonio(pdfReader);
                     ordenCompra = saludValpoSanAntonio.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 215:
+                    var larrainPrieto = new LarrainPrieto(pdfReader);
+                    ordenCompra = larrainPrieto.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
