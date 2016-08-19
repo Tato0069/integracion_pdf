@@ -101,6 +101,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SaludValpoSanAntonio;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementerioMetropolitanoLTDA;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
