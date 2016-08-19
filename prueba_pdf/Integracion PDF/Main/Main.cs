@@ -726,6 +726,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = semCopr.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
+                case 93:
+                    var ascencsoresSchindler = new AscensoresSchindler(pdfReader);
+                    ordenCompra = ascencsoresSchindler.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
 
 
 

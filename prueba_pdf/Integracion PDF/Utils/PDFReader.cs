@@ -95,26 +95,27 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 {
                     text.Append("\n" + PdfTextExtractor.GetTextFromPage(reader, i).DeleteContoniousWhiteSpace());
                 }
-                var ret = text.ToString().Split('\n');
-                for (var i = 0; i < text.Length; i++)
-                {
-                    for (var j = i + 1; j < ret.Length - 1; j++)
-                    {
-                        if (ret[i].Equals(ret[j]))
-                        {
-                            ret[j] = "-1*";
-                        }
-                    }
-                }
-                var ret2 = new List<string>();
-                foreach (var x in ret)
-                {
-                    if (!x.Equals("-1*"))
-                    {
-                        ret2.Add(x);
-                    }
-                }
-                return ret2.ToArray();
+                //var ret = text.ToString().Split('\n');
+                //for (var i = 0; i < text.Length; i++)
+                //{
+                //    for (var j = i + 1; j < ret.Length - 1; j++)
+                //    {
+                //        if (ret[i].Equals(ret[j]))
+                //        {
+                //            ret[j] = "-1*";
+                //        }
+                //    }
+                //}
+                //var ret2 = new List<string>();
+                //foreach (var x in ret)
+                //{
+                //    if (!x.Equals("-1*"))
+                //    {
+                //        ret2.Add(x);
+                //    }
+                //}
+                //return ret2.ToArray();
+                return text.ToString().Split('\n');
             }
         }
 
