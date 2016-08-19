@@ -123,6 +123,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Arauco\Arauco.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\AridosSantaFeSA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\MaquinariasSantaFe.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\AscensoresSchindler\AscensoresSchindler.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />

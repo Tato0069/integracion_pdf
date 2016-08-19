@@ -120,6 +120,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {90, "IMPORTADORA E INVERSIONES PROLAB LTDA." }, //MZAPATA
             {91, "CEMENTERIO METROPOLITANO LTDA" },//MZAPATA
             {92, "Sembcorp Aguas" },//MZAPATA
+            {93, "Ascensores Schindler (Chile) S.A." },//MZAPAT
 
 
 
