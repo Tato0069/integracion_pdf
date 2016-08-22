@@ -10,10 +10,10 @@
         ResizeMode="NoResize"
         Title="Debug" Height="176.254" Width="200">
     <Grid>
-        <Button x:Name="btnPDFPath_Copy" Content="Leer PDF Modo Debug" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="168" Height="23" Click="btnPDFPath_Copy_Click"/>
-        <Button x:Name="button" Content="Extraer Txt de PDF" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Width="168" Height="22" Click="button_Click"/>
+        <Button x:Name="btnPDFPath_Copy" Content="Leer PDF Modo Debug" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="168" Height="23" Click="btn_DebugPdf"/>
+        <Button x:Name="button" Content="Extraer Txt de PDF" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Width="168" Height="22" Click="btn_ExtraerTexto"/>
         <Button x:Name="button1" Content="Leer Excel Modo Debug" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" Width="168" Click="button1_Click"/>
-        <Button x:Name="button2" Content="Test Excel" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="168" Click="button2_Click"/>
+        <Button x:Name="button2" Content="Test Generico" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="168" Click="test_generico_onclick"/>
         <!--
         <Button x:Name="button3" Content="Pasar a Carpetas" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="168" Click="button3_Click"/>
          -->

@@ -11,7 +11,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MTS
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s"}
+            {0, @"^\d{1,}\s[a-zA-Z]{1,2}\d{4,6}\s"}
         };
         private const string RutPattern = "R.U.T. ";
         private const string OrdenCompraPattern = "MATERIALES Y SOLUCIONES S.A.";
@@ -58,7 +58,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MTS
         #region Funciones Get
         public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
-            OrdenCompra = new OrdenCompra.OrdenCompra();
+            OrdenCompra = new OrdenCompra.OrdenCompra
+            {
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
+            };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
@@ -126,7 +129,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MTS
                 switch (optItem)
                 {
                     case 0:
-                        var test0 = aux.Split(' ');
+                        var test0 = aux.Replace(",","").Split(' ');
                         var auxCant = test0[test0.Length - 6].Split('.')[0];
                         var haveExtraColumn = false;
                         haveExtraColumn = (auxCant.Equals("UN")
@@ -142,7 +145,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MTS
                             Precio =
                                 haveExtraColumn
                                     ? test0[test0.Length - 4].Split('.')[0]
-                                    : test0[test0.Length - 5].Split('.')[0]
+                                    : test0[test0.Length - 5].Split('.')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         items.Add(item0);
                         break;

@@ -57,8 +57,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 }
                 if (sku.Equals(""))
                     sku = (int.TryParse(it.Sku, out num))
-                        ? OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, num.ToString())
-                        : OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
+                        ? OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, num.ToString(),true)
+                        : OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku, true);
                 sku = sku.ToUpper();
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut,ret.CenCos, sku, it.Precio);
 

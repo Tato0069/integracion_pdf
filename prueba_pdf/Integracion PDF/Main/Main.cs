@@ -102,6 +102,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementerioMetropolita
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HospitalTrabajador;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -202,7 +203,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 6:
                     var esach = new Esach(pdfReader);
                     ordenCompra = esach.GetOrdenCompra();
-                    ocAdapter = ordenCompra.AdapterEsachFormatToCompraIntegracion();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 7:
                     var bhpBilliton = new BhpBilliton(pdfReader);
@@ -359,8 +360,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 29:
                     var mts = new Mts(pdfReader);
                     ordenCompra = mts.GetOrdenCompra();
-                    ocAdapter =
-                        ordenCompra.AdapterGenericFormatWithSkuAndDescriptionCencosWithMatchToCompraIntegracion();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();//AdapterGenericFormatWithSkuAndDescriptionCencosWithMatchToCompraIntegracion();
                     break;
                 case 30:
                     var clariant = new Clariant(pdfReader);
@@ -731,6 +731,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var ascencsoresSchindler = new AscensoresSchindler(pdfReader);
                     ordenCompra = ascencsoresSchindler.GetOrdenCompra();
                     //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 94:
+                    var hospitalDelTrabajador = new HospitalTrabajador(pdfReader);
+                    ordenCompra = hospitalDelTrabajador.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
 
@@ -1253,7 +1258,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
         {
             //UpdateTelemarketing(1);
             OnlyOne = true;
-            ExecuteSinglePdf(new PDFReader(pdfPath));
+            var pdfReader = new PDFReader(pdfPath);
+            ExecuteSinglePdf(pdfReader);
         }
 
         public static void DebugAnalizarXls(string pdfPath)

@@ -22,7 +22,7 @@ namespace IntegracionPDF.Integracion_PDF.View
             InitializeComponent();
         }
 
-        private void btnPDFPath_Copy_Click(object sender, RoutedEventArgs ex)
+        private void btn_DebugPdf(object sender, RoutedEventArgs ex)
         {
             //try
             //{
@@ -51,7 +51,7 @@ namespace IntegracionPDF.Integracion_PDF.View
 
 
 
-        private void button_Click(object sender, RoutedEventArgs ex)
+        private void btn_ExtraerTexto(object sender, RoutedEventArgs ex)
         {
             try
             {
@@ -107,18 +107,24 @@ namespace IntegracionPDF.Integracion_PDF.View
             }
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void test_generico_onclick(object sender, RoutedEventArgs ex)
         {
-            var xlsPath = new OpenFileDialog
+            try
             {
-                Multiselect = true,
-                Filter = "xls (*.xls, *.xlsx) | *.xls;*.xlsx",
-                Title = "Seleccione el Archivo Excel"
-            };
-            if (xlsPath.ShowDialog() != true) return;
-            foreach (var xls in xlsPath.FileNames)
+                var pdfPath = new OpenFileDialog
+                {
+                    Multiselect = false,
+                    Filter = "pdf (*.pdf) | *.pdf",
+                    Title = "Seleccione el Archivo PDF"
+                };
+                if (pdfPath.ShowDialog() != true) return;
+                var pdf = new PDFReader(pdfPath.FileName);
+                pdf.ObjectTest();
+            }
+            catch (Exception e)
             {
-                Main.Main.ReadExcelOrderFromRootDirectory(xls);
+                Log.TryError(e.Message);
+                Log.TryError(e.ToString());
             }
         }
 

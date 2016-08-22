@@ -176,11 +176,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                             concatAll += $" {aux}";
                             aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
                         }
+                        concatAll = $"{ pdfLines[i].Trim().DeleteContoniousWhiteSpace()} {concatAll}";
+                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        //{
+                        //    concatAll += $" {aux}";
+                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        //}
+                        Console.WriteLine($"SKU ====={concatAll.DeleteContoniousWhiteSpace()}");
                         item2.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
                         items.Add(item2);
                         break;
                     case 3:
-                        Console.WriteLine("==================ITEM CASE 2=====================");
+                        Console.WriteLine("==================ITEM CASE 3=====================");
                         var test3 = aux.Split(' ');
                         var item3 = new Item
                         {
@@ -197,6 +205,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AridosSantaFeSA
                             concatAll += $" {aux}";
                             aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
                         }
+                        concatAll = $"{ pdfLines[i].Trim().DeleteContoniousWhiteSpace()} {concatAll}";
                         item3.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' ')).Replace("/", "");
                         items.Add(item3);
                         break;

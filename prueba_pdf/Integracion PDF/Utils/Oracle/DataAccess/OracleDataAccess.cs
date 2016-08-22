@@ -1427,7 +1427,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         /// <param name="rutCli">Rut del Cliente</param>
         /// <param name="codCli">Codigo interno de producto del Cliente</param>
         /// <returns></returns>
-        public static string GetSkuDimercFromCodCliente(string ocNumber, string rutCli, string codCli)
+        public static string GetSkuDimercFromCodCliente(string ocNumber, string rutCli, string codCli, bool mailFaltantes)
         {
             var ret = "";
             try
@@ -1452,7 +1452,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 var razon = GetRazonSocial(rutCli);
                 if (ret.Equals("W102030"))
                 {
-                    Log.SaveItemFaltantes(rutCli,$"{razon} - {rutCli}:",$"Orden N°: {ocNumber}, Producto: {codCli}, no posee pareo de SKU con Dimerc.");
+                    if(mailFaltantes == true)
+                        Log.SaveItemFaltantes(rutCli,$"{razon} - {rutCli}:",$"Orden N°: {ocNumber}, Producto: {codCli}, no posee pareo de SKU con Dimerc.");
                 }
             }
             if (ret.Equals(""))
@@ -1584,7 +1585,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
 
         public static string GetCenCosFromRutClienteAndDescCencosWithMatch(string rutCli, string ccosto)
         {
-
+            Console.Write("==================================MATCH====================000");
             var ret1 = GetCenCosFromRutClienteAndDescCencos(rutCli, ccosto, false);
             Console.WriteLine($"ret1: {ret1}");
             if (!ret1.Equals("0")) return ret1;
@@ -1633,7 +1634,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 InstanceTransferWeb.Open();
                 var sql = $"select CENCOS from RE_CCTOCLI where RUTCLI = {rutCli} {sufix}";
                 var command = new OracleCommand(sql, InstanceTransferWeb);
-                //Console.WriteLine(sql);
+                Console.WriteLine(sql);
                 var data = command.ExecuteReader();
                 if (data.Read())
                 {
@@ -1662,6 +1663,32 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 }
             }
             return ret;
+        }
+        public static void InsertIntoReCodCli(string rutcli, string codpro, string codcli)
+        {
+            using (var command = new OracleCommand())
+            {
+                var sql = $"INSERT INTO RE_CODCLI(RUTCLI,CODPRO,CODCLI,ESTADO) VALUES({rutcli},'{codpro}','{codcli}',1) ";
+                OracleTransaction trans = null;
+                command.Connection = InstanceDmVentas;
+                command.CommandType = CommandType.Text;
+                command.CommandText = sql;
+                Console.WriteLine(sql);
+                try
+                {
+                    InstanceDmVentas.Open();
+                    trans = InstanceDmVentas.BeginTransaction();
+                    command.Transaction = trans;
+                    command.ExecuteNonQuery();
+                    trans.Commit();
+                    InstanceDmVentas?.Close();
+                   
+                }
+                catch (SqlException)
+                {
+                    trans?.Rollback();
+                }
+            }
         }
 
         public static bool InsertOrdenCompraIntegración(OrdenCompraIntegracion oc)
