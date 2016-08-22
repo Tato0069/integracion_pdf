@@ -102,6 +102,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CementerioMetropolita
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrotecIcafal;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -828,6 +829,12 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var larrainPrieto = new LarrainPrieto(pdfReader);
                     ordenCompra = larrainPrieto.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
+                case 216:
+                    var brotecIcafal = new BrotecIcafal(pdfReader);
+                    ordenCompra = brotecIcafal.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
             }

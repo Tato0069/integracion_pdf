@@ -150,6 +150,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColegioCoya\ColegioCoya.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ColumbiaMaquinarias\ColumbiaMaquinarias.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConsorcioCompaniaSeguridad\ConsorcioCompaniaSeguridad.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\BrotecIcafal\BrotecIcafal.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraIngevec\ConstructoraIngevec.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraLampaOriente\ConstructoraLampaOriente.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ConstructoraStaFe\ConstructoraStaFe.cs" />
