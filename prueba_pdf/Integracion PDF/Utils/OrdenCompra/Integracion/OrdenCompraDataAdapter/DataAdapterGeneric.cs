@@ -20,7 +20,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
+                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,true);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
@@ -275,7 +275,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
+                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,true);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
@@ -336,13 +336,24 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         sku = it.Sku;
                         break;
                     case TipoPareoProducto.PareoCodigoCliente:
-                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
+                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,true);
                         break;
                     case TipoPareoProducto.PareoDescripcionTelemarketing:
                         sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
                         break;
                     case TipoPareoProducto.PareoDescripcionCliente:
                         sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
+                        break;
+                    case TipoPareoProducto.PareoDescripcionSkuClienteTelemarketing:
+                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,false);
+                        if (sku.Equals("W102030"))
+                        {
+                            sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
+                            if (!sku.Equals("W102030"))
+                            {
+                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku);
+                            }
+                        }
                         break;
                 }
                 if (!OracleDataAccess.ExistProduct(sku))
@@ -376,6 +387,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
             return ret;
         }
 
+        private static void InsertIntoReCodCli(string rut, string sku1, string sku2)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
         /// <summary>
@@ -399,7 +415,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku);
+                var sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,true);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
@@ -526,7 +542,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var it in oc.Items)
             {
-                var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, it.Sku, it.Precio);
+                var sku = it.Sku;
+                if (!OracleDataAccess.ExistProduct(it.Sku))
+                {
+                    sku = "W102030";
+                }
+                var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var cantidad = 1;
                 if(int.TryParse(it.Cantidad.Equals("00050")|| it.Cantidad.Equals("La") ? "1" : it.Cantidad, out cantidad))
@@ -538,8 +559,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 {
                     NumPed = ret.NumPed,
                     Cantidad = int.Parse(it.Cantidad),
-                    Precio = precio, //int.Parse(it.Precio),
-                    SubTotal = int.Parse(it.Cantidad) * precio,
+                    Precio = sku.Equals("W102030") ? int.Parse(it.Precio) : precio, //int.Parse(it.Precio),
+                    SubTotal = sku.Equals("W102030") ? int.Parse(it.Precio) * int.Parse(it.Cantidad) : int.Parse(it.Cantidad) * precio,
                     SkuDimerc = it.Sku
                 };
                 ret.AddDetalleCompra(dt);

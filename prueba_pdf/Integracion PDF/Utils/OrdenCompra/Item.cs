@@ -48,7 +48,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
         SinPareo = 0,
         PareoCodigoCliente = 1,
         PareoDescripcionTelemarketing = 2,
-        PareoDescripcionCliente = 3        
+        PareoDescripcionCliente = 3,
+        PareoDescripcionSkuClienteTelemarketing = 4     
     }
 
     public class ItemCarozzi : Item

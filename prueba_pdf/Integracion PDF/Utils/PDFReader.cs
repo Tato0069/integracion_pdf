@@ -3,6 +3,7 @@ using System.Text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Collections.Generic;
+using iTextSharp.text.exceptions;
 
 namespace IntegracionPDF.Integracion_PDF.Utils
 {
@@ -39,6 +40,45 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         public PDFReader(string pdfPath)
         {
             _pdfPath = pdfPath;
+        }
+        /*
+         * 
+         * 
+         * 
+         *  PdfObject obj;
+                for (var i = 1; reader.GetPdfObject(i) != null; i++)
+                {
+                    obj = reader.GetPdfObject(i);
+                    //var str =Encoding.Default.GetString(obj.GetBytes());
+                    Console.WriteLine($"======================================\nOBJ: {obj.ToString()}\nBYTE: {obj.GetBytes()}\n====================================== ");
+                }
+
+    **/
+        public void ObjectTest()
+        {
+            using (var reader = new PdfReader(_pdfPath))
+            {
+                PdfObject obj;
+                for (int i = 1; i <= 10; i++)
+                {
+                    obj = reader.GetPdfObject(i);
+                    if (obj != null)
+                    {
+                        PRStream stream = (PRStream)obj;
+                        byte[] b;
+                        try
+                        {
+                            b = PdfReader.GetStreamBytes(stream);
+                            var str = Encoding.Default.GetString(b);
+                            Console.WriteLine($"BB: {str}");
+                        }
+                        catch (UnsupportedPdfException e)
+                        {
+                            b = PdfReader.GetStreamBytesRaw(stream);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -247,6 +287,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 return text.ToString().Split('\n');
             }
         }
+
 
     }
 }

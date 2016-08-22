@@ -170,6 +170,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\GestionPersonasServiciosLtda\GepysEstLimitada.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\GestionPersonasServiciosLtda\GestionPersonasServiciosLtda.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\HormigonesTransex\HormigonesTransex.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\HospitalTrabajador\HospitalTrabajador.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Iansa\Iansa.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Indra\Indra.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IngenieriaComercializadoraRiego\IngenieriaComercializadoraRiego.cs" />
