@@ -49,7 +49,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra
         PareoCodigoCliente = 1,
         PareoDescripcionTelemarketing = 2,
         PareoDescripcionCliente = 3,
-        PareoDescripcionSkuClienteTelemarketing = 4     
+        PareoSkuClienteDescripcionTelemarketing = 4     
     }
 
     public class ItemCarozzi : Item

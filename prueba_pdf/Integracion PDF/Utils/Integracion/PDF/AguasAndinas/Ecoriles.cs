@@ -62,7 +62,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "2"
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionExacta
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -136,7 +137,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
                         {
                             Sku = test0[0],
                             Cantidad = test0[1],
-                            Precio = test0[test0.Length - 3].Replace(".", "")
+                            Precio = test0[test0.Length - 3].Replace(".", ""),
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         items.Add(item0);
                         break;
@@ -146,7 +148,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
                         {
                             Sku = test1[0],
                             Cantidad = test1[1],
-                            Precio = test1[test1.Length - 3].Replace(".", "")
+                            Precio = test1[test1.Length - 3].Replace(".", ""),
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         items.Add(item1);
                         break;

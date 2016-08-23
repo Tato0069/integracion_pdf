@@ -1664,11 +1664,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
-        public static void InsertIntoReCodCli(string rutcli, string codpro, string codcli)
+        public static void InsertIntoReCodCli(string rutcli, string codpro, string codcli, string descripcionCliente)
         {
             using (var command = new OracleCommand())
             {
-                var sql = $"INSERT INTO RE_CODCLI(RUTCLI,CODPRO,CODCLI,ESTADO) VALUES({rutcli},'{codpro}','{codcli}',1) ";
+                var sql = $"INSERT INTO RE_CODCLI(RUTCLI,CODPRO,CODCLI,DESCRIPCION,DESCRIPCION_CLIENTE,ESTADO) VALUES({rutcli},'{codpro}','{codcli}',GETDESCRIPCION('{codpro}'),'{descripcionCliente}',1) ";
                 OracleTransaction trans = null;
                 command.Connection = InstanceDmVentas;
                 command.CommandType = CommandType.Text;

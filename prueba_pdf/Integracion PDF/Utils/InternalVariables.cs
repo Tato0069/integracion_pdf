@@ -101,7 +101,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {71, "Biomedical Distribution Chile Ltda" }, //MZAPATA
             {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
             {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR
-            {74, "ARIDOS SANTA FE S.A:INGENIERIA Y CONSTRUCCIONES SANTA FE" }, //MZAPATA            
+            {74, "ARIDOS SANTA FE S.A:INGENIERIA Y CONSTRUCCIONES SANTA FE:CENTROVIAL S.A." }, //MZAPATA            
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
             {76, "EZENTIS CHILE S.A."}, //MZAPATA
             {77, "RIMASA LTDA." }, //MZAPATA
@@ -113,7 +113,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {83, "Empresa de Serv. Externos ACHS S.A." }, //MZAPATA
             {84, "RECURSOS PORTUARIOS Y ESTIBAS LIMITADA" }, //MZAPATA
             {85, "TECNOLOGIA EN TRANSPORTE DE MINERALES S.A." }, //MZAPATA
-            {86,"Capacitación en Ciencias y Tecnologías Limitada" },//MZAPATA
+            {86, "Capacitación en Ciencias y Tecnologías Limitada" },//MZAPATA
             {87, "MAQUINARIAS SANTA FE S.A." }, //MZAPATA
             {88, "MEDICA SAN BERNARDO S.A." }, //MZAPATA
             {89, "OPERADORA AUTOPISTA DE LOS ANDES LIMITADA" },//MZAPATA

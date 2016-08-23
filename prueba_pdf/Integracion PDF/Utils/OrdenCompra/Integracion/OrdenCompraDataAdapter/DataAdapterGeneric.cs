@@ -344,14 +344,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     case TipoPareoProducto.PareoDescripcionCliente:
                         sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
                         break;
-                    case TipoPareoProducto.PareoDescripcionSkuClienteTelemarketing:
+                    case TipoPareoProducto.PareoSkuClienteDescripcionTelemarketing:
                         sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,false);
                         if (sku.Equals("W102030"))
                         {
                             sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
                             if (!sku.Equals("W102030"))
                             {
-                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku);
+                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku,it.Descripcion);
                             }
                         }
                         break;
