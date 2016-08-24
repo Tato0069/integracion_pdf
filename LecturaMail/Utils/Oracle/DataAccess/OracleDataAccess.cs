@@ -606,7 +606,7 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                             "Insert Into We_notavta (numord, fecord, facnom, rutcli, cencos, facdir, " +
                             "ordweb, tipweb, observ, descli, codbod, codemp, clavta) VALUES " +
                             $"({serie}, trunc(sysdate), '{ocCliente}', {rutCli}, {cencos}, '0', " +
-                            $"{numPed}, '7', '{obs}', 0, {codBod}, {empresa}, {claVta})";
+                            $"{numPed}, 'A', '{obs}', 0, {codBod}, {empresa}, {claVta})";
                         OracleTransaction trans = null;
                         command.Connection = InstanceTransferWeb;
                         command.CommandType = CommandType.Text;
@@ -1173,11 +1173,16 @@ namespace LecturaMail.Utils.Oracle.DataAccess
             return CodProd;
         }
 
+        
 
 
-        public static string GetSkuWithMatcthDimercProductDescription(string descPro)
+        public static string GetSkuWithMatcthDimercProductDescription(string descPro, bool first)
         {
             descPro = descPro.ToUpper().DeleteAcent().DeleteContoniousWhiteSpace();
+            if (first) {
+                var sku = GetProductExactDescriptionMaestra(descPro);
+                if(!sku.Equals("W102030")) return sku;
+            }
             var split = descPro.Split(' ');
             var descContainsRow = new List<string>();
             var index = 0;
@@ -1188,19 +1193,19 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                 {
                     _tamanioMinimoPalabras = 0;
                        ReplaceSymbol = true;
-                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol());
+                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol(),false);
                 }
                 if (!ReplaceNumber)
                 {
                     _tamanioMinimoPalabras = 0;
                     ReplaceNumber = true;
-                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteNumber());
+                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteNumber(),false);
                 }
                 if (!ReplaceSymbolNumber)
                 {
                     _tamanioMinimoPalabras = 0;
                     ReplaceSymbolNumber = true;
-                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol().DeleteNumber());
+                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol().DeleteNumber(),false);
                 }
 
                 return CodProd;
@@ -1224,7 +1229,7 @@ namespace LecturaMail.Utils.Oracle.DataAccess
             if (CodProd.Equals("W102030"))
             {
                 _tamanioMinimoPalabras++;
-                return GetSkuWithMatcthDimercProductDescription(descPro);
+                return GetSkuWithMatcthDimercProductDescription(descPro,false);
             }
             Console.WriteLine($"Product Match: {CodProd}");
             return CodProd;
@@ -1246,6 +1251,30 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                 var data = command.ExecuteReader();
                 //Console.WriteLine(sql);
                 ret = data.Read() ? data["CODPRO"].ToString() : "";
+                data.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                InstanceDmVentas?.Close();
+            }
+            return ret;
+        }
+
+        public static string GetProductExactDescriptionMaestra(string desc)
+        {
+            var ret = "W102030";
+            try
+            {
+                InstanceDmVentas.Open();
+                var sql = $"SELECT CODPRO FROM MA_PRODUCT WHERE DESPRO = '{desc}'";
+                var command = new OracleCommand(sql, InstanceDmVentas);
+                var data = command.ExecuteReader();
+                //Console.WriteLine(sql);
+                ret = data.Read() ? data["CODPRO"].ToString() : "W102030";
                 data.Close();
             }
             catch (Exception e)

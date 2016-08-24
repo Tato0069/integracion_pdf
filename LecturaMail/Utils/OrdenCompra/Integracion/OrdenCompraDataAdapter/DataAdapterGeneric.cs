@@ -44,22 +44,29 @@ namespace LecturaMail.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter
                         sku = it.Sku;
                         break;
                     case TipoPareoProducto.PareoCodigoCliente:
-                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,true);
+                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,mailFaltantes:true);
                         break;
                     case TipoPareoProducto.PareoDescripcionTelemarketing:
-                        sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
+                        sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion,first:true);
                         break;
                     case TipoPareoProducto.PareoDescripcionCliente:
                         sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
                         break;
                     case TipoPareoProducto.PareoSkuClienteDescripcionTelemarketing:
-                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,false);
+                        if (!sku.Equals("W102030"))
+                        {//CON SKU CLIENTE
+                            sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku, mailFaltantes: false); 
+                        }
+                        if(sku.Equals("W102030"))
+                        {//CON DESCRIPCION CLIENTE
+                            sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
+                        }
                         if (sku.Equals("W102030"))
-                        {
-                            sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
+                        {//NO POSEE PAREO DEFINIDO
+                            sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion,first:true);
                             if (!sku.Equals("W102030"))
                             {
-                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku,it.Descripcion);
+                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku.Equals("W102030")?"SIN_SKU":it.Sku,it.Descripcion);
                             }
                         }
                         break;

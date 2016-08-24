@@ -47,6 +47,9 @@ namespace LecturaMail.Main
 
         public static void ExecuteLecturaMail()
         {
+            Console.WriteLine($"===============================================");
+            Console.WriteLine($"            INICIO LECTURA MAIL                ");
+            Console.WriteLine($"===============================================");
             var emailDictionary = EmailReader.GetAllMailLecturaMailSubject();
             var c = 0;
             foreach (var e in emailDictionary)
@@ -138,11 +141,6 @@ namespace LecturaMail.Main
                     break;
                 }
             }
-            //foreach (var format in PdfFormats.Where(format => onlyOneLine.Contains(format.Value)))
-            //{
-            //    first = format.Key;
-            //    break;
-            //}
             if (first == -1)
             {
                 try
@@ -194,23 +192,16 @@ namespace LecturaMail.Main
 
         private static void FinishAnalysis(int count)
         {
-            //UpdateTelemarketing();
-            if (count == 0)
-            {
-                //LecturaMail.Instance.ShowBalloon("Información",
-                //    "No existen Ordenes para Procesar...", BalloonIcon.Info);
+            if (count == 0) {
+                Console.WriteLine($"===============================================");
+                Console.WriteLine($"            NO HAY CORREOS PARA LEER           ");
+                Console.WriteLine($"===============================================");
             }
             else
             {
-                //if (!InternalVariables.IsDebug())
-                //{
                 UpdateTelemarketing();
-                //}
-                //Log.Save($"Análisis Terminado. Total de Ordenes Procesadas: {count}");
-                //IntegracionPdf.Instance.ShowBalloon("Información", "Análisis Terminado", BalloonIcon.Info);
                 OracleDataAccess.CloseConexion();
             }
-            //NotifyIconViewModel.SetCanProcessOrderCommand();
         }
 
         private static void UpdateTelemarketing()

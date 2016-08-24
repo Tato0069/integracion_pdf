@@ -95,7 +95,8 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
                                 NumeroCompra = ordenC,
                                 CentroCosto = cc,
                                 Observaciones = obs,
-                                Items = items
+                                Items = items,
+                                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionExacta
                             });
                             items = new List<Item>();
                             //_readRut = false;

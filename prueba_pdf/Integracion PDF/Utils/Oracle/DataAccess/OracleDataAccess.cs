@@ -1177,6 +1177,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
 
         public static string GetSkuWithMatcthDimercProductDescription(string descPro)
         {
+            if (descPro == null) return "W102030";
             descPro = descPro.ToUpper().DeleteAcent().DeleteContoniousWhiteSpace();
             var split = descPro.Split(' ');
             var descContainsRow = new List<string>();
