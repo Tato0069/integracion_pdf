@@ -545,8 +545,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 57:
                     var aguasAndinas = new Ecoriles(pdfReader);
                     ordenCompra = aguasAndinas.GetOrdenCompra();
-                    ordenCompra.CentroCosto = "161";
-                    ocAdapter = ordenCompra.ParearSoloSKU();
+                    //ordenCompra.CentroCosto = "161";
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();//ordenCompra.ParearSoloSKU();
                     break;
                 case 58:
                     var ingeProject = new Ingeproject(pdfReader);

@@ -126,7 +126,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HospitalTrabajado
                             Descripcion = test0.ArrayToString(1, test0.Length - 7),
                             Cantidad = test0[test0.Length - 3].Split(',')[0],
                             Precio = test0[test0.Length - 2].Replace(".", "").Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionSkuClienteTelemarketing
+                            TipoPareoProducto = TipoPareoProducto.PareoSkuClienteDescripcionTelemarketing
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
                         //var concatAll = "";
