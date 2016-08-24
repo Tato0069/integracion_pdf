@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 //using MODI;
 
-namespace IntegracionPDF.Integracion_PDF.Utils
+namespace LecturaMail.Utils
 {
     public static class StringUtils
     {
         private static int _index;
-
         public static string ConvertStringToHex(this string asciiString)
         {
             return asciiString.Aggregate("", (current, c) => current + $"{Convert.ToUInt32(((int) c).ToString()):x2}").Replace("a0","20").Replace("c2a0", "");

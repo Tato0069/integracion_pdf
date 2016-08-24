@@ -65,9 +65,6 @@
     <Reference Include="itextsharp">
       <HintPath>lib\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="libpdf">
-      <HintPath>lib\libpdf.dll</HintPath>
-    </Reference>
     <Reference Include="LinqToExcel">
       <HintPath>lib\LinqToExcel.dll</HintPath>
     </Reference>
@@ -335,6 +332,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Integracion PDF\Utils\Integracion\EMAIL\" />
     <Folder Include="Integracion PDF\Utils\Integracion\PDF\UVM\" />
     <Folder Include="Integracion PDF\Utils\Integracion\XLSX\MayoristaFama\" />
   </ItemGroup>

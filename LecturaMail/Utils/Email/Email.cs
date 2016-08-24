@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Email
+namespace LecturaMail.Utils.Email
 {
     public static class Email
     {

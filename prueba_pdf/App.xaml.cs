@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -7,12 +6,10 @@ using System.Threading;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using IntegracionPDF.Integracion_PDF.Utils;
-using IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess;
 using IntegracionPDF.Integracion_PDF.View;
 using IntegracionPDF.Integracion_PDF.ViewModel;
 using Timer = System.Timers.Timer;
-using System.Net.NetworkInformation;
-using IntegracionPDF.Integracion_PDF.Utils.Email;
+using IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess;
 
 namespace IntegracionPDF
 {
@@ -37,44 +34,7 @@ namespace IntegracionPDF
      
         protected override void OnStartup(StartupEventArgs e)
         {
-            //Console.WriteLine($"========={InternalVariables.GetMainEmail()}");
-            //OracleDataAccess.GetSkuWithMatcthDimercProductDescription("SOBRE 1/2 CARTA BLANCO 90GR 50UN DIMERC");
-            //var R780134 = OracleDataAccess.GetPrecioProducto("96770100", "0", "R780134", "3");
-            //var E204504 = OracleDataAccess.GetPrecioProducto("96770100", "0", "E204504", "3");
-            //Console.Write($"R780134: {R780134}\nE204504: {E204504}");
-            //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
-            //var nics = NetworkInterface.GetAllNetworkInterfaces();
-            //Console.WriteLine("Interface information for {0}.{1}     ",
-            //        computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Regla Acrilica 30cm Transparente");
-            //var computerProperties = IPGlobalProperties.GetIPGlobalProperties();
-            //var nics = NetworkInterface.GetAllNetworkInterfaces();
-            //Console.WriteLine("Interface information for {0}.{1}     ",
-            //        computerProperties.HostName, computerProperties.DomainName);
-            //var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("Rollos Termicos");
-            //var precio = OracleDataAccess.GetPrecioConvenio("96853940", "0", sku, "0");
-            //Console.WriteLine($"SKU: {sku}, PRECIO: {precio}");
-            //var sku2 = "R284220";
-            //var precio2 = OracleDataAccess.GetPrecioConvenio("76522179", "0", sku2, "0");
-            //Console.WriteLine($"SKU: {sku2}, PRECIO: {precio2}");
-
-            //var en = Encrypt.EncryptKey("17990424");
-            //Console.WriteLine($"RUT: 17990424, CL_{en}, {en.Length}");
-
-            //String sMacAddress = string.Empty;
-            //foreach (NetworkInterface adapter in nics)
-            //{
-            //    if (sMacAddress == String.Empty)// only return MAC Address from first card  
-            //    {
-            //        IPInterfaceProperties properties = adapter.GetIPProperties();
-            //        sMacAddress = adapter.GetPhysicalAddress().ToString();
-            //    }
-            //}
-            //Console.WriteLine($"{sMacAddress}");
-
-            //var pdfReader = new PDFReader(@"C:\Proyectos\Integración PDF\C#\Procesar\Integrar\PDF\09-09-Report(Falta CC)\88237 dimerc.pdf");
-            //var x = pdfReader.ExtractTextByCoOrdinate(1, 100, 50, 400, 500);
-            //Console.WriteLine($"XXX: {x}");
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("PAPEL HIGIENICO JUMBO 4 ROLLOS 500MT");
             InternalVariables.InitializeVariables();
             if (!FirstInstance)
             {
