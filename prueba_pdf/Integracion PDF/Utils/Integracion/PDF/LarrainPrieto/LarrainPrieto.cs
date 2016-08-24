@@ -22,7 +22,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         private const string ItemsHeaderPattern =
             "Unitario Descuento Valor";
 
-        private const string CentroCostoPattern = "ORDEN DE COMPRA N°:";
+        private const string CentroCostoPattern = "Rut : 80536800-4 Rut : 96670840-9";
         private const string ObservacionesPattern = "";
 
         private bool _readCentroCosto;
@@ -70,14 +70,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -216,10 +208,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
+            var aux = str.Split(',')[0];
            // aux = aux.Split('-');
             
-            return aux[aux.Length -2].Trim();
+            return aux.Trim().Replace("Dirección :","");
         }
 
 
