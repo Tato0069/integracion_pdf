@@ -34,7 +34,7 @@ namespace IntegracionPDF
      
         protected override void OnStartup(StartupEventArgs e)
         {
-            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("PAPEL HIGIENICO JUMBO 4 ROLLOS 500MT");
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("TIMBRE CON LEYENDA Y FECHADOR");
             InternalVariables.InitializeVariables();
             if (!FirstInstance)
             {

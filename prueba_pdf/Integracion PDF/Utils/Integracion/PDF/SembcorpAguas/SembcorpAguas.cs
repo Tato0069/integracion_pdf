@@ -12,7 +12,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{3}\s"},
+            {0, @"\d{1,}\s[a-zA-Z/]{3}\s\d{1,}\s\d{1,}$" },//@"^\d{3}\s"},
         };
         private const string RutPattern = "RUT :";
         private const string OrdenCompraPattern = "Compra :";
@@ -216,7 +216,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         {
             var ret = -1;
             //str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(".",""), it.Value).Success))
             {
                 ret = it.Key;
             }

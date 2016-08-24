@@ -137,7 +137,7 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
                             Cantidad = test0[test0.Length - 2].Replace(".", ""),
                             Precio = test0[test0.Length - 3].Replace(".",""),
                             Descripcion = test0.ArrayToString(0, test0.Length-4),
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                            TipoPareoProducto = TipoPareoProducto.PareoSkuClienteDescripcionTelemarketing
                         };
                         items.Add(item0);
                         break;
