@@ -143,8 +143,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {213, "Academia de Guerra del Ejército" }, //APARDO
             {214, "61.602.057-9" }, //APARDO Servicio de Salud Valpo San Antonio (HOSPITAL EDUARDO PEREIRA)
             {215, "Larraín Prieto Risopatron S.A." },// APARDO
-            {216, "Constructora Brotec Icafal Ltda." } //APARDO
+            {216, "Constructora Brotec Icafal Ltda." },//APARDO a la espera de pareo de código
+            {217, "Las empresas Agrosuper" }, //APARDO Agrosuper FAENADORA SAN VICENTE  LTDA
+            {218, "76.195.290" }, //APARDO revisando TRAZA faltan OC para revisar
+            {219, "KIPREOS INGENIEROS S.A." } //APARDO listo pero faltan mas OC 
         };
+
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
         {

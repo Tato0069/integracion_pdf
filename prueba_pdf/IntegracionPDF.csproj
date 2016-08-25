@@ -113,6 +113,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Abengoa\Abengoa.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ACH\Esach.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AFPHabitat\AFPHabitat.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Agrosuper\Agrosuper.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AguasAndinas\Ecoriles.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AIEP\Aiep.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AlimentosSanMartin\AlimentosSanMartin.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuCumminsArrienda.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuDistribuidoraCummins.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Komatsu\KomatsuReman.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Kripeos\Kripeos.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LaboratorioLBC\LaboratorioLBC.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainPrieto\LarrainPrieto.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\LarrainSalas\LarrainSalas.cs" />
@@ -212,6 +214,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Teveuk\Teveuk.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\TNT\TNT.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Toc\Toc.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Traza\Traza.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UDLA\Udla.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UNAB\CorpUNAB.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\UnitedNations\UnitedNations.cs" />

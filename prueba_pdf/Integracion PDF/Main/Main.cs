@@ -104,6 +104,9 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HospitalTrabajador;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrotecIcafal;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Traza;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Kripeos;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -839,7 +842,22 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 216:
                     var brotecIcafal = new BrotecIcafal(pdfReader);
                     ordenCompra = brotecIcafal.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 217:
+                    var agrosuper = new Agrosuper(pdfReader);
+                    ordenCompra = agrosuper.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 218:
+                    var traza = new Traza(pdfReader);
+                    ordenCompra = traza.GetOrdenCompra();
                     //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 219:
+                    var kripeos = new Kripeos(pdfReader);
+                    ordenCompra = kripeos.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
             }

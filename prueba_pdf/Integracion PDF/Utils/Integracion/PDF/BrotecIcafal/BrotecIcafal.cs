@@ -12,11 +12,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrote
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            //{0, @"^\d{1}[a-zA-Z]{1,2}\d{1,}\s"},
+            {0, @"\s\d{3}\s\d{1,}$"},
             // {1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
         private const string RutPattern = "Constructora Brotec Icafal Ltda.";
-        private const string OrdenCompraPattern = "Fecha:";
+        private const string OrdenCompraPattern = "N° ";
         private const string ItemsHeaderPattern =
             "Unitario Descuento VALOR TOTAL";
 
@@ -55,7 +55,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrote
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[--i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -124,20 +124,21 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrote
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[6],
-                            Cantidad = test0[4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            //Sku = "W102030",
+                            Cantidad = GetCantidad(test0).Split(',')[0],
+                            Precio = test0[test0.Length - 3].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
-                        //var concatAll = "";
-                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
-                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
-                        //{
-                        //    concatAll += $" {aux}";
-                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                        //}
-                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
+                        var concatAll = "";
+                        aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        {
+                            concatAll += $" {aux}";
+                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        }
+                        item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
+                        Console.WriteLine("concatALLLLL" + concatAll);
                         items.Add(item0);
                         break;
                 }
@@ -159,16 +160,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrote
             else
             {
                 var str = test1.ArrayToString(0, test1.Length - 1);
-                if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
+                if (Regex.Match(str, @"\s?[a-zA-Z]{1}\d{6}").Success)
                 {
-                    var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
-                    var length = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Length;
+                    var index = Regex.Match(str, @"\s?[a-zA-Z]{1}\d{6}").Index;
+                    var length = Regex.Match(str, @"\s?[a-zA-Z]{1}\d{6}").Length;
                     ret = str.Substring(index, length).Trim();
                 }
-                else if (Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Success)
+                else if (Regex.Match(str, @"\s?[a-zA-Z]{2}\d{5}").Success)
                 {
-                    var index = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Index;
-                    var length = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Length;
+                    var index = Regex.Match(str, @"\s?[a-zA-Z]{2}\d{5}").Index;
+                    var length = Regex.Match(str, @"\s?[a-zA-Z]{2}\d{5}").Length;
                     ret = str.Substring(index, length).Trim();
                 }
             }
@@ -217,7 +218,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrote
         {
             var ret = -1;
             //str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(",", "").Replace(".", ""), it.Value).Success))
             {
                 ret = it.Key;
             }
@@ -258,8 +259,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrote
             var ret = "-1";
             for (var i = 0; i < test0.Length; i++)
             {
-                if (test0[i].Equals("CLP"))
-                    return ret = test0[i - 1];
+                if (test0[i].Equals("Caja") || test0[i].Equals("UN") || test0[i].Equals("PQ") || test0[i].Equals("Juego") || test0[i].Equals("Barra") || test0[i].Equals("Resma") || test0[i].Equals("LAPIZ") || test0[i].Equals("ESPIRAL") || test0[i].Equals("KG") || test0[i].Equals("Frasco"))
+                    if(test0[0].Length == 7) {
+                        return ret = test0[1].Trim();
+                            }
+                    else  return ret = test0[0].Trim();
+
             }
             return ret;
         }

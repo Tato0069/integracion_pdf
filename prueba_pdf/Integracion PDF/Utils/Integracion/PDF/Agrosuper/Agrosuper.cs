@@ -5,25 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
 {
-    class LarrainPrieto
+    class Agrosuper
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
-        {
-            {0, @"^ZB\d{1,}\s\d{1,}$"},
-            //{0, @"^\d{1,}\s[a-zA-Z]{1,}\s\d{1,}\sZB\d{1,}\s"},
-           {1, @"^[a-zA-Z]{2}\s\d{1,}\sZB" },
-           {2, @"^ZB\d{1,}$" } 
+        {     {0, @"^\d{1,}\s\d{1,}\sUN\sCod:" }
+            //{0, @"\Cod:\s\d{1,}"},
+            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "Facturar a : Larraín Prieto Risopatron S.A. Proveedor : DIMERC S.A.";
-        private const string OrdenCompraPattern = "ORDEN DE COMPRA N°:";
+        private const string RutPattern = "Cierre de Negocio:";
+        private const string OrdenCompraPattern = "Nº :";
         private const string ItemsHeaderPattern =
-            "Unitario Descuento Valor";
+            "UNITARIO % NETO";
 
-        private const string CentroCostoPattern = "Rut : 80536800-4 Rut : 96670840-9";
-        private const string ObservacionesPattern = "";
+        private const string CentroCostoPattern = "de entrega:";
+        private const string ObservacionesPattern = "Lugar de Entrega :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -37,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
 
         #endregion
 
-        public LarrainPrieto(PDFReader pdfReader)
+        public Agrosuper(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -65,29 +63,28 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i+1]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
                         _readRut = true;
                     }
                 }
-                if (!_readCentroCosto)
-                {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[++i]);
-                        _readCentroCosto = true;
-                    }
-                }
-                //if (!_readObs)
+
+                //if (!_readCentroCosto)
                 //{
-                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
                 //    {
-                //        OrdenCompra.Observaciones +=
-                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
-                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
-                //        _readObs = true;
-                //        _readItem = false;
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
                 //    }
                 //}
+                if (!_readObs)
+                {
+                    if (IsObservacionPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.Observaciones = _pdfLines[i].Trim().DeleteContoniousWhiteSpace();
+                        _readObs = true;
+                        _readItem = false;
+                    }
+                }
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -117,18 +114,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(aux);
+                var optItem = GetFormatItemsPattern(aux.Replace(".",""));
                 switch (optItem)
                 {
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
-                        var test01 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[0],
-                            Cantidad = test01[0].Split(',')[0].Replace(".",""),
-                            Precio = test01[test01.Length - 1].Split(',')[0].Replace(".", ""),
+                            Sku = test0[4].Trim(),
+                            Cantidad = test0[1].Trim(),
+                            Precio = test0[test0.Length - 2],
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
@@ -142,35 +138,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                         //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
                         break;
-                    case 1:
-                        Console.WriteLine("==================ITEM CASE 1=====================");
-                        var test02 = aux.Split(' ');
-                        var test022 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace().Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = test02[2],
-                            Cantidad = test022[0].Split(',')[0].Replace(".", ""),
-                            Precio = test02[test02.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
-                        };
-                        items.Add(item1);
-                        break;
-
-                    case 2:
-                        Console.WriteLine("==================ITEM CASE 2=====================");
-                        var test03 = aux.Split(' ');
-                        var test04 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace().Split(' ');
-                        var test05 = pdfLines[i + 2].Trim().DeleteContoniousWhiteSpace().Split(' ');
-                        var item2 = new Item
-                        {
-                            Sku = test03[0],
-                            Cantidad = test05[0].Split(',')[0],
-                            Precio = test04[test04.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
-                        };
-                        items.Add(item2);
-                        break;
-
                 }
             }
             //SumarIguales(items);
@@ -215,45 +182,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            
-            var aux = "-1";
-            if (str.Contains("Cerrillos")){
-
-                aux = "0";
-            }
-            if (str.Contains("Marconi"))
-            {
-
-                aux = "1";
-            }
-            if (str.Contains("Chacabuco"))
-            {
-
-                aux = "3";
-            }
-            if (str.Contains("Abril")) {
-
-                aux = "4";
-            }
-            if (str.Contains("VALE VISTA EN BCO. CHILE"))
-            {
-
-                aux = "5";
-            }
-            if (str.Contains("Oriente 720"))
-            {
-
-                aux = "6";
-            }
-            if (str.Contains("Zegers"))
-            {
-
-                aux = "8";
-            }
-            //var aux = str.Split(',')[0];
-            // aux = aux.Split('-');
-
-            return aux.Trim();
+            var aux = str.Split(':');
+            return aux[1].Trim();
         }
 
 
@@ -265,8 +195,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(':');
-            return split[1].Trim();
+            var split = str.Split(' ');
+            return split[split.Length - 1].Trim();
         }
 
         /// <summary>
@@ -277,14 +207,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(' ');
-            return split[2];
+            var split = str.Split(':');
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
-            str = str.Replace(".", "").Replace(",","");
+            //str = str.DeleteDotComa();
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
