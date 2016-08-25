@@ -134,7 +134,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {204, "77.177.430-K" }, //APARDO Alimentos San Martin 
             {205, "77.038.090-1" }, // APARDO Zical
             {206, "CLUB AEREO DEL PERSONAL DE CARABINEROS" }, //APARDO
-            {207, "Maestranza Mining Parts Ltda." }, //APARDO falta tomar items
+            {207, "Maestranza Mining Parts Ltda." }, //APARDO falta pareo de códigos
             {208, "CONSTRUCTORA VRK S.P.A.;GLOSA PROV" }, //APARDO falta tomar items
             {209, "Constructora Lampa Oriente S.A." },//APARDO falta tomar items
             {210, "Masterline S.A.:Antonio Martínez y Compañía:Operaciones Integrales Chacabuco S.A.:Operaciones Integrales Coquimbo Ltda."}, // APARDO ENJOY  falta pareo cliente
