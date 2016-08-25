@@ -1699,8 +1699,37 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
             return ret;
         }
+        public static bool ExistProductReCodCli(string rutcli, string sku)
+        {
+            var ret = "";
+            try
+            {
+                InstanceDmVentas.Open();
+                var sql = $"SELECT COUNT(CODPRO) EXIST FROM RE_CODCLI WHERE RUTCLI = {rutcli} AND CODPRO = '{sku}'";
+                var command = new OracleCommand(sql, InstanceDmVentas);
+                var data = command.ExecuteReader();
+                if (data.Read())
+                {
+                    ret = data["EXIST"].ToString();
+                }
+                data.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                InstanceDmVentas?.Close();
+            }
+            return ret.Equals("1");
+        }
+
+
         public static void InsertIntoReCodCli(string rutcli, string codpro, string codcli, string descripcionCliente)
         {
+            var exist = ExistProductReCodCli(rutcli, codpro);
+            if (exist) return;
             using (var command = new OracleCommand())
             {
                 var sql = $"INSERT INTO RE_CODCLI(RUTCLI,CODPRO,CODCLI,DESCRIPCION,DESCRIPCION_CLIENTE,ESTADO) VALUES({rutcli},'{codpro}','{codcli}',GETDESCRIPCION('{codpro}'),'{descripcionCliente}',1) ";
@@ -1717,7 +1746,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                     command.ExecuteNonQuery();
                     trans.Commit();
                     InstanceDmVentas?.Close();
-                   
+
                 }
                 catch (SqlException)
                 {

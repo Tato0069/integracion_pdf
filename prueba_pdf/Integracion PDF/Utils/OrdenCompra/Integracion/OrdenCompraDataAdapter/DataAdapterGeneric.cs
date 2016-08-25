@@ -363,6 +363,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         }
                         break;
                 }
+                sku = sku.Replace(".", "").Replace(" ","");
                 if (!OracleDataAccess.ExistProduct(sku))
                 {
                     sku = "W102030";

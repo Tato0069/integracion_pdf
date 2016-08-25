@@ -21,7 +21,7 @@ namespace LecturaMail.Utils
                 {
                     IMail email = new MailBuilder().CreateFromEml(
                         pop3.GetMessageByUID(uid));
-                    if (email.Subject.ToUpper().Equals("LECTURA MAIL"))
+                    if (email.Subject.ToUpper().Equals(InternalVariables.GetSubjectMail()))
                     {
                         mails.Add(uid, email);
                         //ProcessMessage(email);

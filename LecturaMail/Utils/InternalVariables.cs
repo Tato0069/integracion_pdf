@@ -33,11 +33,16 @@ namespace LecturaMail.Utils
             //76021762-K
         };
 
+        internal static object GetSubjectMail()
+        {
+            return ConfigurationManager.AppSettings.Get("SubjectMail");
+        }
+
         #endregion
 
 
         #region Funciones
-     
+
 
         #region Email
 
