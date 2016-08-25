@@ -34,7 +34,7 @@ namespace IntegracionPDF
      
         protected override void OnStartup(StartupEventArgs e)
         {
-            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("TIMBRE CON LEYENDA Y FECHADOR");
+            var sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription("TIMBRE CON LEYENDA Y FECHADOR",first:true);
             InternalVariables.InitializeVariables();
             if (!FirstInstance)
             {
