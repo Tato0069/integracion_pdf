@@ -154,7 +154,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 //{
                 //    it.Sku = "W102030";
                 //}
-                it.Sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
+                it.Sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion, first: true);
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, it.Sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var dt = new DetalleOrdenCompraIntegracion
@@ -339,19 +339,26 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,true);
                         break;
                     case TipoPareoProducto.PareoDescripcionTelemarketing:
-                        sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
+                        sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion, first: true);
                         break;
                     case TipoPareoProducto.PareoDescripcionCliente:
                         sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
                         break;
                     case TipoPareoProducto.PareoSkuClienteDescripcionTelemarketing:
-                        sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku,false);
+                        if (!sku.Equals("W102030"))
+                        {//CON SKU CLIENTE
+                            sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku, mailFaltantes: false);
+                        }
                         if (sku.Equals("W102030"))
-                        {
-                            sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion);
+                        {//CON DESCRIPCION CLIENTE
+                            sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
+                        }
+                        if (sku.Equals("W102030"))
+                        {//NO POSEE PAREO DEFINIDO
+                            sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion, first: true);
                             if (!sku.Equals("W102030"))
                             {
-                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku,it.Descripcion);
+                                OracleDataAccess.InsertIntoReCodCli(oc.Rut, sku, it.Sku.Equals("W102030") ? "SIN_SKU" : it.Sku, it.Descripcion);
                             }
                         }
                         break;

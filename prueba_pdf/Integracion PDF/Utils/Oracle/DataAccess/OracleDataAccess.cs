@@ -1173,12 +1173,45 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return CodProd;
         }
 
-
-
-        public static string GetSkuWithMatcthDimercProductDescription(string descPro)
+        /// <summary>
+        /// Obtiene el SKU de un Producto con Descripción Exacta
+        /// </summary>
+        /// <param name="desc">Descripción</param>
+        /// <returns>Sku</returns>
+        public static string GetProductExactDescriptionMaestra(string desc)
         {
-            if (descPro == null) return "W102030";
+            var ret = "W102030";
+            try
+            {
+                InstanceDmVentas.Open();
+                var sql = $"SELECT CODPRO FROM MA_PRODUCT WHERE DESPRO = '{desc}'";
+                var command = new OracleCommand(sql, InstanceDmVentas);
+                var data = command.ExecuteReader();
+                //Console.WriteLine(sql);
+                ret = data.Read() ? data["CODPRO"].ToString() : "W102030";
+                data.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                InstanceDmVentas?.Close();
+            }
+            return ret;
+        }
+
+
+
+        public static string GetSkuWithMatcthDimercProductDescription(string descPro, bool first)
+        {
             descPro = descPro.ToUpper().DeleteAcent().DeleteContoniousWhiteSpace();
+            if (first)
+            {
+                var sku = GetProductExactDescriptionMaestra(descPro);
+                if (!sku.Equals("W102030")) return sku;
+            }
             var split = descPro.Split(' ');
             var descContainsRow = new List<string>();
             var index = 0;
@@ -1188,20 +1221,20 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 if (!ReplaceSymbol)
                 {
                     _tamanioMinimoPalabras = 0;
-                       ReplaceSymbol = true;
-                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol());
+                    ReplaceSymbol = true;
+                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol(), false);
                 }
                 if (!ReplaceNumber)
                 {
                     _tamanioMinimoPalabras = 0;
                     ReplaceNumber = true;
-                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteNumber());
+                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteNumber(), false);
                 }
                 if (!ReplaceSymbolNumber)
                 {
                     _tamanioMinimoPalabras = 0;
                     ReplaceSymbolNumber = true;
-                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol().DeleteNumber());
+                    return GetSkuWithMatcthDimercProductDescription(DescPro.DeleteSymbol().DeleteNumber(), false);
                 }
 
                 return CodProd;
@@ -1213,7 +1246,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 if (rows == 0)
                 {
                     descContainsRow.RemoveAt(index);
-                }else// if (rows == 1)
+                }
+                else// if (rows == 1)
                 {
                     index++;
                 }
@@ -1225,7 +1259,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             if (CodProd.Equals("W102030"))
             {
                 _tamanioMinimoPalabras++;
-                return GetSkuWithMatcthDimercProductDescription(descPro);
+                return GetSkuWithMatcthDimercProductDescription(descPro, false);
             }
             Console.WriteLine($"Product Match: {CodProd}");
             return CodProd;
