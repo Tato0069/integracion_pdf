@@ -13,7 +13,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TecnologiaTrasnpo
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
             {0, @"^\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}$"}, //4 100 799 799
-            {1,@"\s\d{1,}\sUN\s\d{1,}\s\d{1,}$" },
+            {1,@"\s\d{1,}\sUN\s\d{1,}\s\d{1,}$|\s\d{1,}\sDispla\s\d{1,}\s\d{1,}$" },
             {2,@"^\d{1,}\s\d{1,}\s\d{1,}$" }
 
         };

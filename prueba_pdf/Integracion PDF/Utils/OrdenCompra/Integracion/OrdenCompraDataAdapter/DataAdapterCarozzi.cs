@@ -21,7 +21,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra, oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 

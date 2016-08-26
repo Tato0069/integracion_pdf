@@ -14,7 +14,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra,oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 
@@ -57,7 +57,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra, oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 
@@ -102,7 +102,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
                 CenCos =
-                    int.TryParse(oc.CentroCosto, out auxint) ? oc.CentroCosto : OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto),
+                    int.TryParse(oc.CentroCosto, out auxint) ? oc.CentroCosto : OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra,oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 
@@ -226,7 +226,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra, oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 
@@ -269,7 +269,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.NumeroCompra, oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 
@@ -308,13 +308,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     cencos = oc.CentroCosto;
                     break;
                 case TipoPareoCentroCosto.PareoDescripcionMatch:
-                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.Rut, cencos);
+                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.NumeroCompra,oc.Rut, cencos);
                     break;
                 case TipoPareoCentroCosto.PareoDescripcionExacta:
-                    cencos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, cencos);
+                    cencos = OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra,oc.Rut, cencos);
                     break;
                 case TipoPareoCentroCosto.PareoDescripcionLike:
-                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, cencos,true);
+                    cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.NumeroCompra, oc.Rut, cencos,true);
                     break;
             }
             var ret = new OrdenCompraIntegracion
@@ -544,7 +544,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencosWithMatch(oc.NumeroCompra,oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 
@@ -591,7 +591,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.Observaciones,
-                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.Rut, oc.CentroCosto),
+                CenCos = OracleDataAccess.GetCenCosFromRutCliente(oc.NumeroCompra,oc.Rut, oc.CentroCosto),
                 Direccion = oc.Direccion
             };
 

@@ -452,20 +452,27 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     var integraMedicaAtencionAmbulatoria = new IntegraMedicaAtencionAmbulatorio(pdfReader);
                     ordenCompra = integraMedicaAtencionAmbulatoria.GetOrdenCompra();
                     ocAdapter = ordenCompra.AdapterGenericFormatWithDescriptionCencosToCompraIntegracion();
-                    switch (ocAdapter.RutCli)
+                    try
                     {
-                        case 96845430:
-                            ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc96845430Observaciones[int.Parse(ocAdapter.CenCos)];
-                            break;
-                        case 96986050:
-                            ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc96986050Observaciones[int.Parse(ocAdapter.CenCos)];
-                            break;
-                        case 79716500:
-                            ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc79716500Observaciones[int.Parse(ocAdapter.CenCos)];
-                            break;
-                        case 76098454:
-                            ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc76098454Observaciones[int.Parse(ocAdapter.CenCos)];
-                            break;
+                        switch (ocAdapter.RutCli)
+                        {
+                            case 96845430:
+                                ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc96845430Observaciones[int.Parse(ocAdapter.CenCos)];
+                                break;
+                            case 96986050:
+                                ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc96986050Observaciones[int.Parse(ocAdapter.CenCos)];
+                                break;
+                            case 79716500:
+                                ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc79716500Observaciones[int.Parse(ocAdapter.CenCos)];
+                                break;
+                            case 76098454:
+                                ocAdapter.Observaciones += integraMedicaAtencionAmbulatoria.Cc76098454Observaciones[int.Parse(ocAdapter.CenCos)];
+                                break;
+                        }
+                    }
+                    catch
+                    {
+                        ocAdapter.Observaciones += "No es posible reconocer la Observaciones del Centro de Costo.";
                     }
                     break;
                 case 44:

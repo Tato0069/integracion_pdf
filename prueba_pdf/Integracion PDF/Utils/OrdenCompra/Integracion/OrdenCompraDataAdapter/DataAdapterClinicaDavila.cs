@@ -13,7 +13,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.CentroCosto,
-                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, oc.CentroCosto.DeleteAcent().Trim(), true),
+                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.NumeroCompra, oc.Rut, oc.CentroCosto.DeleteAcent().Trim(), true),
                 Direccion = oc.Direccion
             };
 
@@ -67,7 +67,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 RutCli = int.Parse(oc.Rut),
                 OcCliente = oc.NumeroCompra,
                 Observaciones = oc.CentroCosto,
-                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.Rut, oc.CentroCosto.DeleteAcent().Trim(),true),
+                CenCos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.NumeroCompra,oc.Rut, oc.CentroCosto.DeleteAcent().Trim(),true),
                 Direccion = oc.Direccion
             };
 
