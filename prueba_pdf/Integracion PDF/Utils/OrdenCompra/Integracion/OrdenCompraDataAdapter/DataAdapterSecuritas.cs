@@ -20,7 +20,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     RutCli = int.Parse(o.Rut),
                     OcCliente = o.NumeroCompra,
                     Observaciones = o.Observaciones,
-                    CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.Rut, o.CentroCosto),
+                    CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.NumeroCompra,o.Rut, o.CentroCosto),
                     Direccion = o.Direccion
                 };
                 foreach (var dt in o.ItemsSecuritas.Select(it => new DetalleOrdenCompraIntegracion
@@ -52,7 +52,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     RutCli = int.Parse(o.Rut),
                     OcCliente = o.NumeroCompra,
                     Observaciones = o.Observaciones,
-                    CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.Rut, o.CentroCosto),
+                    CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.NumeroCompra,o.Rut, o.CentroCosto),
                     Direccion = o.Direccion
                 };
 
@@ -90,7 +90,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
 
             foreach (var o in oc.GetSecuritasAdapterOrdenCompra())
             {
-                var cencos = OracleDataAccess.GetCenCosFromRutCliente(o.Rut, o.CentroCosto);
+                var cencos = OracleDataAccess.GetCenCosFromRutCliente(o.NumeroCompra,o.Rut, o.CentroCosto);
                 var antofa = OracleDataAccess.TieneBodegaAntofagasta(o.Rut, cencos);
                 if (antofa)
                 {
@@ -130,7 +130,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                             RutCli = int.Parse(o.Rut),
                             OcCliente = o.NumeroCompra,
                             Observaciones = o.Observaciones,
-                            CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.Rut, o.CentroCosto),
+                            CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.NumeroCompra,o.Rut, o.CentroCosto),
                             Direccion = o.Direccion
                         };
                         foreach (var d in itemsAntofa)
@@ -149,7 +149,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                             RutCli = int.Parse(o.Rut),
                             OcCliente = o.NumeroCompra,
                             Observaciones = o.Observaciones,
-                            CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.Rut, o.CentroCosto),
+                            CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.NumeroCompra, o.Rut, o.CentroCosto),
                             Direccion = o.Direccion
                         };
                         foreach (var d in itemsSantiago)
@@ -168,7 +168,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                         RutCli = int.Parse(o.Rut),
                         OcCliente = o.NumeroCompra,
                         Observaciones = o.Observaciones,
-                        CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.Rut, o.CentroCosto),
+                        CenCos = OracleDataAccess.GetCenCosFromRutCliente(o.NumeroCompra,o.Rut, o.CentroCosto),
                         Direccion = o.Direccion
                     };
                     foreach (var it in o.ItemsSecuritas)

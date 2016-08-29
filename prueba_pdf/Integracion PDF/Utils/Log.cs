@@ -104,7 +104,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 $"Aplicación Finalizada el {fecha.ToShortDateString()} a las {fecha.ToLongTimeString()} Hrs.");
         }
 
-        public static void SaveCentroCostoFaltantes(string rutCli, string ccosto)
+        public static void SaveCentroCostoFaltantes(string ocCliente, string rutCli, string ccosto)
         {
             try
             {
@@ -113,12 +113,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 writer.WriteLine(
                     $"{DateTime.Now} - No existe Centro de Costo para el Cliente rut: {rutCli}, con Descripción: {ccosto}");
                 writer.Close();
-                AddMailCencosFaltantes(rutCli, ccosto);
+                AddMailCencosFaltantes(ocCliente, rutCli, ccosto);
             }
             catch (Exception)
             {
                 Thread.Sleep(2000);
-                SaveCentroCostoFaltantes(rutCli, ccosto);
+                SaveCentroCostoFaltantes(ocCliente, rutCli, ccosto);
             }
         }
 
@@ -184,12 +184,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             }
         }
 
-        private static void AddMailCencosFaltantes(string rutCli, string ccosto)
+        private static void AddMailCencosFaltantes(string ocCliente, string rutCli, string ccosto)
         {
             var m = CencosFaltantes.Find(mail => mail.RutCliente.Equals(rutCli));
             if (m != null)
             {
-                m.Body.Add($"No existe Centro de Costo con Descripción: {ccosto}");
+                m.Body.Add($"Para la Orden : {ocCliente}, no se puede reconocer el Centro de Costo con Descripción: {ccosto}");
             }
             else
             {
@@ -198,7 +198,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
                 CencosFaltantes.Add(new MailCencosFaltantes(rutCli, 
                     razon,
                     email,
-                    $"No existe Centro de Costo con Descripción: {ccosto}"));
+                    $"Para la Orden :{ocCliente}, no se puede reconocer el Centro de Costo con Descripción: {ccosto}"));
             }
         }
         

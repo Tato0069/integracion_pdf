@@ -1555,7 +1555,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         /// <param name="rutCli"></param>
         /// <param name="ccosto"></param>
         /// <returns></returns>
-        public static string GetCenCosFromRutCliente(string rutCli, string ccosto)
+        public static string GetCenCosFromRutCliente(string ocCliente, string rutCli, string ccosto)
         {
             var ret = "";
             var existCencos = true;
@@ -1586,7 +1586,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 InstanceTransferWeb?.Close();
                 if (!existCencos)
                 {
-                    Log.SaveCentroCostoFaltantes(rutCli, ccosto);
+                    Log.SaveCentroCostoFaltantes(ocCliente, rutCli, ccosto);
                     //throw new Exception($"No existe CenCos para el CCOSTO:\n {ccosto}, del cliente {rutCli}");
                     Console.WriteLine($"No existe CenCos para el CCOSTO:\n{ccosto}, del cliente {rutCli}");
                 }
@@ -1618,10 +1618,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             return ret;
         }
 
-        public static string GetCenCosFromRutClienteAndDescCencosWithMatch(string rutCli, string ccosto)
+        public static string GetCenCosFromRutClienteAndDescCencosWithMatch(string ocCliente,string rutCli, string ccosto)
         {
             Console.Write("==================================MATCH====================000");
-            var ret1 = GetCenCosFromRutClienteAndDescCencos(rutCli, ccosto, false);
+            var ret1 = GetCenCosFromRutClienteAndDescCencos(ocCliente, rutCli, ccosto, false);
             Console.WriteLine($"ret1: {ret1}");
             if (!ret1.Equals("0")) return ret1;
             var split = ccosto.Split(' ');
@@ -1638,13 +1638,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                     index++;
                 if (rows >= 1)
                 {
-                    ret = GetCenCosFromRutClienteAndDescCencos(rutCli,
+                    ret = GetCenCosFromRutClienteAndDescCencos(ocCliente, rutCli,
                         descContainsRow.ToArray().ArrayToString(0, descContainsRow.Count-1), true);
 
                     Console.WriteLine($"ret2: {ret}");
                 }
             }
             Console.WriteLine($"ret3: {ret}");
+            if (ret.Equals("0"))
+            {
+                Log.SaveCentroCostoFaltantes(ocCliente, rutCli, ccosto);
+            }
             return ret;
         }
 
@@ -1655,7 +1659,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         /// <param name="ccosto">Descripción Centro Costo</param>
         /// <param name="sendEmail">Enviar Mail?</param>
         /// <returns></returns>
-        public static string GetCenCosFromRutClienteAndDescCencos(string rutCli, string ccosto, bool sendEmail)
+        public static string GetCenCosFromRutClienteAndDescCencos(string ocCliente, string rutCli, string ccosto, bool sendEmail)
         {
             var num = 0;
             if (int.TryParse(ccosto, out num)) return ccosto;
@@ -1692,7 +1696,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 InstanceTransferWeb?.Close();
                 if (!existCencos && sendEmail)
                 {
-                    Log.SaveCentroCostoFaltantes(rutCli, ccosto);
+                    Log.SaveCentroCostoFaltantes(ocCliente, rutCli, ccosto);
                     Console.WriteLine($"No existe CenCos para el CCOSTO:\n{ccosto}," +
                                       $" del cliente {rutCli}");
                 }
