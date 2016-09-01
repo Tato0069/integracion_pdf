@@ -69,6 +69,7 @@
     <Compile Include="Utils\EmailReader.cs" />
     <Compile Include="Utils\Email\Email.cs" />
     <Compile Include="Utils\Encrypt.cs" />
+    <Compile Include="Utils\Integracion\EMAIL\ArcosDorados\ArcosDorados.cs" />
     <Compile Include="Utils\Integracion\EMAIL\Cinemark\Cinemark.cs" />
     <Compile Include="Utils\Integracion\GenericClass.cs" />
     <Compile Include="Utils\InternalVariables.cs" />

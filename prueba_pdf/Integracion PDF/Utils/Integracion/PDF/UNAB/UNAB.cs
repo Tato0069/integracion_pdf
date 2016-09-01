@@ -31,7 +31,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.UNAB
             {
                 var str = pdfLines[firstIndex].Trim().DeleteContoniousWhiteSpace();
                 //Console.WriteLine(str);
-                if (Regex.Match(str, @"\s\w{1}\d{6}$").Success)
+                if (Regex.Match(str, @"1\s\w{1}\d{6}").Success) //\s\w{1}\d{6}$
                 {
                     lastSku= GetSku(str);
                 }

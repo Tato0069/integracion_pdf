@@ -18,7 +18,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
         private const string RutPattern = "RUT : ";
         private const string OrdenCompraPattern = "CTO.";
         private const string ItemsHeaderPattern =
-            "Código Precio Fecha de";
+           "Unitario Neto Entrega"; // "Código Precio Fecha de"
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";

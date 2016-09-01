@@ -8,6 +8,7 @@ using LecturaMail.Utils;
 using LecturaMail.Utils.Integracion.EMAIL.Cinemark;
 using LecturaMail.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter;
 using LecturaMail.Utils.Oracle.DataAccess;
+using LecturaMail.Utils.Integracion.EMAIL.ArcosDorados;
 
 namespace LecturaMail.Main
 {
@@ -34,12 +35,21 @@ namespace LecturaMail.Main
                     var cinemark = new Cinemark(email);
                     ordenCompraList = cinemark.GetOrdenCompra();
                     ocAdapterList.AddRange(ordenCompraList.Select(ord => ord.TraspasoUltimateIntegracion()));
+
+
                     //foreach (var o in ordenCompraList)
                     //{
                     //    //Console.WriteLine($" {o}");
                     //    ocAdapter = o.TraspasoUltimateIntegracion();
                     //}
                     break;
+                case 1:
+                    var arcosDorados = new ArcosDorados(email);
+                    ordenCompra = arcosDorados.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                    
+
 
             }
             ExecutePostProcess(option, email, ordenCompra, ocAdapter, ocAdapterList);

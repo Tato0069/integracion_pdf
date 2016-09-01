@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
 {
-    class Agrosuper
+    class InsumosElAlto
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
-        {     {0, @"^\d{1,}\s\d{1,}\s[a-zA-Z]{2}\sCod:" }  // ^\d{1,}\s\d{1,}\sUN\sCod:
-            //{0, @"\Cod:\s\d{1,}"},
+        {
+            //{0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
             //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "Cierre de Negocio:";
-        private const string OrdenCompraPattern = "Nº :";
+        private const string RutPattern = "ABASTECEDORA GENERAL";
+        private const string OrdenCompraPattern = "O/C Numero :";
         private const string ItemsHeaderPattern =
-            "UNITARIO % NETO";
+            "Precio unitario Precio total";
 
         private const string CentroCostoPattern = "de entrega:";
-        private const string ObservacionesPattern = "Lugar de Entrega :";
+        private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
@@ -35,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
 
         #endregion
 
-        public Agrosuper(PDFReader pdfReader)
+        public InsumosElAlto(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -55,7 +55,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -63,28 +63,30 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
-                if (!_readObs)
+                if (!_readCentroCosto)
                 {
-                    if (IsObservacionPattern(_pdfLines[i]))
+                    if (IsCentroCostoPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Observaciones = _pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                        _readObs = true;
-                        _readItem = false;
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        _readCentroCosto = true;
                     }
                 }
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -114,7 +116,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(aux.Replace(".","").Replace(",",""));
+                var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
                 {
                     case 0:
@@ -122,10 +124,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[4].Trim(),
-                            Cantidad = test0[1].Trim().Split(',')[0],
-                            Precio = test0[test0.Length - 2],
-                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                            Sku = test0[6],
+                            Cantidad = test0[4].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
                         //var concatAll = "";
@@ -195,8 +197,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(' ');
-            return split[split.Length - 1].Trim();
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         /// <summary>
@@ -219,7 +221,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper
             {
                 ret = it.Key;
             }
-            Console.WriteLine($"STR: {str}, RET: {ret}");
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
