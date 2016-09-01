@@ -107,6 +107,8 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConstructoraBrotecIca
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Agrosuper;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Traza;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Kripeos;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MetalurgiaCaceres;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -131,6 +133,32 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 var folderRooth = $@"{InternalVariables.GetOcProcesadasFolder()}{folderName}\";
                 var fileName = $"{DateTime.Now:dd-MM-yyyy-HH-mm-ss}_{tmpFileName}";
                 //var fileName = $"{tmpFileName}";
+                if (!Directory.Exists(folderRooth))
+                    Directory.CreateDirectory(folderRooth);
+                Console.WriteLine($"Move: {pdfPath} \n to: {folderRooth}{fileName}");
+                File.Move(pdfPath, $"{folderRooth}{fileName}");
+            }
+            catch (Exception e)
+            {
+                Log.TryError($"Error al momento de mover el archivo: {tmpFileName}, a carpetas de Ordenes Procesadas..");
+                Log.TryError(e.Message);
+                Log.TryError(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Mover un archivo con Formato Desconocido
+        /// </summary>
+        /// <param name="pdfPath">Ruta Archivo</param>
+        public static void MoveUnknownFileToProcessFolder(string pdfPath)
+        {
+            //if (OnlyOne) return;
+            //if (InternalVariables.IsDebug()) return;
+            var tmpFileName = pdfPath.Substring(pdfPath.LastIndexOf(@"\", StringComparison.Ordinal) + 1); ;
+            try
+            {
+                var folderRooth = $@"{InternalVariables.GetUnknownOcFolder()}";
+                var fileName = $"{DateTime.Now:dd-MM-yyyy-HH-mm-ss}_{tmpFileName}";
                 if (!Directory.Exists(folderRooth))
                     Directory.CreateDirectory(folderRooth);
                 Console.WriteLine($"Move: {pdfPath} \n to: {folderRooth}{fileName}");
@@ -844,6 +872,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 215:
                     var larrainPrieto = new LarrainPrieto(pdfReader);
                     ordenCompra = larrainPrieto.GetOrdenCompra();
+                    //ordenCompra.Rut = ordenCompra.Rut.Equals("805368002")? "80536800": ordenCompra.Rut;
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
@@ -865,6 +894,17 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 219:
                     var kripeos = new Kripeos(pdfReader);
                     ordenCompra = kripeos.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
+                case 220:
+                    var metalurgiaCaceres = new MetalurgiaCaceres(pdfReader);
+                    ordenCompra = metalurgiaCaceres.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 221:
+                    var insumosElAlto = new InsumosElAlto(pdfReader);
+                    ordenCompra = insumosElAlto.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
 
@@ -1116,10 +1156,12 @@ namespace IntegracionPDF.Integracion_PDF.Main
             }
             else
             {
+                Console.Write($"UnknownFile");
                 var stringPath = pdfReader.PdfPath;
                 var stringFileName = pdfReader.PdfFileName;
+                pdfReader = null;
                 ThrowFormatError(stringFileName, stringPath);
-                MoveFileToProcessFolder(stringPath, ordenCompra);
+                MoveUnknownFileToProcessFolder(stringPath);
             }
         }
 

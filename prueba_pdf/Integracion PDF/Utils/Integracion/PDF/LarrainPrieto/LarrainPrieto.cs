@@ -15,14 +15,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
             {0, @"^ZB\d{1,}\s\d{1,}$"},
             //{0, @"^\d{1,}\s[a-zA-Z]{1,}\s\d{1,}\sZB\d{1,}\s"},
            {1, @"^[a-zA-Z]{2}\s\d{1,}\sZB" },
-           {2, @"^ZB\d{1,}$" } 
+           {2, @"^ZB\d{1,}$" },
+           {3, @"^\w{3}\sZB\d{1,}\s" }
         };
         private const string RutPattern = "Facturar a : Larraín Prieto Risopatron S.A. Proveedor : DIMERC S.A.";
         private const string OrdenCompraPattern = "ORDEN DE COMPRA N°:";
-        private const string ItemsHeaderPattern =
-            "Unitario Descuento Valor";
+        private const string ItemsHeaderPattern = "Valor Unitario Descuento Valor";
+        private const string ItemsHeaderPattern2 = "Descripción Valor Unitario Valor";
 
-        private const string CentroCostoPattern = "Rut : 80536800-4 Rut : 96670840-9";
+        private const string CentroCostoPattern = "Entregar en :";
         private const string ObservacionesPattern = "";
 
         private bool _readCentroCosto;
@@ -61,22 +62,42 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                         _readOrdenCompra = true;
                     }
                 }
-                if (!_readRut)
-                {
-                    if (IsRutPattern(_pdfLines[i]))
-                    {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i+1]);
-                        _readRut = true;
-                    }
-                }
                 if (!_readCentroCosto)
                 {
-                    if (IsCentroCostoPattern(_pdfLines[i]))
+                   if (IsCentroCostoPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[++i]);
+                       OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        var getCC = GetCentroCosto(_pdfLines[i]);
+                        Console.WriteLine("VARIABLE GETCC ->" + getCC);
                         _readCentroCosto = true;
                     }
                 }
+                
+                if (!_readRut)
+                {
+                    if (IsRutPattern(_pdfLines[i])) {
+
+                        OrdenCompra.Rut =  "805368002"; //GetRut(_pdfLines[i + 1]);
+
+
+                        _readRut = true;
+                    }
+
+                }
+                //var getCC = GetCentroCosto(_pdfLines[i]);
+                //if (!_readRut)
+                //{
+                //    if (IsRutPattern(_pdfLines[i]))
+                //    {
+                //        if (getCC.Contains("Cerrillos")) {
+
+                //            OrdenCompra.Rut = GetRut(_pdfLines[i+1]);
+                //        }
+                //        OrdenCompra.Rut = "805368002";
+
+                //    }
+                //    _readRut = true;
+                //}
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -98,6 +119,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                             OrdenCompra.Items.AddRange(items);
                             _readItem = true;
                         }
+                    }
+                    else if (IsHeaderItemPatterns2(_pdfLines[i]))
+                    {
+                        var items = GetItems(_pdfLines, i);
+                        if(items.Count > 0)
+                        {
+                            OrdenCompra.Items.AddRange(items);
+                            _readItem = true;
+
+                        }
+
                     }
                 }
             }
@@ -122,6 +154,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                 {
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
+                        
                         var test0 = aux.Split(' ');
                         var test01 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace().Split(' ');
                         var item0 = new Item
@@ -170,6 +203,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                         };
                         items.Add(item2);
                         break;
+                    case 3:
+                        Console.WriteLine("==================ITEM CASE 3=====================");
+                        var test06 = aux.Split(' ');
+                        var test07 = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace().Split(' ');
+                         var item3 = new Item
+                        {
+                            Sku = test06[1].Trim(),
+                            Cantidad = test07[0].Split(',')[0],
+                            Precio = test06[test06.Length - 2].Split(',')[0],
+                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
+                        };
+                        items.Add(item3);
+                        break;
 
                 }
             }
@@ -215,45 +261,24 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
+            var aux = str.Trim();
+            Console.WriteLine("linea donde va CC"  + aux);
             
-            var aux = "-1";
-            if (str.Contains("Cerrillos")){
+            if (aux.Contains("Cerrillos")) {
 
                 aux = "0";
             }
-            if (str.Contains("Marconi"))
+            if (aux.Contains("Octava"))
             {
+                aux = "10";
 
-                aux = "1";
             }
-            if (str.Contains("Chacabuco"))
+            if (aux.Contains("Gomeros"))
             {
+                aux = "11";
 
-                aux = "3";
             }
-            if (str.Contains("Abril")) {
-
-                aux = "4";
-            }
-            if (str.Contains("VALE VISTA EN BCO. CHILE"))
-            {
-
-                aux = "5";
-            }
-            if (str.Contains("Oriente 720"))
-            {
-
-                aux = "6";
-            }
-            if (str.Contains("Zegers"))
-            {
-
-                aux = "8";
-            }
-            //var aux = str.Split(',')[0];
-            // aux = aux.Split('-');
-
-            return aux.Trim();
+            return aux;
         }
 
 
@@ -341,6 +366,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
         {
             return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern);
         }
+        private bool IsHeaderItemPatterns2(string str)
+        {
+            return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern2);
+        }
+
 
         private bool IsObservacionPattern(string str)
         {

@@ -146,7 +146,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {216, "Constructora Brotec Icafal Ltda." },//APARDO a la espera de pareo de código
             {217, "Las empresas Agrosuper" }, //APARDO Agrosuper FAENADORA SAN VICENTE  LTDA
             {218, "76.195.290" }, //APARDO revisando TRAZA faltan OC para revisar
-            {219, "KIPREOS INGENIEROS S.A." } //APARDO listo pero faltan mas OC 
+            {219, "KIPREOS INGENIEROS S.A." },//APARDO listo pero faltan mas OC 
+            {220, "96,995,990-9" },//APARDO Metalurgia Caceres
+            {221, "99.545.580-3" } //APARDO
         };
 
 
@@ -187,6 +189,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         public static string GetPasswordEmailFrom()
         {
             return ConfigurationManager.AppSettings.Get("PasswordEmailFrom");
+        }
+
+        internal static object GetUnknownOcFolder()
+        {
+            return ConfigurationManager.AppSettings.Get("UnknownFile");
         }
 
         public static string GetSubjectDebug()

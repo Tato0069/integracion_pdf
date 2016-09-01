@@ -317,6 +317,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     cencos = OracleDataAccess.GetCenCosFromRutClienteAndDescCencos(oc.NumeroCompra, oc.Rut, cencos,true);
                     break;
             }
+            
+            
             var ret = new OrdenCompraIntegracion
             {
                 NumPed = OracleDataAccess.GetNumPed(),
@@ -327,6 +329,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 Direccion = oc.Direccion
             };
 
+            if (ret.RutCli == 805368002)
+            {
+
+                ret.RutCli = 80536800;
+            }
             foreach (var it in oc.Items)
             {
                 var sku = it.Sku.ToUpper().DeleteSymbol();

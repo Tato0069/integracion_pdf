@@ -100,7 +100,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                 //Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
                 //Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
                 if (rawLine.Equals("?")) continue;
-                if (aux[aux.Length - 2].Contains("UNI"))
+                if (aux[aux.Length - 1].Contains("UNI"))
                     rawLine += " UNI";
                 var pro = GetProduct(rawLine);
                 if (pro == null) continue;
