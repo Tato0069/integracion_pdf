@@ -90,15 +90,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
             var desCenCos = "";
             var listOrden = new List<OrdenCompraClinicaDavila>();
             //foreach (var rawLin in list)
-            for(var i = 0; i < list.Count;i++)//.Count; i++)
+            for (var i = 0; i < list.Count; i++)//.Count; i++)
             {
                 //00 ff 03 05 c0 00 ea 04 00 00
-                var rawLin = list[i];
+                var rawLin = list[i].Replace("\u0001", "");
                 var aux = rawLin.Split(' ');
                 var cant = aux[aux.Length - 1];
                 var rawLine = aux.ArrayToString(0, aux.Length - 3);
                 //Console.WriteLine($"RAWLIN: {rawLin.ConvertStringToHex()}");
                 //Console.WriteLine($"RAWLINE: {rawLine.ConvertStringToHex()}");
+                if (rawLine.Length <= 1) continue;
                 if (rawLine.Equals("?")) continue;
                 if (aux[aux.Length - 2].Contains("UNI"))
                     rawLine += " UNI";

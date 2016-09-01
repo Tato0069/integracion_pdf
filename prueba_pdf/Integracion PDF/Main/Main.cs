@@ -632,7 +632,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 72:
                     var loginsa = new BiomedicalDistributionChile(pdfReader);
                     ordenCompra = loginsa.GetOrdenCompra();
-                    Console.WriteLine($"LOGINSA OC: {ordenCompra}");
+                    //Console.WriteLine($"LOGINSA OC: {ordenCompra}");
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     //IDENTIFICAR CC
                     break;
