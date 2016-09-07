@@ -148,7 +148,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {218, "76.195.290" }, //APARDO revisando TRAZA faltan OC para revisar
             {219, "KIPREOS INGENIEROS S.A." },//APARDO listo pero faltan mas OC 
             {220, "96,995,990-9" },//APARDO Metalurgia Caceres
-            {221, "99.545.580-3" } //APARDO
+            {221, "99.545.580-3" }, //APARDO Insumos el alto
+            {222, "77.409.600-0" },//APARDO Tecnoera
+            {223, "89037500-6" },//APARDO Sigro falta pareo de código
+            {224, "CIRCULO EJECUTIVO LTDA." }, //APARDO
+            {225, "76.215.260-6" } //APARDO NEMO CHILE
         };
 
 

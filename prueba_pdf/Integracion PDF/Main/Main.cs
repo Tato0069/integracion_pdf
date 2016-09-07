@@ -109,6 +109,10 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Traza;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Kripeos;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MetalurgiaCaceres;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Tecnoera;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimitada;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -416,6 +420,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 34:
                     var hormigonesTransex = new HormigonesTransex(pdfReader);
                     ordenCompra = hormigonesTransex.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 35:
                     var officeStore = new OfficeStore(pdfReader);
@@ -907,7 +912,26 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = insumosElAlto.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
-
+                case 222:
+                    var tecnoera = new Tecnoera(pdfReader);
+                    ordenCompra = tecnoera.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 223:
+                    var sigro = new Sigro(pdfReader);
+                    ordenCompra = sigro.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 224:
+                    var circuloEjeLim = new CirculoEjecutivaLimitada(pdfReader);
+                    ordenCompra = circuloEjeLim.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 225:
+                    var nemoChile = new NemoChile(pdfReader);
+                    ordenCompra = nemoChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }

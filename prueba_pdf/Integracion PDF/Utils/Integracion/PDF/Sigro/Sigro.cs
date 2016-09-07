@@ -1,24 +1,24 @@
-﻿using System;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro
 {
-    public class HormigonesTransex
+    class Sigro
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{1,}\sM\d{9}\s\d{1,}"},
-            {1, @"^[a-zA-Z]\d{9}\s[a-zA-Z]{1,}" },
-            //{2, @"^\d{1,}\s\w{1}\d{9}\s\d{1,}\s" }
+            {0, @"\d{1,}\sUN\s[a-zA-Z]{1,}\s"},
+            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "RUT Numero";
-        private const string OrdenCompraPattern = "RUT Numero";
+        private const string RutPattern = "EMPRESA CONSTRUCTORA";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA N°:";
         private const string ItemsHeaderPattern =
-            "# RECURSO CANTIDAD DESCRIPCION MEDIDA UNITARIO % TOTAL";
+            "P. Unitario Descuento Valor Total";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -35,7 +35,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
 
         #endregion
 
-        public HormigonesTransex(PDFReader pdfReader)
+        public Sigro(PDFReader pdfReader)
         {
             _pdfReader = pdfReader;
             _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
@@ -55,7 +55,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i+2]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -63,7 +63,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i+1]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
                         _readRut = true;
                     }
                 }
@@ -115,8 +115,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                var aux1 = pdfLines[++i].Trim().DeleteContoniousWhiteSpace();
-                if (aux1 == null) { aux1 = pdfLines[i - 1].Trim().DeleteContoniousWhiteSpace(); }
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
@@ -127,9 +125,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
                         var item0 = new Item
                         {
                             Sku = "W102030",
-                            Cantidad = test0[2].Split(',')[0],
-                            Precio = test0[test0.Length - 3].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                            Cantidad = test0[1].Split(',')[0],
+                            Precio = test0[test0.Length - 3].Replace(".","").Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionCliente
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
                         //var concatAll = "";
@@ -142,29 +140,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
                         //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
                         break;
-
-                    case 1:
-                        Console.WriteLine("==================ITEM CASE 1=====================");
-                        var test1 = aux1.Split(' ');
-                        var item1 = new Item
-                        {
-                            Sku = "W102030",
-                            Cantidad = test1[1].Split(',')[0],
-                            Precio = test1[test1.Length - 1].Split(',')[0].Replace(".",""),
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
-                        };
-                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
-                        //var concatAll = "";
-                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
-                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
-                        //{
-                        //    concatAll += $" {aux}";
-                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                        //}
-                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
-                        items.Add(item1);
-                        break;
-
                 }
             }
             //SumarIguales(items);
@@ -222,8 +197,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-           
-            return str.Trim();
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         /// <summary>
@@ -234,8 +209,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.HormigonesTransex
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            
-            return str.Trim();
+            var split = str.Split(':');
+            return split[1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)

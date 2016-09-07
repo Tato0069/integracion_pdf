@@ -12,10 +12,10 @@ namespace LecturaMail.Utils.Email
         {
             var mail = new MailMessage
             {
-                From = new MailAddress("mzapata@ofimarket.cl")
+                From = new MailAddress("apardo@ofimarket.cl") // mzapata@ofimarket.cl
             };
             mail.To.Add(to);
-            mail.To.Add("mzapata@ofimarket.cl");
+            mail.To.Add("apardo@ofimarket.cl"); // mzapata@ofimarket.cl
             mail.Subject = subject;
             mail.Body = body;
 
@@ -23,7 +23,7 @@ namespace LecturaMail.Utils.Email
             {
                 Host = "smtp.gmail.com",
                 Port = 25,//465; //587
-                Credentials = new NetworkCredential("mzapata@ofimarket.cl", "tato006900"),
+                Credentials = new NetworkCredential("apardo@ofimarket.cl", "APARDO"),
                 EnableSsl = true
             };
             try

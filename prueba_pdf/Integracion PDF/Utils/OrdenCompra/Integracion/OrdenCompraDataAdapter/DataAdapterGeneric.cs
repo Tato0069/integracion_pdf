@@ -567,7 +567,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 var cantidad = 1;
                 if(int.TryParse(it.Cantidad.Equals("00050")|| it.Cantidad.Equals("La") ? "1" : it.Cantidad, out cantidad))
                 {
-                    cantidad = 1;
+                  // cantidad = 1;
                 }
                 it.Cantidad = cantidad.ToString();
                 var dt = new DetalleOrdenCompraIntegracion

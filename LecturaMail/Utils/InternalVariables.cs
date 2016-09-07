@@ -20,7 +20,8 @@ namespace LecturaMail.Utils
             // : DELIMITADOR PARA 'OR' LÓGICO (||)
             // ; DELIMITADOR PARA 'AND' LÓGICO (&&) === SOLO PUEDE HABER UNO POR TOKEN
             {0,"@cinemark.cl:CineMark.:96659800:96.659.800" },
-            {1, "ARCOS DORADOS RESTAURANTES DE CHILE LTDA" } //APARDO
+            {1, "ARCOS DORADOS RESTAURANTES DE CHILE LTDA" }, //APARDO
+            {2,"96856780" },
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
