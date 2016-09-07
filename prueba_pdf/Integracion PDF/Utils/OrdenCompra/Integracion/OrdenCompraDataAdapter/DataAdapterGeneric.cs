@@ -354,14 +354,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                     case TipoPareoProducto.PareoSkuClienteDescripcionTelemarketing:
                         if (!sku.Equals("W102030"))
                         {//CON SKU CLIENTE
+
+                            Console.WriteLine("===================CODIGO CLIENTE===================");
                             sku = OracleDataAccess.GetSkuDimercFromCodCliente(oc.NumeroCompra, oc.Rut, it.Sku, mailFaltantes: false);
-                        }
-                        if (sku.Equals("W102030"))
+                        }else
                         {//CON DESCRIPCION CLIENTE
+
+                            Console.WriteLine("===================DESCRIPCION CLIENTE===================");
                             sku = OracleDataAccess.GetSkuWithMatchClientProductDescription(oc.Rut, it.Descripcion);
                         }
-                        if (sku.Equals("W102030"))
+                        if (sku.Equals("W102030") || sku.Equals(""))
                         {//NO POSEE PAREO DEFINIDO
+
+                            Console.WriteLine("===================DESCRIPCION TELEMARKETING===================");
                             sku = OracleDataAccess.GetSkuWithMatcthDimercProductDescription(it.Descripcion, first: true);
                             if (!sku.Equals("W102030"))
                             {

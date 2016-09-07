@@ -139,7 +139,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.BiomedicalDistrib
                             Descripcion = test0.ArrayToString(3, test0.Length - 5),
                             Cantidad = test0[test0.Length - 3].Split(',')[0],
                             Precio = test0[test0.Length - 2].Split(',')[0],
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing//PareoSkuClienteDescripcionTelemarketing//
                         };
                         items.Add(item0);
                         break;

@@ -1270,7 +1270,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             var likes = "";
             foreach (var str in desc.Where(str => str.Length > _tamanioMinimoPalabras))
             {
-                likes += $"and descripcion LIKE '%{str}%'";
+                likes += $"and descripcion_cliente LIKE '%{str}%'";
             }
             var ret = "";
             try
@@ -1620,7 +1620,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
 
         public static string GetCenCosFromRutClienteAndDescCencosWithMatch(string ocCliente,string rutCli, string ccosto)
         {
-            Console.Write("==================================MATCH====================000");
+            Console.WriteLine("==================================MATCH====================000");
             var ret1 = GetCenCosFromRutClienteAndDescCencos(ocCliente, rutCli, ccosto, false);
             Console.WriteLine($"ret1: {ret1}");
             if (!ret1.Equals("0")) return ret1;
@@ -1628,10 +1628,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             var descContainsRow = new List<string>();
             var index = 0;
             var ret = "0";
+            var lasRowCount = 0;
             foreach (var t in split.Where(t => t.Length > _tamanioMinimoPalabras))
             {
                 descContainsRow.Add(t);
                 var rows = GetCountDescCencosMatch(rutCli, descContainsRow);
+                lasRowCount = rows;
                 if (rows == 0)
                     descContainsRow.RemoveAt(index);
                 else
@@ -1644,11 +1646,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                     Console.WriteLine($"ret2: {ret}");
                 }
             }
-            Console.WriteLine($"ret3: {ret}");
-            if (ret.Equals("0"))
+            if (lasRowCount == 0 && ret.Equals("0"))
             {
                 Log.SaveCentroCostoFaltantes(ocCliente, rutCli, ccosto);
             }
+            Console.WriteLine($"ret3: {ret}");
+            
             return ret;
         }
 
