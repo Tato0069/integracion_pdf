@@ -113,6 +113,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Tecnoera;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimitada;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InmobiSanCarlos;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -539,6 +540,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 48:
                     var consorcioSeguridad = new ConsorcioCompaniaSeguridad(pdfReader);
                     ordenCompra = consorcioSeguridad.GetOrdenCompra();
+                    
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 49:
@@ -930,6 +932,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 225:
                     var nemoChile = new NemoChile(pdfReader);
                     ordenCompra = nemoChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 226:
+                    var inmobiSanCarlos = new InmobiSanCarlos(pdfReader);
+                    ordenCompra = inmobiSanCarlos.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
             }

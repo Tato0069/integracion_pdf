@@ -100,7 +100,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {70, "76.053.505-2:76053505" }, //MZAPATA PROYEKTA S.A.
             {71, "Biomedical Distribution Chile Ltda" }, //MZAPATA
             {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
-            {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR
+            {73, "Depósitos y Contenedores S.A:96670840-9" }, //MZAPATA - AGREGAR
             {74, "ARIDOS SANTA FE S.A:INGENIERIA Y CONSTRUCCIONES SANTA FE:CENTROVIAL S.A." }, //MZAPATA            
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
             {76, "EZENTIS CHILE S.A."}, //MZAPATA
@@ -152,7 +152,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {222, "77.409.600-0" },//APARDO Tecnoera
             {223, "89037500-6" },//APARDO Sigro falta pareo de código
             {224, "CIRCULO EJECUTIVO LTDA." }, //APARDO
-            {225, "76.215.260-6" } //APARDO NEMO CHILE
+            {225, "76.215.260-6" }, //APARDO NEMO CHILE
+            {226, "INMOBILIARIA CLÍNICA SAN CARLOS DE APOQUINDO S. A" } //APARDO
         };
 
 

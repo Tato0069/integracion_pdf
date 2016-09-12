@@ -174,6 +174,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Indra\Indra.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IngenieriaComercializadoraRiego\IngenieriaComercializadoraRiego.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ingeproject\Ingeproject.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\InmobiSanCarlos\InmobiSanCarlos.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\InsumosElAlto\InsumosElAlto.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegraMedica.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegramedicaAtencionAmbulatoria.cs" />
