@@ -9,6 +9,7 @@ using LecturaMail.Utils.Integracion.EMAIL.Cinemark;
 using LecturaMail.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter;
 using LecturaMail.Utils.Oracle.DataAccess;
 using LecturaMail.Utils.Integracion.EMAIL.ArcosDorados;
+using LecturaMail.Utils.Integracion.EMAIL;
 
 namespace LecturaMail.Main
 {
@@ -47,6 +48,11 @@ namespace LecturaMail.Main
                     var arcosDorados = new ArcosDorados(email);
                     ordenCompra = arcosDorados.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 2:
+                    var consalud = new Consalud(email);
+                    ordenCompra = consalud.GetOrdenCompra();
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                     
 

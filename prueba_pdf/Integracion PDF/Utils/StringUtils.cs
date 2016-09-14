@@ -262,7 +262,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
         public static string ArrayToString(this string[] arg, int from, int to)
         {
             var ret = "";
-            for (; from <= to; from++)
+            for (; from <= to; from++) // from = 2
             {
                 ret += " " + arg[from];
             }

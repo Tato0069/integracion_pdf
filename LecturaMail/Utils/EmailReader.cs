@@ -34,7 +34,7 @@ namespace LecturaMail.Utils
 
         public static void DeleteMail(this IMail email, string uid)
         {
-            if (InternalVariables.IsDebug()) return;
+            //if (InternalVariables.IsDebug()) return;
             using (Pop3 pop3 = new Pop3())
             {
                 pop3.Connect("mail.dimerc.cl");

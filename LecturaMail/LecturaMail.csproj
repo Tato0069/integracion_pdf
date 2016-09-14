@@ -71,6 +71,7 @@
     <Compile Include="Utils\Encrypt.cs" />
     <Compile Include="Utils\Integracion\EMAIL\ArcosDorados\ArcosDorados.cs" />
     <Compile Include="Utils\Integracion\EMAIL\Cinemark\Cinemark.cs" />
+    <Compile Include="Utils\Integracion\EMAIL\Consalud\Consalud.cs" />
     <Compile Include="Utils\Integracion\GenericClass.cs" />
     <Compile Include="Utils\InternalVariables.cs" />
     <Compile Include="Utils\Log.cs" />

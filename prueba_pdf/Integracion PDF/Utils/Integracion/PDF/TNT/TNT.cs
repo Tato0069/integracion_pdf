@@ -303,7 +303,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            return str.Split('_')[1];
+            return str.Split('_')[1].Trim();
         }
 
         #endregion

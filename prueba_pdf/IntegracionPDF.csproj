@@ -125,6 +125,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Bionet\Bionet.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Candem\Candem.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CapacitacionCienciasTecnologiasLimitada\CapacitacionCienciasTecnologiasLimitada.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Carozzi\Carozzi.cs" />

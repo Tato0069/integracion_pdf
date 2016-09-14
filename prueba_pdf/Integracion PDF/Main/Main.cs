@@ -114,6 +114,7 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimitada;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InmobiSanCarlos;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -556,8 +557,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-                    //FACTA CC y PAREO DE SKU
-                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
@@ -939,6 +939,11 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = inmobiSanCarlos.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
+                case 227:
+                    var bionet = new Bionet(pdfReader);
+                    ordenCompra = bionet.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }
@@ -1143,7 +1148,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                         else if (option == 21 || option == 22 || option == 31 || option == -8)
                         {
                             Console.WriteLine("===================================0005");
-                            ordenCompra = new OrdenCompra {Rut = ocAdapterList[0].RutCli.ToString()};
+                            //ordenCompra = new OrdenCompra {Rut = ocAdapterList[0].RutCli.ToString()};
                             MoveFileToProcessFolder(pdfReader.PdfPath, ordenCompra);
                             foreach (var ocIntegracion in ocAdapterList)
                             {
