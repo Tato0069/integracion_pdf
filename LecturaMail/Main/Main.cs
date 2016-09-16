@@ -55,11 +55,6 @@ namespace LecturaMail.Main
             ExecutePostProcess(option, email, ordenCompra, ocAdapter, ocAdapterList);
         }
 
-        private static void ExecuteSingleIconstruyeMail(IMail email)
-        {
-            EmailReader.ProcessIconstruyeMessage(email);
-        }
-
         public static void ExecuteLecturaMail()
         {
             Console.WriteLine($"===============================================");
@@ -72,22 +67,6 @@ namespace LecturaMail.Main
                 ExecuteSingleMail(e.Value);
                 c++;
                 e.Value.DeleteMail(e.Key);
-            }
-            FinishAnalysis(c);
-        }
-
-        public static void ExecuteLecturaIconstruyeMail()
-        {
-            Console.WriteLine($"===============================================");
-            Console.WriteLine($"          INICIO LECTURA MAIL ICONSTRUYE       ");
-            Console.WriteLine($"===============================================");
-            var emailDictionary = EmailReader.GetAllMailFromIconstruye();
-            var c = 0;
-            foreach (var e in emailDictionary)
-            {
-                ExecuteSingleIconstruyeMail(e.Value);
-                c++;
-                e.Value.DeleteIconstruyeMail(e.Key);
             }
             FinishAnalysis(c);
         }

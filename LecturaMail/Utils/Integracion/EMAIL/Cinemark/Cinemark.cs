@@ -114,15 +114,15 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         }
 
 
-        private List<Item> GetItems(string[] pdfLines, int i)
+        private List<Item> GetItems(string[] emailLines, int i)
         {
             var items = new List<Item>();
-            for (; i < pdfLines.Length; i++)
+            for (; i < emailLines.Length; i++)
             {
-                var aux1 = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                var aux2 = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
-                var aux3 = pdfLines[i+2].Trim().DeleteContoniousWhiteSpace();
-                var aux4 = pdfLines[i+3].Trim().DeleteContoniousWhiteSpace();
+                var aux1 = emailLines[i].Trim().DeleteContoniousWhiteSpace();
+                var aux2 = emailLines[i+1].Trim().DeleteContoniousWhiteSpace();
+                var aux3 = emailLines[i+2].Trim().DeleteContoniousWhiteSpace();
+                var aux4 = emailLines[i+3].Trim().DeleteContoniousWhiteSpace();
                 var pattern = $"{aux1} {aux2} {aux3} {aux4}".DeleteContoniousWhiteSpace();
                 if (IsItemsFooterPattern(aux1)) break;
                 //Es una linea de Items 

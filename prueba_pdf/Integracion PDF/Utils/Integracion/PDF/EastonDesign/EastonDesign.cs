@@ -55,7 +55,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EastonDesign
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i-1]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i - 1]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -126,7 +126,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EastonDesign
                         {
                             Sku = test0[test0.Length - 6].Trim(),
                             Cantidad = test0[2].Trim(),
-                            Precio = test0[test0.Length - 4].Replace(".","").Trim() ,
+                            Precio = test0[test0.Length - 4].Replace(".", "").Trim(),
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
@@ -210,7 +210,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EastonDesign
         private static string GetRut(string str)
         {
             var split = str.Split(' ');
-            return split[split.Length -1].Trim();
+            return split[split.Length - 1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)
