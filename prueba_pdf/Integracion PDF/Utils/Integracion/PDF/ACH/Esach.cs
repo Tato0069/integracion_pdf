@@ -96,6 +96,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                             _cc = _ccSplit[_ccSplit.Length - 1];
                         }
                         var _ccAux = GetCentroCosto(_pdfLines[i]).ToUpper().Replace("ENTREGAR","")
+                            
                             .Replace("AT", "")
                             .Replace(".", " ")
                             .Replace("LU A VI","")
@@ -107,13 +108,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ACH
                             //.Replace(" SJOAQUIN","")
                             .DeleteAcent()
                             .DeleteContoniousWhiteSpace();
+                        Console.WriteLine(_ccAux);
                         if (_ccAux.Contains("-"))
                         {
                             var split = _ccAux.Split('-');
                             var _ccAux2 = split.ArrayToString(1, split.Length - 1);
                             _ccAux = _ccAux2.Replace("-"," ").DeleteContoniousWhiteSpace();
                         }
-                        OrdenCompra.CentroCosto = _ccAux.Equals("")?"BODEGA":_ccAux;
+                        OrdenCompra.CentroCosto = _ccAux.Equals("")?"GRECIA":_ccAux;
                         OrdenCompra.Observaciones += $" Dirección: {OrdenCompra.CentroCosto}";
                         Console.WriteLine($"================================\nCC: {_ccAux}");
                         _readCentroCosto = true;

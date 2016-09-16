@@ -385,8 +385,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
+                if (it.Cantidad == "1-" ) { it.Cantidad = "3"; }
+                if (it.Cantidad == "2-") { it.Cantidad = "2"; }
                 var dt = new DetalleOrdenCompraIntegracion
-                //if (! int.TryParse(it.Cantidad))
                 {
                     NumPed = ret.NumPed,
                     Cantidad = int.Parse(it.Cantidad) / multiplo,
@@ -572,7 +573,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 var cantidad = 1;
                 if(int.TryParse(it.Cantidad.Equals("00050")|| it.Cantidad.Equals("La") ? "1" : it.Cantidad, out cantidad))
                 {
-                    cantidad = 1;
+                  // cantidad = 1;
                 }
                 it.Cantidad = cantidad.ToString();
                 var dt = new DetalleOrdenCompraIntegracion

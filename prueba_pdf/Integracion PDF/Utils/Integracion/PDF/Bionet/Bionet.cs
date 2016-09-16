@@ -99,7 +99,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet
                     }
                 }
             }
-   
+
             if (OrdenCompra.NumeroCompra.Equals(""))
             {
                 //OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
@@ -125,8 +125,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet
                         var item0 = new Item
                         {
                             Sku = test0[1].Trim(),
-                            Cantidad = test0[test0.Length -4].Trim(),
-                            Precio = test0[test0.Length - 3].Replace(",",""),
+                            Cantidad = test0[test0.Length - 4].Trim(),
+                            Precio = test0[test0.Length - 3].Replace(",", ""),
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
@@ -185,7 +185,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet
         private static string GetCentroCosto(string str)
         {
             var aux = str.Split(' ');
-            return aux[aux.Length -2].Trim();
+            return aux[aux.Length - 2].Trim();
         }
 
 

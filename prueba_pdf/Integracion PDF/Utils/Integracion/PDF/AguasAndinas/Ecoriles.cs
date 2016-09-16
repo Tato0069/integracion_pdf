@@ -63,7 +63,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
                 CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionExacta
+                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -118,7 +118,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
             }
             return OrdenCompra;
         }
-
 
         private List<Item> GetItems(string[] pdfLines, int i)
         {
@@ -193,8 +192,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AguasAndinas
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            
+            var split = str.Split(':')[1];
+            
+            //if (split.Contains("E15"))
+            //    {
+
+            //        split = "E15 LORETO VERGARA";
+            //    }
+            var split1 = split.Split(' ')[1];
+            Console.WriteLine("cadena donde quiero tomar el CC--------" + split1);
+            return split1.Trim();
         }
 
 

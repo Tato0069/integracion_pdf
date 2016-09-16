@@ -12,7 +12,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{3}\s" }, //\d{1,}\s[a-zA-Z/]{3}\s\d{1,}\s\d{1,}$ //^\d{3}\s //^\d{1,}\s[a-zA-Z]{1,2}\d{4,}\s
+            {0, @"^\d{3}\s" }, //\d{1,}\s[a-zA-Z/]{3}\s\d{1,}\s\d{1,}$ //^\d{3}\s //^\d{1,}\s[a-zA-Z]{1,2}\d{4,}\s 
         };
         private const string RutPattern = "RUT :";
         private const string OrdenCompraPattern = "Compra :";
@@ -115,7 +115,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(aux);
+                var optItem = GetFormatItemsPattern(aux.Replace(".",""));
                 switch (optItem)
                 {
                     case 0:
@@ -170,6 +170,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
                     var length = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Length;
                     ret = str.Substring(index, length).Trim();
                 }
+
             }
             return ret;
         }
