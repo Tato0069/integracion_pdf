@@ -109,6 +109,12 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Traza;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Kripeos;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MetalurgiaCaceres;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Tecnoera;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimitada;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InmobiSanCarlos;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
