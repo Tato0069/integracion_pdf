@@ -12,13 +12,13 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-           {0, @"^[a-zA-Z]{1,2}\d{4,6}$"},
+            //{0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
             //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
         private const string RutPattern = "ABASTECEDORA GENERAL";
         private const string OrdenCompraPattern = "O/C Numero :";
         private const string ItemsHeaderPattern =
-            "Núm. artículo Descripción U de M Pedido Precio unitario Precio total";
+            "Precio unitario Precio total";
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
@@ -55,7 +55,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
                 {
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
                         _readOrdenCompra = true;
                     }
                 }
@@ -63,19 +63,19 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[++i]);
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
+                if (!_readCentroCosto)
+                {
+                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        _readCentroCosto = true;
+                    }
+                }
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))
@@ -115,7 +115,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
             //foreach(var str in pdfLines)
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                var aux1 = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
                 var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
@@ -123,12 +122,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
-                        var test1 = aux1.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = test0[0].Trim(),
-                            Cantidad = test1[test1.Length - 5].Trim().Split(',')[0],
-                            Precio = test1[test1.Length - 3].Trim(),
+                            Sku = test0[6],
+                            Cantidad = test0[4].Split(',')[0],
+                            Precio = test0[test0.Length - 2].Split(',')[0],
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
@@ -211,8 +209,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Trim();
-            return split;
+            var split = str.Split(':');
+            return split[1];
         }
 
         private int GetFormatItemsPattern(string str)
@@ -223,7 +221,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto
             {
                 ret = it.Key;
             }
-            Console.WriteLine($"STR: {str}, RET: {ret}");
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 

@@ -98,9 +98,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {68, "Larraín y Asociados Ltda." },//MZAPATA
             {69, "Laboratorios LBC Limitada" }, //MZAPATA
             {70, "76.053.505-2:76053505" }, //MZAPATA PROYEKTA S.A.
-            {71, "Biomedical Distribution Chile Ltda:AUSTRAL FREEZER LOGINSA" }, //MZAPATA
+            {71, "Biomedical Distribution Chile Ltda" }, //MZAPATA
             {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
-            {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR //96670840-9
+            {73, "Depósitos y Contenedores S.A" }, //MZAPATA - AGREGAR
             {74, "ARIDOS SANTA FE S.A:INGENIERIA Y CONSTRUCCIONES SANTA FE:CENTROVIAL S.A." }, //MZAPATA            
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
             {76, "EZENTIS CHILE S.A."}, //MZAPATA
@@ -148,13 +148,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {218, "76.195.290" }, //APARDO revisando TRAZA faltan OC para revisar
             {219, "KIPREOS INGENIEROS S.A." },//APARDO listo pero faltan mas OC 
             {220, "96,995,990-9" },//APARDO Metalurgia Caceres
-            {221, "99.545.580-3" }, //APARDO Insumos el alto
-            {222, "77.409.600-0" },//APARDO Tecnoera
-            {223, "89037500-6" },//APARDO Sigro falta pareo de código
-            {224, "CIRCULO EJECUTIVO LTDA." }, //APARDO
-            {225, "76.215.260-6" }, //APARDO NEMO CHILE
-            {226, "INMOBILIARIA CLÍNICA SAN CARLOS DE APOQUINDO S. A" }, //APARDO
-            {227, "BIONET S.A." } //APARDO
+            {221, "99.545.580-3" } //APARDO
         };
 
 

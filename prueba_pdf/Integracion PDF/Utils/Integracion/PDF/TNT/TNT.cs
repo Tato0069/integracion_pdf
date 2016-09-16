@@ -137,17 +137,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                 switch (optItem)
                 {
                     case 0:
-                        Console.WriteLine("========================Case 0==========================");
                         var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
                             Sku = test0[1].ToUpper()
                         };
                         aux = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
-                        //Console.WriteLine(aux);
                         var test02 = aux.Split(' ');
-                        item0.Cantidad = test02[0].Trim();
-                        Console.WriteLine(item0.Cantidad);
+                        item0.Cantidad = test02[0];
                         item0.Precio = test02[test02.Length - 3].Replace(".", "");
                         //if (!item0.Sku.Contains("#") 
                         //    && (item0.Sku.Contains("ZZ") 
@@ -159,7 +156,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         items.Add(item0);
                         break;
                     case 1:
-                        Console.WriteLine("========================Case 1==========================");
                         var test1 = aux.Split(' ');
                         var item1 = new Item
                         {
@@ -179,7 +175,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         items.Add(item1);
                         break;
                     case 2:
-                        Console.WriteLine("========================Case 2==========================");
                         var case2 = aux.Split(' ');
                         var itemCase2 = new Item
                         {
@@ -199,7 +194,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
                         items.Add(itemCase2);
                         break;
                     case 3:
-                        Console.WriteLine("========================Case 3==========================");
                         var case3 = aux.Split(' ');
                         var itemCase3 = new Item
                         {
@@ -303,7 +297,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.TNT
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            return str.Split('_')[1].Trim();
+            return str.Split('_')[1];
         }
 
         #endregion

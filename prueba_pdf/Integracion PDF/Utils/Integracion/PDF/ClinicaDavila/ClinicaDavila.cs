@@ -94,7 +94,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
             {
                 //00 ff 03 05 c0 00 ea 04 00 00
                 var rawLin = list[i].Replace("\u0001", "");
-                //Console.WriteLine("RAWLIIIIIIIIIIIIN ----------------" + rawLin);
                 var aux = rawLin.Split(' ');
                 var cant = aux[aux.Length - 1];
                 var rawLine = aux.ArrayToString(0, aux.Length - 3);
@@ -106,8 +105,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                     rawLine += " UNI";
                 var pro = GetProduct(rawLine);
                 if (pro == null) continue;
-                var auxCenCos = rawLin.Substring(0, rawLin.IndexOf(pro.Descripcion, StringComparison.Ordinal)); 
-               // Console.WriteLine("CENTROOOOOOOOOOOOOOO COSTOOOOOOOOOOOOOOOOO " + auxCenCos);
+                var auxCenCos = rawLin.Substring(0,
+                    rawLin.IndexOf(pro.Descripcion,
+                    StringComparison.Ordinal));
                 var itemErroneo = false;
                 if (!desCenCos.Equals(auxCenCos))
                 {
@@ -119,24 +119,22 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                             var splitAux = auxCenCos.Split(' ');
                             if (splitDesCc.Count() < splitAux.Count())
                             {
-                             
                                 if (desCenCos.Replace(" ", "")
                                     .Equals(splitAux
-                                        .ArrayToString(0, splitDesCc.Length - 4).Replace(" ", "")))
+                                        .ArrayToString(0, splitDesCc.Length - 2).Replace(" ", "")))
                                 {
                                     //Se SOLAPA Descripcion de ITEM, ITEM ERRONEO
-                                    //Console.WriteLine(rawLin.Substring(desCenCos.Length)+"ADASDASD");
+                                    //Console.WriteLine(rawLin.Substring(desCenCos.Length));
                                     itemErroneo = true;
                                     goto test;
                                 }
                             }
                         }
                     }
-                    var splitTmp = auxCenCos.Split(' ');
                     var ord = new OrdenCompraClinicaDavila
                     {
                         NumeroCompra = OrdenCompra.NumeroCompra,
-                        CentroCosto = splitTmp.ArrayToString(0,splitTmp.Length-1),//auxCenCos
+                        CentroCosto = auxCenCos,
                         Rut = OrdenCompra.Rut
                     };
                     var its = new ItemDavila
@@ -146,7 +144,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaDavila
                         Sku = pro.Sku
                     };
                     ord.AddItemDavila(its);
-                    desCenCos = ord.CentroCosto;
+                    desCenCos = auxCenCos;
                     listOrden.Add(ord);
                     continue;
                 }

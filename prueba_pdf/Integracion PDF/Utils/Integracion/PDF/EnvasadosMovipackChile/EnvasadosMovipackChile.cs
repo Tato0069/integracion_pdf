@@ -62,7 +62,6 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipack
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "0",
                 TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
             };
             for (var i = 0; i < _pdfLines.Length; i++)
@@ -84,14 +83,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EnvasadosMovipack
                     }
                 }
 
-                //if (!_readCentroCosto)
-                //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
-                //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
-                //        _readCentroCosto = true;
-                //    }
-                //}
+                if (!_readCentroCosto)
+                {
+                    if (IsCentroCostoPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                        _readCentroCosto = true;
+                    }
+                }
                 //if (!_readObs)
                 //{
                 //    if (IsObservacionPattern(_pdfLines[i]))

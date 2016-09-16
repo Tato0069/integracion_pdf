@@ -41,6 +41,18 @@
     <Reference Include="Mail">
       <HintPath>..\prueba_pdf\lib\Mail.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\Lib\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity">
+      <HintPath>..\..\Lib\MySql.Data.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6">
+      <HintPath>..\..\Lib\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web">
+      <HintPath>..\..\Lib\MySql.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -71,10 +83,10 @@
     <Compile Include="Utils\Encrypt.cs" />
     <Compile Include="Utils\Integracion\EMAIL\ArcosDorados\ArcosDorados.cs" />
     <Compile Include="Utils\Integracion\EMAIL\Cinemark\Cinemark.cs" />
-    <Compile Include="Utils\Integracion\EMAIL\Consalud\Consalud.cs" />
     <Compile Include="Utils\Integracion\GenericClass.cs" />
     <Compile Include="Utils\InternalVariables.cs" />
     <Compile Include="Utils\Log.cs" />
+    <Compile Include="Utils\MySql\DataAccess\MySqlDataAccess.cs" />
     <Compile Include="Utils\Oracle\DataAccess\OracleDataAccess.cs" />
     <Compile Include="Utils\OrdenCompra\Integracion\DetalleOrdenCompraIntegracion.cs" />
     <Compile Include="Utils\OrdenCompra\Integracion\OrdenCompraDataAdapter\DataAdapterGeneric.cs" />

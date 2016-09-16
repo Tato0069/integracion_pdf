@@ -20,8 +20,7 @@ namespace LecturaMail.Utils
             // : DELIMITADOR PARA 'OR' LÓGICO (||)
             // ; DELIMITADOR PARA 'AND' LÓGICO (&&) === SOLO PUEDE HABER UNO POR TOKEN
             {0,"@cinemark.cl:CineMark.:96659800:96.659.800" },
-            {1, "ARCOS DORADOS RESTAURANTES DE CHILE LTDA" }, //APARDO
-            {2,"96856780" } //APARDO CONSALUD
+            {1, "ARCOS DORADOS RESTAURANTES DE CHILE LTDA" } //APARDO
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
@@ -40,6 +39,43 @@ namespace LecturaMail.Utils
             return ConfigurationManager.AppSettings.Get("SubjectMail");
         }
 
+        internal static string GetHostIconstruye()
+        {
+            return ConfigurationManager.AppSettings.Get("HostIconstruye");
+        }
+
+        internal static string GetPasswordIcostruye()
+        {
+            return ConfigurationManager.AppSettings.Get("PasswordIconstruye");
+        }
+
+        internal static string GetUserIconstruye()
+        {
+            return ConfigurationManager.AppSettings.Get("UserIconstruye");
+        }
+
+        internal static string GetUserMySql()
+        {
+            return ConfigurationManager.AppSettings.Get("UserMySql");
+        }
+        internal static string GetPasswordMySql()
+        {
+            return ConfigurationManager.AppSettings.Get("PasswordMySql");
+        }
+        internal static string GetHostMySql()
+        {
+            return ConfigurationManager.AppSettings.Get("HostMySql");
+        }
+
+        internal static string GetPuertoMySql()
+        {
+            return ConfigurationManager.AppSettings.Get("PuertoMySql");
+        }
+
+        internal static string GetBaseDatosMySql()
+        {
+            return ConfigurationManager.AppSettings.Get("BaseDatosMySql");
+        }
         #endregion
 
 
@@ -115,6 +151,11 @@ namespace LecturaMail.Utils
                 catch { };
             }
             return ConfigurationManager.AppSettings.Get("MainEmail").Split(';').ToArray();
+        }
+        
+        public static string GetRutaXmlProcesados()
+        {
+            return ConfigurationManager.AppSettings.Get("PathXMLProcesados");
         }
 
         public static string[] GetEmailCc()

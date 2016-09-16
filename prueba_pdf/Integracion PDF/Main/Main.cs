@@ -109,12 +109,6 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Traza;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Kripeos;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MetalurgiaCaceres;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Tecnoera;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimitada;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InmobiSanCarlos;
-using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -138,7 +132,6 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 var folderName = $"{o.Rut}-{razon.FormattFolderName()}";
                 var folderRooth = $@"{InternalVariables.GetOcProcesadasFolder()}{folderName}\";
                 var fileName = $"{DateTime.Now:dd-MM-yyyy-HH-mm-ss}_{tmpFileName}";
-                //var fileName = $"{tmpFileName}";
                 if (!Directory.Exists(folderRooth))
                     Directory.CreateDirectory(folderRooth);
                 Console.WriteLine($"Move: {pdfPath} \n to: {folderRooth}{fileName}");
@@ -422,7 +415,6 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 34:
                     var hormigonesTransex = new HormigonesTransex(pdfReader);
                     ordenCompra = hormigonesTransex.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 35:
                     var officeStore = new OfficeStore(pdfReader);
@@ -541,7 +533,6 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 48:
                     var consorcioSeguridad = new ConsorcioCompaniaSeguridad(pdfReader);
                     ordenCompra = consorcioSeguridad.GetOrdenCompra();
-                    
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 49:
@@ -557,7 +548,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 51:
                     var kaeferBuildtek = new KaeferBuildtek(pdfReader);
                     ordenCompra = kaeferBuildtek.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    //FACTA CC y PAREO DE SKU
+                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 52:
                     var asesoriasIcyde = new AsesoriasServiciosCapacitacionIcyde(pdfReader);
@@ -914,36 +906,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = insumosElAlto.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
-                case 222:
-                    var tecnoera = new Tecnoera(pdfReader);
-                    ordenCompra = tecnoera.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
-                case 223:
-                    var sigro = new Sigro(pdfReader);
-                    ordenCompra = sigro.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
-                case 224:
-                    var circuloEjeLim = new CirculoEjecutivaLimitada(pdfReader);
-                    ordenCompra = circuloEjeLim.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
-                case 225:
-                    var nemoChile = new NemoChile(pdfReader);
-                    ordenCompra = nemoChile.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
-                case 226:
-                    var inmobiSanCarlos = new InmobiSanCarlos(pdfReader);
-                    ordenCompra = inmobiSanCarlos.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
-                case 227:
-                    var bionet = new Bionet(pdfReader);
-                    ordenCompra = bionet.GetOrdenCompra();
-                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
+
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }
@@ -1148,7 +1111,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                         else if (option == 21 || option == 22 || option == 31 || option == -8)
                         {
                             Console.WriteLine("===================================0005");
-                            //ordenCompra = new OrdenCompra {Rut = ocAdapterList[0].RutCli.ToString()};
+                            ordenCompra = new OrdenCompra {Rut = ocAdapterList[0].RutCli.ToString()};
                             MoveFileToProcessFolder(pdfReader.PdfPath, ordenCompra);
                             foreach (var ocIntegracion in ocAdapterList)
                             {

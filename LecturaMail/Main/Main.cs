@@ -9,7 +9,6 @@ using LecturaMail.Utils.Integracion.EMAIL.Cinemark;
 using LecturaMail.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter;
 using LecturaMail.Utils.Oracle.DataAccess;
 using LecturaMail.Utils.Integracion.EMAIL.ArcosDorados;
-using LecturaMail.Utils.Integracion.EMAIL;
 
 namespace LecturaMail.Main
 {
@@ -49,16 +48,16 @@ namespace LecturaMail.Main
                     ordenCompra = arcosDorados.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
-                case 2:
-                    var consalud = new Consalud(email);
-                    ordenCompra = consalud.GetOrdenCompra();
-                    //ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
-                    break;
                     
 
 
             }
             ExecutePostProcess(option, email, ordenCompra, ocAdapter, ocAdapterList);
+        }
+
+        private static void ExecuteSingleIconstruyeMail(IMail email)
+        {
+            EmailReader.ProcessIconstruyeMessage(email);
         }
 
         public static void ExecuteLecturaMail()
@@ -73,6 +72,22 @@ namespace LecturaMail.Main
                 ExecuteSingleMail(e.Value);
                 c++;
                 e.Value.DeleteMail(e.Key);
+            }
+            FinishAnalysis(c);
+        }
+
+        public static void ExecuteLecturaIconstruyeMail()
+        {
+            Console.WriteLine($"===============================================");
+            Console.WriteLine($"          INICIO LECTURA MAIL ICONSTRUYE       ");
+            Console.WriteLine($"===============================================");
+            var emailDictionary = EmailReader.GetAllMailFromIconstruye();
+            var c = 0;
+            foreach (var e in emailDictionary)
+            {
+                ExecuteSingleIconstruyeMail(e.Value);
+                c++;
+                e.Value.DeleteIconstruyeMail(e.Key);
             }
             FinishAnalysis(c);
         }
