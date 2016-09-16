@@ -156,6 +156,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DepositosContenedores\DepositosContenedores.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Dole\Dole.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\DunkinDonuts\DunkinDonuts.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\EastonDesign\EastonDesign.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ecogestion\Ecogestion.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\EjercitodeChile\EjercitodeChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\EnvasadosMovipackChile\EnvasadosMovipackChile.cs" />

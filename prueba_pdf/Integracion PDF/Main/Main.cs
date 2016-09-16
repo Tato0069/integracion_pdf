@@ -109,6 +109,12 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Traza;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Kripeos;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.MetalurgiaCaceres;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InsumosElAlto;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Tecnoera;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Sigro;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimitada;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InmobiSanCarlos;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -906,7 +912,36 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = insumosElAlto.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
-
+                case 222:
+                    var tecnoera = new Tecnoera(pdfReader);
+                    ordenCompra = tecnoera.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 223:
+                    var sigro = new Sigro(pdfReader);
+                    ordenCompra = sigro.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 224:
+                    var circuloEjeLim = new CirculoEjecutivaLimitada(pdfReader);
+                    ordenCompra = circuloEjeLim.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 225:
+                    var nemoChile = new NemoChile(pdfReader);
+                    ordenCompra = nemoChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 226:
+                    var inmobiSanCarlos = new InmobiSanCarlos(pdfReader);
+                    ordenCompra = inmobiSanCarlos.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 227:
+                    var bionet = new Bionet(pdfReader);
+                    ordenCompra = bionet.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
             }
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }
