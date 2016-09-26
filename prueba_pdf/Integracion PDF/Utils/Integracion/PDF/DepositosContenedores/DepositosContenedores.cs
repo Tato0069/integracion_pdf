@@ -203,6 +203,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.DepositosContened
             var split = str.Split(' ');
             var ret = split.ArrayToString(split.Length - 3, split.Length -1);
             return ret.Replace(".","").Replace(",","").ToUpper();// str.ToUpper().Trim();
+           
         }
 
 

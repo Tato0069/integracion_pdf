@@ -125,6 +125,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Bionet\Bionet.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Candem\Candem.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CapacitacionCienciasTecnologiasLimitada\CapacitacionCienciasTecnologiasLimitada.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Carozzi\Carozzi.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Cencosud\Easy.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CerveceriaCCU\CerveceriaCCU.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\CFTSanAgustin\CFTSanAgustin.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\CirculoEjecutivaLimitada\CirculoEjecutivaLimitada.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Clariant\Clariant.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemana.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ClinicaAlemana\ClinicaAlemanaArtikosFormat.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Indra\Indra.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IngenieriaComercializadoraRiego\IngenieriaComercializadoraRiego.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Ingeproject\Ingeproject.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\InmobiSanCarlos\InmobiSanCarlos.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\InsumosElAlto\InsumosElAlto.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegraMedica.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\IntegraMedica\IntegramedicaAtencionAmbulatoria.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Megasalud\Megasalud.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MetalurgiaCaceres\MetalurgiaCaceres.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\MTS\Mts.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\NemoChile\NemoChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Petrobras\Petrobras.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\PizzaHut\PizzaHut.cs" />
@@ -211,8 +215,10 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SembcorpAguas\SembcorpAguas.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ServiciosAndinos\ServicioAndinos.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ShawAlmexChile\ShawAlmexChile.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Sigro\Sigro.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadEducacionalAraucana\SociedadEducacionalAraucana.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\SociedadInstruccion\SociedadInstruccion.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\Tecnoera\Tecnoera.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\TecnologiaTrasnporteMinerales\TecnologiaTransporteMinerales.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Teveuk\Teveuk.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\TNT\TNT.cs" />

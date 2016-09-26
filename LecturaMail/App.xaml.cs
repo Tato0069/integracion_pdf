@@ -1,11 +1,23 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using Hardcodet.Wpf.TaskbarNotification;
+//using LecturaMail.Utils;
+//using LecturaMail.Utils.Oracle.DataAccess;
+//using LecturaMail.View;
+//using LecturaMail.ViewModel;
 using Timer = System.Timers.Timer;
+using System.Net.NetworkInformation;
 using LecturaMail.Utils;
 using LecturaMail.ViewModel;
+using LecturaMail.View;
+using LecturaMail.Utils.OrdenCompra.Integracion;
+using System.Collections.Generic;
+//using LecturaMail.Utils.Email;
 
 namespace LecturaMail
 {
@@ -26,17 +38,11 @@ namespace LecturaMail
             }
         }
 
-        private static void CreateAllFolderIfNotExists()
-        {
-            if (!Directory.Exists(InternalVariables.GetRutaXmlProcesados()))
-                Directory.CreateDirectory(InternalVariables.GetRutaXmlProcesados());
-        }
 
-
+     
         protected override void OnStartup(StartupEventArgs e)
         {
-            CreateAllFolderIfNotExists();
-            Utils.MySql.DataAccess.MySqlDataAccess.TestConection();
+
             InternalVariables.InitializeVariables();
             LecturaMail.Main.Main.ExecuteLecturaMail();
             //LecturaMail.Main.Main.ExecuteLecturaIconstruyeMail();

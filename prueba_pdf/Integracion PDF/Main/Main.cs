@@ -138,6 +138,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 var folderName = $"{o.Rut}-{razon.FormattFolderName()}";
                 var folderRooth = $@"{InternalVariables.GetOcProcesadasFolder()}{folderName}\";
                 var fileName = $"{DateTime.Now:dd-MM-yyyy-HH-mm-ss}_{tmpFileName}";
+                //var fileName = $"{tmpFileName}";
                 if (!Directory.Exists(folderRooth))
                     Directory.CreateDirectory(folderRooth);
                 Console.WriteLine($"Move: {pdfPath} \n to: {folderRooth}{fileName}");
@@ -421,6 +422,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case 34:
                     var hormigonesTransex = new HormigonesTransex(pdfReader);
                     ordenCompra = hormigonesTransex.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
                 case 35:
                     var officeStore = new OfficeStore(pdfReader);

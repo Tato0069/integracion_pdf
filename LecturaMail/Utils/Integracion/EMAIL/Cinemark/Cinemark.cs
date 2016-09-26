@@ -114,7 +114,7 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         }
 
 
-        private List<Item> GetItems(string[] pdfLines, int i)
+        private List<Item> GetItems(string[] emailLines, int i)
         {
             var items = new List<Item>();
             for (; i < pdfLines.Length-4; i++)
