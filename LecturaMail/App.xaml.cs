@@ -38,8 +38,8 @@ namespace LecturaMail
             CreateAllFolderIfNotExists();
             Utils.MySql.DataAccess.MySqlDataAccess.TestConection();
             InternalVariables.InitializeVariables();
-            //LecturaMail.Main.Main.ExecuteLecturaMail();
-            LecturaMail.Main.Main.ExecuteLecturaIconstruyeMail();
+            LecturaMail.Main.Main.ExecuteLecturaMail();
+            //LecturaMail.Main.Main.ExecuteLecturaIconstruyeMail();
             if (!FirstInstance)
             {
                 MessageBox.Show("No se Puede Abrir la Aplicacion debido a que ya se esta Ejecutando.", "Advertencia",

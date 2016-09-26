@@ -1,158 +1,149 @@
-﻿using System;
+﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using LecturaMail.Utils.OrdenCompra;
-using Limilabs.Mail;
-using LecturaMail.Utils;
 
-namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
+namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile
 {
-    class Cinemark
+    class NemoChile
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"\s\d{1,}\s\d{1,}\s\d{1,}$"},
+            {0, @"^\d{1,}\s[a-zA-Z]{1,2}\d{5,6}"},
+            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
         private const string RutPattern = "RUT:";
-        private const string OrdenCompraPattern = "OP Nº:";
+        private const string OrdenCompraPattern = "ORDEN DE COMPRA";
         private const string ItemsHeaderPattern =
-            "Cantidad";
+            "Cantidad Precio Exento Total Detalle";
 
-        private const string ItemsFooterPattern = "_____";
-
-        private const string CentroCostoPattern = "CINE:";
+        private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
         private bool _readOrdenCompra;
         private bool _readRut;
         private bool _readObs;
-        private bool _readItems;
-        private readonly IMail _email;
-        private readonly string[] _emailBodyLines;
+        private bool _readItem;
+        private readonly PDFReader _pdfReader;
+        private readonly string[] _pdfLines;
 
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
         #endregion
 
-        public Cinemark(IMail mail)
+        public NemoChile(PDFReader pdfReader)
         {
-            _email = mail;
-            _emailBodyLines = _email.GetBodyAsList().ToArray();
+            _pdfReader = pdfReader;
+            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
         }
 
         #region Funciones Get
-        public List<OrdenCompra.OrdenCompra> GetOrdenCompra()
+        public OrdenCompra.OrdenCompra GetOrdenCompra()
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
                 CentroCosto = "0",
-                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionMatch
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
-
-            var listOrdenesCompra = new List<OrdenCompra.OrdenCompra>();
-            var lastOc = "";
-            var rut = "96659800";
-            var obs = "";
-            var ordenC = "";
-            var cc = "";
-            var items = new List<Item>();
-            for (var i = 0; i < _emailBodyLines.Length; i++)
+            for (var i = 0; i < _pdfLines.Length; i++)
             {
                 if (!_readOrdenCompra)
                 {
-                    if (IsOrdenCompraPattern(_emailBodyLines[i]))
+                    if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
-                        if (!lastOc.Equals(_emailBodyLines[i]))
-                        {
-                            lastOc = _emailBodyLines[i];
-                            ordenC = GetOrdenCompra(_emailBodyLines[i]);
-                        }
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[++i]);
+                        _readOrdenCompra = true;
+                    }
+                }
+                if (!_readRut)
+                {
+                    if (IsRutPattern(_pdfLines[i]))
+                    {
+                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                        _readRut = true;
                     }
                 }
 
-                if (!_readCentroCosto)
+                //if (!_readCentroCosto)
+                //{
+                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        _readCentroCosto = true;
+                //    }
+                //}
+                //if (!_readObs)
+                //{
+                //    if (IsObservacionPattern(_pdfLines[i]))
+                //    {
+                //        OrdenCompra.Observaciones +=
+                //            $"{_pdfLines[i].Trim().DeleteContoniousWhiteSpace()}, " +
+                //            $"{_pdfLines[++i].Trim().DeleteContoniousWhiteSpace()}";
+                //        _readObs = true;
+                //        _readItem = false;
+                //    }
+                //}
+                if (!_readItem)
                 {
-                    if (IsCentroCostoPattern(_emailBodyLines[i]))
+                    if (IsHeaderItemPatterns(_pdfLines[i]))
                     {
-                        cc = GetCentroCosto(_emailBodyLines[i]);
-                    }
-                }
-                if (!_readItems)
-                {
-                    if (IsItemHeaderPattern(_emailBodyLines[i]))
-                    {
-                        var itemsAux = GetItems(_emailBodyLines, i+2);
-                        if (itemsAux.Count > 0)
+                        var items = GetItems(_pdfLines, i);
+                        if (items.Count > 0)
                         {
-                            items.AddRange(itemsAux);
-                            Console.WriteLine($"OC: {ordenC}, Items.Count: {items.Count}, ");
-                            listOrdenesCompra.Add(new OrdenCompra.OrdenCompra
-                            {
-                                Rut = rut,
-                                NumeroCompra = ordenC,
-                                CentroCosto = cc,
-                                Observaciones = obs,
-                                Items = items,
-                                TipoPareoCentroCosto = TipoPareoCentroCosto.PareoDescripcionExacta
-                            });
-                            items = new List<Item>();
-                            //_readRut = false;
+                            OrdenCompra.Items.AddRange(items);
+                            _readItem = true;
                         }
-                        //else _readRut = false;
-                        //_readItems = true;
                     }
                 }
             }
             if (OrdenCompra.NumeroCompra.Equals(""))
             {
-                //OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
             }
-            return listOrdenesCompra;
+            return OrdenCompra;
         }
 
 
         private List<Item> GetItems(string[] pdfLines, int i)
         {
             var items = new List<Item>();
-            for (; i < pdfLines.Length-4; i++)
+            for (; i < pdfLines.Length; i++)
+            //foreach(var str in pdfLines)
             {
-                var aux1 = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
-                //Console.WriteLine($"AUX: {aux1}");
-                var aux2 = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
-                var aux3 = pdfLines[i+2].Trim().DeleteContoniousWhiteSpace();
-                var aux4 = pdfLines[i+3].Trim().DeleteContoniousWhiteSpace();
-                var pattern = $"{aux1} {aux2} {aux3} {aux4}".DeleteContoniousWhiteSpace();
-                if (IsOrdenCompraPattern(pattern)) break;
-                if (IsItemsFooterPattern(aux1)) break;
+                var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(pattern.Replace(".",""));
+                var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
                 {
                     case 0:
-                        var test0 = pattern.Split(' ');
+                        Console.WriteLine("==================ITEM CASE 0=====================");
+                        var test0 = aux.Split(' ');
                         var item0 = new Item
                         {
-                            Sku = "W102030",
-                            Cantidad = test0[test0.Length - 2].Replace(".", ""),
-                            Precio = test0[test0.Length - 3].Replace(".",""),
-                            Descripcion = test0.ArrayToString(0, test0.Length-4),
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing//PareoSkuClienteDescripcionTelemarketing
+                            Sku = test0[1].Trim(),
+                            Cantidad = test0[test0.Length - 3].Trim(),
+                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
+                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                        //var concatAll = "";
+                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        //{
+                        //    concatAll += $" {aux}";
+                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        //}
+                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
-                        i += i < pdfLines.Length - 4 ? 3 : 0;
                         break;
                 }
             }
             //SumarIguales(items);
             return items;
-        }
-
-        private bool IsItemsFooterPattern(string str)
-        {
-            return str.DeleteContoniousWhiteSpace().Trim().Contains(ItemsFooterPattern);
         }
 
         private string GetSku(string[] test1)
@@ -194,7 +185,7 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         private static string GetCentroCosto(string str)
         {
             var aux = str.Split(':');
-            return aux[1].Trim().Split(';')[0].Trim();
+            return aux[1].Trim();
         }
 
 
@@ -206,7 +197,7 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(':');
+            var split = str.Split(' ');
             return split[1].Trim();
         }
 
@@ -218,23 +209,19 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(':');
-            return split[1];
+            var split = str.Split(' ');
+            return split[1].Trim();
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
             //str = str.DeleteDotComa();
-            str = str.Replace(".", "");
-            //if (str.Contains("image: Ofimarket SA"))
-            //    return ret;
             foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
-            if (ret != -1)
-                Console.WriteLine($"STR: {str}, RET: {ret}");
+            //Console.WriteLine($"STR: {str}, RET: {ret}");
             return ret;
         }
 
@@ -282,12 +269,6 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
 
 
         #region Funciones Is
-
-        private bool IsItemHeaderPattern(string str)
-        {
-            //Console.WriteLine(str);
-            return str.Trim().Contains(ItemsHeaderPattern);
-        }
         private bool IsHeaderItemPatterns(string str)
         {
             return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern);
