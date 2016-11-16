@@ -46,6 +46,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Carozzi
                     {
                         Sku = test[1]
                     };
+                    
                     //aux = test[test.Length - 1].Equals("/") ? test.ArrayToString(2, test.Length - 2) : test.ArrayToString(2, test.Length - 1);
                     var cantidad = false;
                     var precio = true;
@@ -89,6 +90,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Carozzi
                             }
                         }
                     }
+                    Console.WriteLine($"SKUUUUUUU: {item.Sku} CANTIDAD:{item.Cantidad} PRECIO: {item.Precio}");
                     items.Add(item);
                 }
             }

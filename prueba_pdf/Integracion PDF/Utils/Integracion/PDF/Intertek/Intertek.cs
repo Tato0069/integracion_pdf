@@ -13,7 +13,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {// H502910 3657 7314
             {0, @"[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}$"},
-            {1, @"[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$" }
+            {1, @"[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}\s\d{1,}$" },
+            //{2, @"[a-zA-Z]{1,2}\d{5,6}\s\d{1,}\s\d{1,}$" }
         };
         private const string RutPattern = "RUT.:";
         private const string OrdenCompraPattern = "OC N°:";
@@ -192,6 +193,15 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Intertek
                             Precio = $"{test1[test1.Length - 3]}{test1[test1.Length - 2]}",
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
+                        //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                        //var concatAll = "";
+                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        //{
+                        //    concatAll += $" {aux}";
+                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        //}
+                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item1);
                         break;
                 }

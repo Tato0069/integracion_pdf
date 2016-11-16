@@ -14,6 +14,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
             {0, @"^\d{1,}\s\d{6,10}\s"},
             //1 300250973 H401391
             //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
+            {1, @"^\d{1,}\s[a-zA-Z]{1,2}\d{5,6}\s" },//1 W102310 
         };
         private const string RutPattern = "RUT : ";
         private const string OrdenCompraPattern = "CTO.";
@@ -62,7 +63,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
         {
             OrdenCompra = new OrdenCompra.OrdenCompra
             {
-                CentroCosto = "0"
+                CentroCosto = "0",
+                TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
@@ -130,7 +132,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
                         {
                             Sku = test0[1],
                             Cantidad = test0[test0.Length - 3],
-                            Precio = test0[test0.Length - 2].Replace(".","")
+                            Precio = test0[test0.Length - 2].Replace(".",""),
+                            TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };
                         var int1 = test0[test0.Length - 2];
                         var int2 = test0[test0.Length - 3];
@@ -163,6 +166,18 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
                         Console.WriteLine($"{item0.Sku}, {item0.Cantidad}, {item0.Precio}");
                         items.Add(item0);
                         break;
+
+                    case 1:
+                        var test1 = aux.Replace("$", "").DeleteContoniousWhiteSpace().Split(' ');
+                        var item1 = new Item
+                        {
+                            Sku = test1[1],
+                            Cantidad = test1[test1.Length - 3],
+                            Precio = test1[test1.Length - 2].Replace(".", ""),
+                            TipoPareoProducto = TipoPareoProducto.SinPareo
+                        };
+                        items.Add(item1);
+                        break; 
                 }
             }
             //SumarIguales(items);
@@ -240,6 +255,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
             {
                 ret = it.Key;
             }
+            //Console.WriteLine($"{str}, {ret}");
             return ret;
         }
 
@@ -249,7 +265,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ClinicaAlemana
         #region Funciones Is
         private bool IsHeaderItemPatterns(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern);
+            return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern) ||
+                str.Trim().DeleteContoniousWhiteSpace().Contains("Producto Unitario Entrega");//CABECERA NUEVA
         }
 
         private bool IsObservacionPattern(string str)

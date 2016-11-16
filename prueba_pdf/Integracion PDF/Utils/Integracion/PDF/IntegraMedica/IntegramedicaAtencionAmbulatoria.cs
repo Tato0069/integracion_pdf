@@ -206,6 +206,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                                 .Replace("-Facturas Sólo se recibirán en Av. Lib Bernardo O'Higgins 654 ,Piso 2, Santiago", "")
                                 + ", ";
                         }
+                        Console.WriteLine($"FIRST CENTRO COSTO: {firstCentroCosto}");
                         //OrdenCompra.Observaciones += firstCentroCosto;
                         //firstCentroCosto = secondCentroCosto;
                         _readObs = true;
@@ -225,10 +226,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
                         secondCentroCosto = despacho2.Equals("")
                             ? despacho1
                             : $"{despacho1}, {despacho2}";
+                       
                         _readDespacho = true;
-                    }
-
+                    }    
                 }
+
                 if (!_readItem)
                 {
                     if (IsHeaderItemPatterns(_pdfLines[i]))
@@ -248,6 +250,11 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.IntegraMedica
             OrdenCompra.CentroCosto = !direccion.Equals("") ? direccion : secondCentroCosto.Equals("")
                 ? firstCentroCosto
                 : secondCentroCosto;
+            //if (firstCentroCosto.Contains("CENTER AV. VICUÑA MACKENNA ORIENTE# 6969"))
+            //{
+
+            //    OrdenCompra.CentroCosto = "AV.VICUÑA MACKENNA ORIENTE# 6969";
+            //}
             OrdenCompra.CentroCosto = OrdenCompra.CentroCosto.ToUpper()
                 .Replace(",", "")
                 .Replace("´", "")

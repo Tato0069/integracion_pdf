@@ -9,6 +9,8 @@ using LecturaMail.Utils.Integracion.EMAIL.Cinemark;
 using LecturaMail.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter;
 using LecturaMail.Utils.Oracle.DataAccess;
 using LecturaMail.Utils.Integracion.EMAIL.ArcosDorados;
+using LecturaMail.Utils.Integracion.EMAIL;
+using LecturaMail.Utils.Integracion.EMAIL.ClinicaAlemanaArtikos;
 
 namespace LecturaMail.Main
 {
@@ -48,12 +50,27 @@ namespace LecturaMail.Main
                     ordenCompra = arcosDorados.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
-                    
+                case 2:
+                    var consaludArtikos = new ConsaludArtikos(email);
+                    ordenCompra = consaludArtikos.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 3:
+                    var clinicaAlemanaArtikos = new ClinicaAlemanaArtikos(email);
+                    ordenCompra = clinicaAlemanaArtikos.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    //ocAdapterList.AddRange(ordenCompraList.Select(ord => ord.TraspasoUltimateIntegracion()));
+                    break;
 
 
             }
-            ExecutePostProcess(option, email, ordenCompra, ocAdapter, ocAdapterList);
+                ExecutePostProcess(option, email, ordenCompra, ocAdapter, ocAdapterList);
         }
+        private static void ExecuteSingleIconstruyeMail(IMail email)
+        {
+            EmailReader.ProcessIconstruyeMessage(email);
+        }
+
 
         public static void ExecuteLecturaMail()
         {
@@ -71,10 +88,26 @@ namespace LecturaMail.Main
             FinishAnalysis(c);
         }
 
+        public static void ExecuteLecturaIconstruyeMail()
+        {
+            Console.WriteLine($"===============================================");
+            Console.WriteLine($"          INICIO LECTURA MAIL ICONSTRUYE       ");
+            Console.WriteLine($"===============================================");
+            var emailDictionary = EmailReader.GetAllMailFromIconstruye();
+            var c = 0;
+            foreach (var e in emailDictionary)
+            {
+                ExecuteSingleIconstruyeMail(e.Value);
+                c++;
+                e.Value.DeleteIconstruyeMail(e.Key);
+            }
+            FinishAnalysis(c);
+        }
+
 
         #region ExecutePostProcess
 
-        private static void ExecutePostProcess(int option, IMail email, OrdenCompra ordenCompra, OrdenCompraIntegracion ocIntegracion, List<OrdenCompraIntegracion> ocAdapterList)
+        private static void ExecutePostProcess(int option, IMail email, OrdenCompra ordenCompra, OrdenCompraIntegracion ocAdapter, List<OrdenCompraIntegracion> ocAdapterList)
         {
             var totalResult = true;
             if (InternalVariables.IsDebug())
@@ -83,8 +116,9 @@ namespace LecturaMail.Main
             }
             if (option != -1)
             {
-                if (ocAdapterList != null)
+                if (ocAdapterList == null)
                 {
+                    Console.WriteLine("ENTRE AQUI");
                     foreach (var ocInt in ocAdapterList)
                     {
                         if (!OracleDataAccess.InsertOrdenCompraIntegración(ocInt))
@@ -104,6 +138,24 @@ namespace LecturaMail.Main
                             Console.WriteLine($"ADAPTER: {ocI}");
                         }
                     }
+
+                }else
+                {
+                    Console.WriteLine("AM I HERE?");
+                    if (OracleDataAccess.InsertOrdenCompraIntegración(ocAdapter))
+                    {
+                        //IDEAL GUARDAR EN LOG CASO DE EXITO DE PROCESADO
+                       
+                        Console.WriteLine($"Orden N°: {ocAdapter.OcCliente}, " +
+                                 $"de: {InternalVariables.MailsFormats[option]}, " +
+                                 "procesada exitosamente...");
+
+                    }
+                    else
+                    {
+                        //ENVIAR CORREO DICIENDO QUE HAY ERROR
+                    }
+
                 }
 
 

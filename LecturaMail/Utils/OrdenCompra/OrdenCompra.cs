@@ -69,7 +69,8 @@ namespace LecturaMail.Utils.OrdenCompra
         SinPareo = 0,
         PareoDescripcionExacta = 1,
         PareoDescripcionLike = 2,
-        PareoDescripcionMatch = 3
+        PareoDescripcionMatch = 3,
+        PareoConsalud = 4
     }
 
     public class OrdenCompraSecuritas : OrdenCompra

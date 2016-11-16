@@ -32,6 +32,7 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         private bool _readItems;
         private readonly IMail _email;
         private readonly string[] _emailBodyLines;
+        private object pdfLines;
 
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
@@ -114,7 +115,7 @@ namespace LecturaMail.Utils.Integracion.EMAIL.Cinemark
         }
 
 
-        private List<Item> GetItems(string[] emailLines, int i)
+        private List<Item> GetItems(string[] pdfLines, int i)
         {
             var items = new List<Item>();
             for (; i < pdfLines.Length-4; i++)

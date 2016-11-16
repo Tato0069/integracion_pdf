@@ -20,8 +20,9 @@ namespace LecturaMail.Utils
             // : DELIMITADOR PARA 'OR' LÓGICO (||)
             // ; DELIMITADOR PARA 'AND' LÓGICO (&&) === SOLO PUEDE HABER UNO POR TOKEN
             {0,"@cinemark.cl:CineMark.:96659800:96.659.800:www.cinemark.cl" },
-            {1, "ARCOS DORADOS RESTAURANTES DE CHILE LTDA" } //APARDO
-            {2,"96856780" },
+            {1, "ARCOS DORADOS RESTAURANTES DE CHILE LTDA" }, //APARDO
+            {2,"96856780" }, //APARDO CONSALUD ARTIKOS
+            {3, "96770100" } //APARDO ALEMANA ARTIKOS
         };
 
         public static readonly Dictionary<int, string> XlsFormat = new Dictionary<int, string>
@@ -147,11 +148,16 @@ namespace LecturaMail.Utils
                 try
                 {
                     //Console.WriteLine($"MACCC: {ConfigurationManager.AppSettings.Get(sMacAddress)}");
-                    return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) == null? ConfigurationManager.AppSettings.Get("1002B5C4275F") : ConfigurationManager.AppSettings.Get(sMacAddress) };
+                    return new string[] { ConfigurationManager.AppSettings.Get(sMacAddress) == null ? ConfigurationManager.AppSettings.Get("1002B5C4275F") : ConfigurationManager.AppSettings.Get(sMacAddress) };
                 }
                 catch { };
             }
             return ConfigurationManager.AppSettings.Get("MainEmail").Split(';').ToArray();
+        }
+
+        public static string GetRutaXmlProcesados()
+        {
+            return ConfigurationManager.AppSettings.Get("PathXMLProcesados");
         }
 
         public static string[] GetEmailCc()
@@ -161,7 +167,7 @@ namespace LecturaMail.Utils
 
         #endregion
 
-      
+
 
         #region CARPETAS
         public static string GetOcAProcesarFolder()

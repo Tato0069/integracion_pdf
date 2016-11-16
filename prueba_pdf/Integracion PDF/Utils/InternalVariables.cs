@@ -20,9 +20,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             // : DELIMITADOR PARA 'OR' LÓGICO (||)
             // ; DELIMITADOR PARA 'AND' LÓGICO (&&) === SOLO PUEDE HABER UNO POR TOKEN
 
-            {0, "EASY RETAIL S.A.:17990424"},//MZAPATA
+            {0, "EASY RETAIL S.A."},//MZAPATA
             {1, "Cencosud Retail S.A."},//MZAPATA
-            {2, "Cencosud S.A:Cencosud Shopping"},//MZAPATA
+            {2, "Cencosud S.A:Cencosud Shopping:76568660"},//MZAPATA
             {-1, "CeCo SAP FICO"},//MZAPATA
             {3, "INDRA SISTEMAS CHILE S.A."},//MZAPATA
             {4, "SECURITAS S.A."}, //MZAPATA
@@ -75,12 +75,12 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {45, "Distribuidora Cummins Chile"},//MZAPATA
             {46, "GEPYS EST LIMITADA"},//MZAPATA
             {47, "76.016.649:76016649" },//MZAPATA
-            {48, "CIA DE SEG. DE VIDA CONSORCIO NAC. DE SEG. S.A.:CN LIFE" },//MZAPATA
+            {48, "CIA DE SEG. DE VIDA CONSORCIO NAC. DE SEG. S.A.:CN LIFE:96654180" },//MZAPATA
             {49, "MEGASALUD S.A." },//MZAPATA
             {50, "Celulosa Arauco y Constitución S.A.:Paneles Arauco S.A."},//MZAPATA
             {51, "KAEFER BUILDTEK S.p.A.;Item Código Descripción Cantidad" },//MZAPATA
             {52, "Razón Social ASESORIAS Y SERVICIOS DE CAPACITACION ICYDE LTDA." },//MZAPATA
-            {53, "Intertek Caleb Brett Chile S.A." },//APARDO
+            {53, "INTERTEK" },//APARDO Intertek
             {54, "ANÁLISIS AMBIENTALES S.A." }, //MZAPATA
             {55, "AFP Habitat S.A." },//MZAPATA
             {56,"Corporación de Desarrollo Tecnológico" }, //MZAPATA
@@ -100,7 +100,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {70, "76.053.505-2:76053505" }, //MZAPATA PROYEKTA S.A.
             {71, "Biomedical Distribution Chile Ltda" }, //MZAPATA
             {72, "LOGISTICA INDUSTRIAL S.A" }, //MZAPATA - AGREGAR CC
-            {73, "Depósitos y Contenedores S.A:96670840-9" }, //MZAPATA - AGREGAR
+            {73, "Depósitos y Contenedores S.A:96.813.450-7" }, //MZAPATA - AGREGAR
             {74, "ARIDOS SANTA FE S.A:INGENIERIA Y CONSTRUCCIONES SANTA FE:CENTROVIAL S.A." }, //MZAPATA            
             {75, "CEMENTOS TRANSEX LTDA" }, //MZAPATA
             {76, "EZENTIS CHILE S.A."}, //MZAPATA
@@ -156,6 +156,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils
             {226, "INMOBILIARIA CLÍNICA SAN CARLOS DE APOQUINDO S. A" }, //APARDO
             {227, "BIONET S.A." }, //APARDO
             {228, "EASTON LTDA" }, //APARDO
+            {229, "procircuit.cl" }, //APARDO
+            {230, "76.363.534-1" } //APARDO AVAL CHILE
         };
 
 

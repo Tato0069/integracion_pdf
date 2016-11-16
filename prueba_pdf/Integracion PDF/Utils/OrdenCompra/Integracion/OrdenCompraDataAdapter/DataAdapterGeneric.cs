@@ -390,7 +390,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.OrdenCompra.Integracion.OrdenComp
                 var dt = new DetalleOrdenCompraIntegracion
                 {
                     NumPed = ret.NumPed,
-                    Cantidad = int.Parse(it.Cantidad) / multiplo,
+                    Cantidad = int.Parse(it.Cantidad) /multiplo,
                     Precio = sku.Equals("W102030")
                         ? int.Parse(it.Precio)
                         : precio == 0 ?

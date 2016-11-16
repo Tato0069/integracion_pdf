@@ -77,7 +77,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.LarrainPrieto
                 {
                     if (IsRutPattern(_pdfLines[i])) {
 
-                        OrdenCompra.Rut =  "805368002"; //GetRut(_pdfLines[i + 1]);
+                        OrdenCompra.Rut =  "80536800"; //GetRut(_pdfLines[i + 1]);
 
 
                         _readRut = true;

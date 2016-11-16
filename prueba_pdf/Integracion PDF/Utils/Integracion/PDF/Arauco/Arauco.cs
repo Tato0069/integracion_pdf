@@ -13,15 +13,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
             {0, @"^\d{1,}\s\w{3}\d{5,6}\s\d{3,}\s\d{1,}\s\d{1,}"},
-            {1, @"\s\d{18}$" }
+            {1, @"\s\d{18}$"},  //Código\sde\smaterial\sArauco
+            {2,@"\s\d{1,}\s\d{1,}\s\d{1,}\s\d{1,}$" }
 
             //000000000000040951
             //D91 100 01/08/2016 16:00 1.929,00 192.900,00
         };
-        private const string RutPattern = "Rut ";
+        private const string RutPattern = "Rut";
         private const string OrdenCompraPattern = "Núm. Pedido";
         private const string ItemsHeaderPattern =
-            "Item Descripción Unidad Cantidad Plazo Entrega";
+            "Unitario Precio Total";// Plazo Entrega
 
         private const string CentroCostoPattern = "de entrega:";
         private const string ObservacionesPattern = "Sirvase suministrar a :";
@@ -70,8 +71,10 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
             };
             for (var i = 0; i < _pdfLines.Length; i++)
             {
+                //Console.WriteLine("    -----" + _pdfLines[i]);
                 if (!_readOrdenCompra)
                 {
+
                     if (IsOrdenCompraPattern(_pdfLines[i]))
                     {
                         i += 2;
@@ -83,6 +86,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
                 {
                     if (IsRutPattern(_pdfLines[i]))
                     {
+                        Console.WriteLine("    RUT" + _pdfLines[i]);
                         OrdenCompra.Rut = GetRut(_pdfLines[i]);
                         _readRut = true;
                     }
@@ -152,15 +156,29 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
                         break;
                     case 1:
                         var previous = pdfLines[i-1].Trim().DeleteContoniousWhiteSpace();
+                        //var previous1 = pdfLines[i - 4].Trim().DeleteContoniousWhiteSpace();
                         var pTest1 = previous.Split(' ');
+                       //  var pTest2 = previous1.Split(' ');
                         var test1 = aux.Split(' ');
                         var item1 = new Item
                         {
-                            Sku = int.Parse(test1[test1.Length - 1]).ToString(),
+                            Sku = int.Parse(test1[test1.Length - 1]).ToString(), //pTest2[pTest2.Length -1].Trim()
                             Cantidad = pTest1[pTest1.Length - 5],
                             Precio = pTest1[pTest1.Length - 2].Replace(".", "").Split(',')[0]
                         };
                         items.Add(item1);
+                        break;
+                    case 2:
+                        var next = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        var nextSplit = next.Split(' ');
+                        var test2 = aux.Split(' ');
+                        var item2 = new Item
+                        {
+                            Sku = int.Parse(nextSplit[nextSplit.Length - 1]).ToString(),
+                            Cantidad = test2[test2.Length - 4],
+                            Precio = test2[test2.Length - 2].Replace(".", "").Split(',')[0]
+                        };
+                        items.Add(item2);
                         break;
                 }
             }
@@ -215,7 +233,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            return str;
+            return str.Trim().Split(' ')[0];//str;
         }
 
         /// <summary>
@@ -246,26 +264,26 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Arauco
         #region Funciones Is
         private bool IsHeaderItemPatterns(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern);
+            return str.ToLower().Trim().DeleteContoniousWhiteSpace().Contains(ItemsHeaderPattern.ToLower());
         }
 
         private bool IsObservacionPattern(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(ObservacionesPattern);
+            return str.ToLower().Trim().DeleteContoniousWhiteSpace().Contains(ObservacionesPattern.ToLower());
         }
 
         private bool IsOrdenCompraPattern(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(OrdenCompraPattern);
+            return str.ToLower().Trim().DeleteContoniousWhiteSpace().Contains(OrdenCompraPattern.ToLower());
         }
         private bool IsRutPattern(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(RutPattern);
+            return str.Replace(".","").ToLower().Trim().DeleteContoniousWhiteSpace().Contains(RutPattern.Replace(".", "").ToLower());
         }
 
         private bool IsCentroCostoPattern(string str)
         {
-            return str.Trim().DeleteContoniousWhiteSpace().Contains(CentroCostoPattern);
+            return str.ToLower().Trim().DeleteContoniousWhiteSpace().Contains(CentroCostoPattern.ToLower());
         }
 
         #endregion

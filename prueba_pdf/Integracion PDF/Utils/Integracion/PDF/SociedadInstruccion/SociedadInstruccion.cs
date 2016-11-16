@@ -14,7 +14,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
         {
             {0, @"^[a-zA-Z]{1,2}\d{5,6}\s[a-zA-Z]{1,}\s"},
             {1, @"^[a-zA-Z]{1,2}\d{5,6}[a-zA-Z]{1,}\s" },
-            {2, @"\d{1,}(\s[a-zA-Z]{1,})?\s\d{1,}\s\d{1,}$" }
+            {2, @"\d{1,}(\s[a-zA-Z]{1,})?\s\d{1,}\s\d{1,}$" },
+            //{3, @"\sUnidad\s\d{1,}\s\d{1,}" }
         };
         private const string RutPattern = "Rut:";
         private const string OrdenCompraPattern = "NRO:";
@@ -129,7 +130,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
             {
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(aux);
+                var optItem = GetFormatItemsPattern(aux.Replace(",","").Replace(".",""));
                 switch (optItem)
                 {
                     case 0:
@@ -174,6 +175,27 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
                         };
                         items.Add(item2);
                         break;
+                    //case 3:
+                    //    Console.WriteLine("==================ITEM CASE 3=====================");
+                    //    var test3 = aux.Split(' ');
+                    //    var item3 = new Item
+                    //    {
+                    //        //Sku = test3[0].Trim(),
+                    //        Cantidad = test3[test3.Length - 4].Trim().Split(',')[0],
+                    //        Precio = test3[test3.Length - 2].Split(',')[0],
+                    //        TipoPareoProducto = TipoPareoProducto.SinPareo
+                    //    };
+                    //    //Concatenar todo y Buscar por Patrones el SKU DIMERC
+                    //    var concatAll = "";
+                    //    aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                    //    for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                    //    {
+                    //        concatAll += $" {aux}";
+                    //        aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                    //    }
+                    //    item3.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
+                    //    items.Add(item3);
+                    //    break;
                 }
             }
             //SumarIguales(items);
@@ -219,11 +241,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SociedadInstrucci
         private static string GetCentroCosto(string str)
         {
             var split = str.Split(' ');
-            var ret = split[split.Length - 3].Contains(".")
-                            || split[split.Length - 3].Contains("-")
-                            || split[split.Length - 3].Contains(":")
-                ? split.ArrayToString(split.Length - 2, split.Length -1) :
-                split.ArrayToString(split.Length - 3, split.Length -1);
+            var ret = split[split.Length - 3].Contains(".") || split[split.Length - 3].Contains("-")  || split[split.Length - 3].Contains(":") ? split.ArrayToString(split.Length - 2, split.Length -1) : split.ArrayToString(split.Length - 3, split.Length -1);
             return ret.Trim().ToUpper();
         }
 

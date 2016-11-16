@@ -152,10 +152,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Komatsu
                             item0.Cantidad = test0[j].Replace(".", "");
                             break;
                         }
-                        if (item0.Sku.Equals("Z664424")
-                        || item0.Sku.Equals("Z664524"))
+                        if (item0.Sku.Equals("Z664424"))
                         {
-                            item0.Cantidad = $"{int.Parse(item0.Cantidad) * 12}";
+
+                            item0.Sku = "Z437738";   // item.Cantidad = $"{int.Parse(item.Cantidad)*12}";
+
+
+                        }
+                        else if (item0.Sku.Equals("Z664524"))
+                        {
+                            item0.Sku = "Z437739";
+
                         }
                         else if (item0.Sku.Equals("H350120"))
                         {

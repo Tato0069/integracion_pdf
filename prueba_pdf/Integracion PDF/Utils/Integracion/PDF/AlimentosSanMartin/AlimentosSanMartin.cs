@@ -141,7 +141,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AlimentosSanMarti
                             Cantidad = test0[1].Replace(".", ""),
                             Precio = test0[test0.Length - 2].Replace(",", ""),
                             Descripcion = test0.ArrayToString(3,test0.Length - 3).ToUpper().Replace("ROLLOS","ROLLO"), //ArrayToString([posicion inicial],[posicion final])
-                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionCliente
+                            TipoPareoProducto = TipoPareoProducto.PareoDescripcionTelemarketing
                         };
                         items.Add(item0);
                         break;

@@ -48,18 +48,25 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Komatsu
                     };
                     for(var j= 0; j < test.Length; j++)
                     {
-                        if (test[j].Equals("C/U"))
+                        if (test[j].Equals("C/U") ||
+                            test[j].Equals("CJ"))
                         {
                             item.Cantidad = test[j - 1];
                             item.Precio = test[j + 1];
                         }
 
                     }
-                    if (item.Sku.Equals("Z664424")
-                        || item.Sku.Equals("Z664524"))
+                    if (item.Sku.Equals("Z664424")){
+
+                        item.Sku = "Z437738";   // item.Cantidad = $"{int.Parse(item.Cantidad)*12}";
+
+                        
+                    }  else if (item.Sku.Equals("Z664524"))
                     {
-                        item.Cantidad = $"{int.Parse(item.Cantidad)*12}";
-                    }else if (item.Sku.Equals("H350120"))
+                        item.Sku = "Z437739";
+
+                    }
+                    else if (item.Sku.Equals("H350120"))
                     {
                         item.Cantidad = $"{int.Parse(item.Cantidad) * 10}";
                     }

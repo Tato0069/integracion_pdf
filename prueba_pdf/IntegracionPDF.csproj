@@ -107,6 +107,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Integracion PDF\Utils\ConsumirRest.cs" />
     <Compile Include="Integracion PDF\Utils\Email\Email.cs" />
     <Compile Include="Integracion PDF\Utils\Encrypt.cs" />
     <Compile Include="Integracion PDF\Utils\ExcelReader.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AridosSantaFeSA\MaquinariasSantaFe.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AscensoresSchindler\AscensoresSchindler.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\AsesoriasServiciosCapacitacionIcyde\AsesoriasServiciosCapacitacionIcyde.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\AvalChile\AvalChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BHPBilliton\BHPBilliton.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\BiomedicalDistributionChile\BiomedicalDistributionChile.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Bionet\Bionet.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\OfficeStore\OfficeStore.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Petrobras\Petrobras.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\PizzaHut\PizzaHut.cs" />
+    <Compile Include="Integracion PDF\Utils\Integracion\PDF\ProCircuit\ProCircuit.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Prolab\Prolab.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\ProyektaSA\ProyektaSA.cs" />
     <Compile Include="Integracion PDF\Utils\Integracion\PDF\Report\Report.cs" />
@@ -272,6 +275,7 @@
       <DependentUpon>IntegracionPDF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Integracion PDF\Utils\OrdenCompra\Integracion\OrdenCompraDataAdapter\DataAdapterSecuritas.cs" />
+    <Compile Include="System\Web\UI\Page.cs" />
     <Page Include="Integracion PDF\View\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

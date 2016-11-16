@@ -81,11 +81,15 @@ namespace LecturaMail.Utils.OrdenCompra.Integracion.OrdenCompraDataAdapter
                 var pConv = OracleDataAccess.GetPrecioConvenio(oc.Rut, ret.CenCos, sku, it.Precio);
                 var precio = int.Parse(pConv);
                 var multiplo = OracleDataAccess.GetMultiploFromRutClienteCodPro(oc.Rut, sku);
+                //it.Cantidad = "6";
+                //it.Precio =  "1200";
                 var dt = new DetalleOrdenCompraIntegracion
                 //if (! int.TryParse(it.Cantidad))
+                
                 {
+
                     NumPed = ret.NumPed,
-                    Cantidad = int.Parse(it.Cantidad) / multiplo,
+                    Cantidad =  int.Parse(it.Cantidad) / multiplo,
                     Precio = sku.Equals("W102030")
                         ? int.Parse(it.Precio)
                         : precio == 0 ?

@@ -133,7 +133,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
                         var item0 = new Item
                         {
                             Sku = test0[2],
-                            Cantidad = test0[test0.Length - 5].Replace(",", ""),
+                            Cantidad = test01[test01.Length - 5].Replace(",", ""),
                             Precio = test01[test01.Length - 3].Replace(",",""),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
@@ -144,7 +144,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ConsorcioCompania
                         var item1 = new Item
                         {
                             Sku = test1[2],
-                            Cantidad = test1[test1.Length - 5].Replace(",", ""),
+                            Cantidad = test1[test1.Length - 4].Replace(",", ""),
                             Precio = test1[test1.Length - 3].Replace(",", ""),
                             TipoPareoProducto = TipoPareoProducto.PareoCodigoCliente
                         };

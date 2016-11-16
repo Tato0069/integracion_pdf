@@ -1,25 +1,28 @@
-﻿using IntegracionPDF.Integracion_PDF.Utils.OrdenCompra;
+﻿using LecturaMail.Utils.OrdenCompra;
+using Limilabs.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
+namespace LecturaMail.Utils.Integracion.EMAIL.ClinicaAlemanaArtikos
 {
-    class SembcorpAguas
+    class ClinicaAlemanaArtikos
     {
         #region Variables
         private readonly Dictionary<int, string> _itemsPatterns = new Dictionary<int, string>
         {
-            {0, @"^\d{3}\s" }, //\d{1,}\s[a-zA-Z/]{3}\s\d{1,}\s\d{1,}$ //^\d{3}\s //^\d{1,}\s[a-zA-Z]{1,2}\d{4,}\s  // ^\d{3}\s //^\d{3}\s[a-zA-Z]{1,2}\d{4,6}
+            {0, @"[a-zA-Z]{1,2}\d{5,6}"},
+            //{1, @"^\d{1,}\s\w{3}\d{5,6}\s\d{1,}\s" }
         };
-        private const string RutPattern = "RUT :";
-        private const string OrdenCompraPattern = "Compra :";
+        private const string RutPattern = "Giro";
+        private const string OrdenCompraPattern = "PEDIDO N°";
         private const string ItemsHeaderPattern =
-            "Ctd UM Precio Unit Monto";
+            "Fecha de Entrega";
 
-        private const string CentroCostoPattern = "de entrega:";
+        private const string CentroCostoPattern = "*Centro Entrega*";
         private const string ObservacionesPattern = "Tienda :";
 
         private bool _readCentroCosto;
@@ -27,17 +30,17 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         private bool _readRut;
         private bool _readObs;
         private bool _readItem;
-        private readonly PDFReader _pdfReader;
-        private readonly string[] _pdfLines;
+        private readonly IMail _email;
+        private readonly string[] _emailBodyLines;
 
         private OrdenCompra.OrdenCompra OrdenCompra { get; set; }
 
         #endregion
 
-        public SembcorpAguas(PDFReader pdfReader)
+        public ClinicaAlemanaArtikos(IMail mail)
         {
-            _pdfReader = pdfReader;
-            _pdfLines = _pdfReader.ExtractTextFromPdfToArrayDefaultMode();
+            _email = mail;
+            _emailBodyLines = _email.GetBodyAsList().ToArray();
         }
 
         #region Funciones Get
@@ -48,30 +51,32 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
                 CentroCosto = "0",
                 TipoPareoCentroCosto = TipoPareoCentroCosto.SinPareo
             };
-            for (var i = 0; i < _pdfLines.Length; i++)
+            for (var i = 0; i < _emailBodyLines.Length; i++)
             {
+
+                Console.WriteLine("str: " + _emailBodyLines[i]);
                 if (!_readOrdenCompra)
                 {
-                    if (IsOrdenCompraPattern(_pdfLines[i]))
+                    if (IsOrdenCompraPattern(_emailBodyLines[i]))
                     {
-                        OrdenCompra.NumeroCompra = GetOrdenCompra(_pdfLines[i]);
+                        OrdenCompra.NumeroCompra = GetOrdenCompra(_emailBodyLines[i + 1]);
                         _readOrdenCompra = true;
                     }
                 }
                 if (!_readRut)
                 {
-                    if (IsRutPattern(_pdfLines[i]))
+                    if (IsRutPattern(_emailBodyLines[i]))
                     {
-                        OrdenCompra.Rut = GetRut(_pdfLines[i]);
+                        OrdenCompra.Rut = "96770100";//GetRut(_emailBodyLines[i - 1]);
                         _readRut = true;
                     }
                 }
 
                 //if (!_readCentroCosto)
                 //{
-                //    if (IsCentroCostoPattern(_pdfLines[i]))
+                //    if (IsCentroCostoPattern(_emailBodyLines[i]))
                 //    {
-                //        OrdenCompra.CentroCosto = GetCentroCosto(_pdfLines[i]);
+                //        OrdenCompra.CentroCosto = GetCentroCosto(_emailBodyLines[i + 1]);
                 //        _readCentroCosto = true;
                 //    }
                 //}
@@ -88,9 +93,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
                 //}
                 if (!_readItem)
                 {
-                    if (IsHeaderItemPatterns(_pdfLines[i]))
+                    if (IsHeaderItemPatterns(_emailBodyLines[i]))
                     {
-                        var items = GetItems(_pdfLines, i);
+                        var items = GetItems(_emailBodyLines, i);
                         if (items.Count > 0)
                         {
                             OrdenCompra.Items.AddRange(items);
@@ -101,7 +106,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
             }
             if (OrdenCompra.NumeroCompra.Equals(""))
             {
-                OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
+                //OrdenCompra.NumeroCompra = _pdfReader.PdfFileNameOC;
             }
             return OrdenCompra;
         }
@@ -110,33 +115,39 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         private List<Item> GetItems(string[] pdfLines, int i)
         {
             var items = new List<Item>();
-            for (; i < pdfLines.Length; i++)
+            for (; i < pdfLines.Length - 3; i++)
             //foreach(var str in pdfLines)
             {
+
                 var aux = pdfLines[i].Trim().DeleteContoniousWhiteSpace();
+                var aux1 = pdfLines[i + 2].Trim().DeleteContoniousWhiteSpace();
+                var aux2 = pdfLines[i + 3].Trim().DeleteContoniousWhiteSpace();
+                Console.WriteLine($"AUX: {aux}");
+                //Console.WriteLine($"AUX1: {aux1}");
                 //Es una linea de Items 
-                var optItem = GetFormatItemsPattern(aux.Replace(".",""));
+                var optItem = GetFormatItemsPattern(aux);
                 switch (optItem)
                 {
                     case 0:
                         Console.WriteLine("==================ITEM CASE 0=====================");
                         var test0 = aux.Split(' ');
+                        //var test1 = aux1.Trim(); 
                         var item0 = new Item
                         {
-                            Sku = "W102030",
-                            Cantidad = test0[test0.Length - 4].Split(',')[0],
-                            Precio = test0[test0.Length - 2].Split(',')[0],
+                            Sku = GetSku(test0),
+                            Cantidad = aux1.Trim(),
+                            Precio = aux2.Trim().Replace("$", ""),
                             TipoPareoProducto = TipoPareoProducto.SinPareo
                         };
                         //Concatenar todo y Buscar por Patrones el SKU DIMERC
-                        var concatAll = pdfLines[i].Trim().DeleteContoniousWhiteSpace(); ;
-                        aux = pdfLines[i+1].Trim().DeleteContoniousWhiteSpace();
-                        for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
-                        {
-                            concatAll += $" {aux}";
-                            aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
-                        }
-                        item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
+                        //var concatAll = "";
+                        //aux = pdfLines[i + 1].Trim().DeleteContoniousWhiteSpace();
+                        //for (var j = i + 2; j < pdfLines.Length && GetFormatItemsPattern(aux) == -1; j++)
+                        //{
+                        //    concatAll += $" {aux}";
+                        //    aux = pdfLines[j].Trim().DeleteContoniousWhiteSpace();
+                        //}
+                        //item0.Sku = GetSku(concatAll.DeleteContoniousWhiteSpace().Split(' '));
                         items.Add(item0);
                         break;
                 }
@@ -145,34 +156,43 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
             return items;
         }
 
-        private string GetSku(string[] test1)
+        private string GetSku(string[] test0)
         {
             var ret = "W102030";
-            var skuDefaultPosition = test1[0].Replace("#", "");
-            if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
+            if (test0.Contains("(PQ)") || test0.Contains("(RESMA)"))
             {
-                var index = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Index;
-                var length = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Length;
-                ret = skuDefaultPosition.Substring(index, length).Trim();
-            }
-            else
-            {
-                var str = test1.ArrayToString(0, test1.Length - 1);
-                if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
-                {
-                    var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
-                    var length = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Length;
-                    ret = str.Substring(index, length).Trim();
-                }
-                else if (Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Success)
-                {
-                    var index = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Index;
-                    var length = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Length;
-                    ret = str.Substring(index, length).Trim();
-                }
+                return ret = test0[1].Trim();
 
+            }else
+            {
+
+                return ret = test0[0].Trim();
             }
             return ret;
+            //var skuDefaultPosition = test1[0].Replace("#", "");
+            //if (Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Success)
+            //{
+            //    var index = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Index;
+            //    var length = Regex.Match(skuDefaultPosition, @"[a-zA-Z]{1,2}\d{5,6}").Length;
+            //    ret = skuDefaultPosition.Substring(index, length).Trim();
+            //}
+            //else
+            //{
+            //    var str = test1.ArrayToString(0, test1.Length - 1);
+            //    if (Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Success)
+            //    {
+            //        var index = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Index;
+            //        var length = Regex.Match(str, @"\s[a-zA-Z]{1}\d{6}").Length;
+            //        ret = str.Substring(index, length).Trim();
+            //    }
+            //    else if (Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Success)
+            //    {
+            //        var index = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Index;
+            //        var length = Regex.Match(str, @"\s[a-zA-Z]{2}\d{5}").Length;
+            //        ret = str.Substring(index, length).Trim();
+            //    }
+            //}
+
         }
 
 
@@ -184,8 +204,8 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         /// <returns></returns>
         private static string GetCentroCosto(string str)
         {
-            var aux = str.Split(':');
-            return aux[1].Trim();
+            var aux = str.Split('-');
+            return aux[0].Trim();
         }
 
 
@@ -197,8 +217,9 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         /// <returns></returns>
         private static string GetOrdenCompra(string str)
         {
-            var split = str.Split(':');
-            return split[split.Length - 1].Trim();
+            var split = str.Split(' ');
+            return split[1].Trim();
+          //  return str.Trim().Replace("*:*","");
         }
 
         /// <summary>
@@ -209,15 +230,16 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
         /// <returns>12345678</returns>
         private static string GetRut(string str)
         {
-            var split = str.Split(':');
-            return split[split.Length - 1];
+            //var split = str.Split(' ');
+            //return split[split.Length - 1].Trim();
+            return str.Trim().Replace("*:*", "");
         }
 
         private int GetFormatItemsPattern(string str)
         {
             var ret = -1;
             //str = str.DeleteDotComa();
-            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str.Replace(".",""), it.Value).Success))
+            foreach (var it in _itemsPatterns.Where(it => Regex.Match(str, it.Value).Success))
             {
                 ret = it.Key;
             }
@@ -253,13 +275,14 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.SembcorpAguas
             return ret;
         }
 
-        private string GetCantidad(string[] test0)
+        private string GetCantidad(string[] test1)
         {
-            var ret = "-1";
-            for (var i = 0; i < test0.Length; i++)
+
+            var ret = "-100";
+            for (var i = 0; i < test1.Length - 3; i++)
             {
-                if (test0[i].Equals("CLP"))
-                    return ret = test0[i - 1];
+                Console.WriteLine("test1: " + test1[0]);
+                return ret = test1[0].Trim();
             }
             return ret;
         }

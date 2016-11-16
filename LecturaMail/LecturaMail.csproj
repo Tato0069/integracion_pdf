@@ -42,6 +42,10 @@
       <HintPath>..\packages\Mail.dll.3.0.16253.1842\lib\Net45\Mail.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.8.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\mysql\v4.0\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -72,9 +76,12 @@
     <Compile Include="Utils\Encrypt.cs" />
     <Compile Include="Utils\Integracion\EMAIL\ArcosDorados\ArcosDorados.cs" />
     <Compile Include="Utils\Integracion\EMAIL\Cinemark\Cinemark.cs" />
+    <Compile Include="Utils\Integracion\EMAIL\ClinicaAlemanaArtikos\ClinicaAlemanaArtikos.cs" />
+    <Compile Include="Utils\Integracion\EMAIL\ConsaludArtikos\ConsaludArtikos.cs" />
     <Compile Include="Utils\Integracion\GenericClass.cs" />
     <Compile Include="Utils\InternalVariables.cs" />
     <Compile Include="Utils\Log.cs" />
+    <Compile Include="Utils\MySql\DataAccess\MySqlDataAccess.cs" />
     <Compile Include="Utils\Oracle\DataAccess\OracleDataAccess.cs" />
     <Compile Include="Utils\OrdenCompra\Integracion\DetalleOrdenCompraIntegracion.cs" />
     <Compile Include="Utils\OrdenCompra\Integracion\OrdenCompraDataAdapter\DataAdapterGeneric.cs" />
@@ -114,6 +121,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="bin\Debug\LecturaMail.exe.config" />
+    <None Include="bin\Debug\LecturaMail.vshost.exe.config" />
+    <None Include="bin\Debug\LecturaMail.vshost.exe.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,9 +137,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="bin\Debug\Mail.xml" />
     <Resource Include="Icons\ofimarket.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+    <Folder Include="Utils\Integracion\Oracle\DataAccess\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Hardcodet.Wpf.TaskbarNotification.dll" />
+    <Content Include="bin\Debug\Hardcodet.Wpf.TaskbarNotification.pdb" />
+    <Content Include="bin\Debug\LecturaMail.exe" />
+    <Content Include="bin\Debug\LecturaMail.pdb" />
+    <Content Include="bin\Debug\LecturaMail.vshost.exe" />
+    <Content Include="bin\Debug\Mail.dll" />
+    <Content Include="bin\Debug\MySql.Data.dll" />
+    <Content Include="bin\Debug\MySql.Data.Entity.dll" />
+    <Content Include="bin\Debug\MySql.Data.Entity.EF6.dll" />
+    <Content Include="bin\Debug\MySql.Web.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

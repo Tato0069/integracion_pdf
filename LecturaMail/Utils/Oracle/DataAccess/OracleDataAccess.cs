@@ -919,7 +919,7 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                 InstanceTransferWeb.Open();
                 var sql = $"SELECT GET_PRECIOPROD_BK({rutCli},{cencos},'{codpro}',{codemp}) PRECIO FROM DUAL";
 
-                //Console.WriteLine(sql);
+                Console.WriteLine(sql);
                 var command = new OracleCommand(sql, InstanceTransferWeb);
                 var data = command.ExecuteReader();
                 if (data.Read())
@@ -1719,6 +1719,7 @@ namespace LecturaMail.Utils.Oracle.DataAccess
             }
             return ret;
         }
+
         public static void InsertIntoReCodCli(string rutcli, string codpro, string codcli, string descripcionCliente)
         {
             var exist = ExistProductReCodCli(rutcli, codpro);
@@ -1754,6 +1755,7 @@ namespace LecturaMail.Utils.Oracle.DataAccess
             oc.Observaciones = oc.Observaciones.Length >= 200 ? oc.Observaciones.Substring(0, 199) : oc.Observaciones;
             using (var command = new OracleCommand())
             {
+
                 var sql = "INSERT INTO TF_COMPRA_INTEG_PDF" +
                           "(NUMPED,RUTCLI,CENCOS,FECHA,DIRECCION,OC_CLIENTE,OBS,ESTADO) " +
                           $"VALUES({oc.NumPed},{oc.RutCli},{oc.CenCos},SYSDATE,'{oc.Direccion}'" +
@@ -1797,6 +1799,63 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                     Log.Save("Error", "No es posible insertar los datos en la Base de Datos");
                     return false;
                 }
+                finally
+                {
+
+                    InsertOrdenCompraIntegraciónMail(oc);
+                }
+            }
+        }
+        public static bool InsertOrdenCompraIntegraciónMail(OrdenCompraIntegracion oc)
+        {
+            oc.Observaciones = $"OC Cliente: {oc.OcCliente}, {oc.Observaciones}";
+            oc.Observaciones = oc.Observaciones.Length >= 200 ? oc.Observaciones.Substring(0, 199) : oc.Observaciones;
+            using (var command = new OracleCommand())
+            {
+
+                var sql = "INSERT INTO TF_COMPRA_INTEG_MAIL" +
+                          "(NUMPED,RUTCLI,CENCOS,FECHA,DIRECCION,OC_CLIENTE,OBS,ESTADO) " +
+                          $"VALUES({oc.NumPed},{oc.RutCli},{oc.CenCos},SYSDATE,'{oc.Direccion}'" +
+                          $",'{oc.OcCliente}','{oc.Observaciones}',1)";
+                OracleTransaction trans = null;
+                command.Connection = InstanceTransferWeb;
+                command.CommandType = CommandType.Text;
+                command.CommandText = sql;
+                Console.WriteLine(sql);
+                if (InternalVariables.IsDebug())
+                {
+                    Console.WriteLine("ocAdapterList:\n" + oc);
+                    //Console.WriteLine("BODEGA DETALLEI_NTEG" + oc.DetallesCompra.First().CodigoBodea);
+                    return true;
+                }
+                try
+                {
+                    InstanceTransferWeb.Open();
+                    trans = InstanceTransferWeb.BeginTransaction();
+                    command.Transaction = trans;
+                    command.ExecuteNonQuery();
+                    trans.Commit();
+                    InstanceTransferWeb?.Close();
+                    var cont = 0;
+                    if (oc.DetallesCompra.Count == 0) return true;
+                    foreach (var detC in oc.DetallesCompra)
+                    {
+                        if (InsertDetalleOrdenCompraIntegraciónMail(detC)) cont++;
+                        else break;
+                    }
+                    if (cont == oc.DetallesCompra.Count) return true;
+                    foreach (var detC in oc.DetallesCompra)
+                        DeleteDetalleOrdenCompraIntegracionMail(detC);
+                    DeleteOrdenCompraIntegraciónMail(oc);
+                    Log.Save("Error", "No es posible insertar los datos en la Base de Datos");
+                    return false;
+                }
+                catch (SqlException)
+                {
+                    trans?.Rollback();
+                    Log.Save("Error", "No es posible insertar los datos en la Base de Datos");
+                    return false;
+                }
             }
         }
 
@@ -1809,6 +1868,35 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                 command.CommandType = CommandType.Text;
                 command.CommandText =
                     $"DELETE FROM TF_COMPRA_INTEG_PDF WHERE NUMPED = {oc.NumPed}";
+                if (InternalVariables.IsDebug()) return;
+                try
+                {
+                    InstanceTransferWeb.Open();
+                    trans = InstanceTransferWeb.BeginTransaction();
+                    command.Transaction = trans;
+                    command.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (SqlException)
+                {
+                    trans?.Rollback();
+                }
+                finally
+                {
+                    InstanceTransferWeb?.Close();
+                }
+            }
+        }
+
+        private static void DeleteOrdenCompraIntegraciónMail(OrdenCompraIntegracion oc)
+        {
+            using (var command = new OracleCommand())
+            {
+                OracleTransaction trans = null;
+                command.Connection = InstanceTransferWeb;
+                command.CommandType = CommandType.Text;
+                command.CommandText =
+                    $"DELETE FROM TF_COMPRA_INTEG_MAIL WHERE NUMPED = {oc.NumPed}";
                 if (InternalVariables.IsDebug()) return;
                 try
                 {
@@ -1864,6 +1952,41 @@ namespace LecturaMail.Utils.Oracle.DataAccess
             }
             return true;
         }
+        private static bool InsertDetalleOrdenCompraIntegraciónMail(DetalleOrdenCompraIntegracion det)
+        {
+            using (var command = new OracleCommand())
+            {
+                //var existSku = ExistProduct(det.SkuDimerc);
+                //var sku = existSku ? det.SkuDimerc : "W102030";
+                var sql = "INSERT INTO TF_DETALLE_COMPRA_INTEG_MAIL" +
+                          "(NUMPED,SKU_DIMERC,CANTIDAD,PRECIO,SUBTOTAL,CODBOD) " +
+                          $"VALUES ({det.NumPed},'{det.SkuDimerc}',{det.Cantidad},{det.Precio},{det.SubTotal},{det.CodigoBodega})";
+                OracleTransaction trans = null;
+                command.Connection = InstanceTransferWeb;
+                command.CommandType = CommandType.Text;
+                command.CommandText = sql;
+                Console.WriteLine(sql);
+                if (InternalVariables.IsDebug()) return true;
+                try
+                {
+                    InstanceTransferWeb.Open();
+                    trans = InstanceTransferWeb.BeginTransaction();
+                    command.Transaction = trans;
+                    command.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (SqlException)
+                {
+                    trans?.Rollback();
+                    return false;
+                }
+                finally
+                {
+                    InstanceTransferWeb?.Close();
+                }
+            }
+            return true;
+        }
 
         private static void DeleteDetalleOrdenCompraIntegracion(DetalleOrdenCompraIntegracion det)
         {
@@ -1874,6 +1997,34 @@ namespace LecturaMail.Utils.Oracle.DataAccess
                 command.CommandType = CommandType.Text;
                 command.CommandText =
                     $"DELETE FROM TF_DETALLE_COMPRA_INTEG_PDF WHERE NUMPED = {det.NumPed}";
+                if (InternalVariables.IsDebug()) return;
+                try
+                {
+                    InstanceTransferWeb.Open();
+                    trans = InstanceTransferWeb.BeginTransaction();
+                    command.Transaction = trans;
+                    command.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (SqlException)
+                {
+                    trans?.Rollback();
+                }
+                finally
+                {
+                    InstanceTransferWeb?.Close();
+                }
+            }
+        }
+        private static void DeleteDetalleOrdenCompraIntegracionMail(DetalleOrdenCompraIntegracion det)
+        {
+            using (var command = new OracleCommand())
+            {
+                OracleTransaction trans = null;
+                command.Connection = InstanceTransferWeb;
+                command.CommandType = CommandType.Text;
+                command.CommandText =
+                    $"DELETE FROM TF_DETALLE_COMPRA_INTEG_MAIL WHERE NUMPED = {det.NumPed}";
                 if (InternalVariables.IsDebug()) return;
                 try
                 {

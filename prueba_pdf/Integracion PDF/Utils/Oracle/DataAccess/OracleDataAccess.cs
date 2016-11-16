@@ -75,6 +75,97 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
             }
         }
 
+
+        #region HASH RUT/RAZION CLIENTE
+
+        internal class foo
+        {
+            public string Rut { get; set; }
+            public string Razon { get; set; }
+
+            public string GetHastRut()
+            {
+                return Encrypt.EncryptKey(Rut);
+            }
+
+            public string GetHashRazon()
+            {
+                return Encrypt.EncryptKey(Razon);
+            }
+        }
+        public static void GenerateHash()
+        {
+            var fooList = new List<foo>();
+            try
+            {
+                InstanceDmVentas.Open();
+                const string sql = "SELECT DISTINCT RUTCLI, RAZONS FROM EN_CLIENTE";
+                var command = new OracleCommand(sql, InstanceDmVentas);
+                var data = command.ExecuteReader();
+                while (data.Read())
+                {
+                    var rutcli = data["rutcli"].ToString();
+                    var razon = data["razons"].ToString();
+                    var foo = new foo
+                    {
+                        Rut = rutcli,
+                        Razon = razon
+                    };
+                    fooList.Add(foo);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                //return false;
+            }
+            finally
+            {
+                InstanceDmVentas?.Close();
+                foreach(var f in fooList)
+                {
+                    //InsertHastRutCliente(f.Rut,f.Razon);
+                }
+                Console.WriteLine("=============================\nFIN DE GENERACIÓN DE HASH");
+            }
+        }
+
+        //public static bool InsertHastRutCliente(string rutcli,string razon)
+        //{
+        //    using (var command = new OracleCommand())
+        //    {
+        //        var hashrut = Encrypt.EncryptKey(rutcli);
+        //        var hashrazon = Encrypt.EncryptKey(razon);
+        //        var sql = $"INSERT INTO RE_HASHRUTCLI(RUTCLI, HASH_RUTCLI, RAZONS, HASH_RAZONS) VALUES({rutcli},'{hashrut}','{razon}','{hashrazon}')";
+        //        OracleTransaction trans = null;
+        //        command.Connection = InstanceDmVentas;
+        //        command.CommandType = CommandType.Text;
+        //        command.CommandText = sql;
+        //        Console.WriteLine(sql);
+        //        //if (InternalVariables.IsDebug()) return true;
+        //        try
+        //        {
+        //            InstanceDmVentas.Open();
+        //            trans = InstanceDmVentas.BeginTransaction();
+        //            command.Transaction = trans;
+        //            command.ExecuteNonQuery();
+        //            trans.Commit();
+        //            return true;
+        //        }
+        //        catch (SqlException)
+        //        {
+        //            trans?.Rollback();
+        //            return false;
+        //        }
+        //        finally
+        //        {
+        //            InstanceDmVentas?.Close();
+        //        }
+        //    }
+        //}
+
+        #endregion
+
         private static string GetPrecioEspecial(string rutCli,string codPro)
         {
             var ret = "";
@@ -104,8 +195,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
         private static string GetNumCotFromNumRelacion(string rutCli)
         {
             var ret = "";
-            try
-            {
+            try{
                 InstanceTransferWeb.Open();
                 var sql =
                     $"Select numcot from en_conveni natural join (select * from re_emprela where numrel = (select numrel from re_emprela where rutcli = {rutCli})) where fecemi <= sysdate and fecven >= sysdate -1";
@@ -116,8 +206,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                     ret = data["numcot"].ToString();
                 }
                 data.Close();
-            }
-            catch (Exception e)
+            }catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
@@ -1474,7 +1563,7 @@ namespace IntegracionPDF.Integracion_PDF.Utils.Oracle.DataAccess
                 var command = new OracleCommand(sql, InstanceTransferWeb);
                 var data = command.ExecuteReader();
                 ret = data.Read() ? data["CODPRO"].ToString() : "W102030";
-                //Console.WriteLine($"SQL:{sql}, \n RET: {ret}");
+                Console.WriteLine($"SQL:{sql}, \n RET: {ret}");
                 data.Close();
             }
             catch (Exception e)

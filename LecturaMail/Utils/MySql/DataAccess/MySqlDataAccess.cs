@@ -39,10 +39,10 @@ namespace LecturaMail.Utils.MySql.DataAccess
                 InstanceMySqlEduardo.Open();
                 var adapter = new MySqlDataAdapter(query, InstanceMySqlEduardo);
                 adapter.InsertCommand = new MySqlCommand(query);
-                adapter.InsertCommand.UpdatedRowSource = System.Data.UpdateRowSource.None;                
+                adapter.InsertCommand.UpdatedRowSource = System.Data.UpdateRowSource.None;
                 adapter.InsertCommand.ExecuteNonQuery();
             }
-            catch(MySqlException ex)
+            catch (MySqlException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }

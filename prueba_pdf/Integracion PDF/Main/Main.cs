@@ -115,6 +115,11 @@ using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.CirculoEjecutivaLimit
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.NemoChile;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.InmobiSanCarlos;
 using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.Bionet;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.EastonDesign;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.ProCircuit;
+using IntegracionPDF.Integracion_PDF.Utils.Integracion.PDF.AvalChile;
+using System.Text;
+using System.Net;
 
 namespace IntegracionPDF.Integracion_PDF.Main
 {
@@ -311,7 +316,8 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 case -15:
                     var clinicaAlemanaArtikosFormat = new ClinicaAlemanaArtikosFormat(pdfReader);
                     ordenCompra = clinicaAlemanaArtikosFormat.GetOrdenCompra();
-                    ocAdapter = ordenCompra.AdapterClinicaAlemanaFormatToCompraIntegracion();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    //ocAdapter = ordenCompra.AdapterClinicaAlemanaFormatToCompraIntegracion();
                     break;
                 case 16:
                     var uvm = new Udla(pdfReader);
@@ -949,8 +955,20 @@ namespace IntegracionPDF.Integracion_PDF.Main
                     ordenCompra = eastonDesign.GetOrdenCompra();
                     ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
                     break;
+                case 229:
+                    var proCircuit = new ProCircuit(pdfReader);
+                    ordenCompra = proCircuit.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+                case 230:
+                    var avalChile = new AvalChile(pdfReader);
+                    ordenCompra = avalChile.GetOrdenCompra();
+                    ocAdapter = ordenCompra.TraspasoUltimateIntegracion();
+                    break;
+
 
             }
+            //Console.WriteLine($"OC PDF: {ordenCompra.ToString()}");
             ExecutePostProcess(option, pdfReader, ordenCompra, ocAdapter, ocAdapterList);
         }
 
@@ -1313,6 +1331,7 @@ namespace IntegracionPDF.Integracion_PDF.Main
         }
 
 
+
         private static int GetXlsOptionNumber(string onlyOneLine)
         {
             //var onlyOneLine = pdfReader.ExtractTextFromPdfToString();
@@ -1491,7 +1510,9 @@ namespace IntegracionPDF.Integracion_PDF.Main
                 "Inicializando Análisis de Ordenes de Compra", BalloonIcon.Info);
         }
 
-#endregion
+        #endregion
+
+
 
 
     }
